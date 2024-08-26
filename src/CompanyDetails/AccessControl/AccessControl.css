@@ -1,0 +1,208 @@
+.accessNav{
+    display: flex;
+    width:100%;
+    gap :419px;
+    margin-top: -3px;
+
+    span{
+        font-family: Inter;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 16px;
+        text-align: left;
+        padding-top: 15px;
+        padding-left: 29px;  
+        /* add this paddimg evberywhere */
+    }
+
+
+    .dropdown {
+        padding: 8px 16px 8px 16px;
+        gap: 8px;
+        width:30%;
+        
+
+        .searchBarAccess{
+            background-color: white;
+            height :27px;
+            padding-left :3px;
+            margin-left: 12px;
+            margin-right: 12px;
+            border-radius: 12px;
+        }
+
+        button, .dropdown-item {
+             border: 2px  solid gba(240, 240, 240, 1);
+             background-color: rgba(240, 240, 240, 1);
+             border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            /* line-height: 16px; */
+            width: 100%;
+            text-align: start;
+            padding-left: 19px;
+        }
+
+         .dropdown-menu {
+            background-color: rgba(240, 240, 240, 1);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+           /* line-height: 16px; */
+            width: 89%;
+         }
+    }
+
+}
+
+
+/* ---------------------------boc  nav----------------------- */
+
+.settingNameAndButtons{
+    display: flex;
+    width:100%;
+    gap: 549px;
+    margin-top: 26px;
+    text-align: center;
+    justify-content: center;
+    justify-items: center;
+
+    h5{
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 16px;
+        padding-left: 3px;
+        padding-top: 3px;
+    }
+
+    .toggleAndReset{
+        display: flex;
+        gap :12px;
+        /* text-align: center;
+        justify-content: center;
+        justify-items: center; */
+
+        .toggleDiv{
+            background-color:  rgba(240, 240, 240, 1);
+            padding-left: 6px;
+            border-radius: 6px;
+
+            .form-check-input:focus {
+                border-color: none; /* or border-color: initial; */
+                outline: none; /* or outline: initial; */
+                box-shadow: none; /* or box-shadow: initial; */
+            }
+            
+            
+
+        }
+
+
+      
+           .resetDiv{
+                background-color:  rgba(240, 240, 240, 1);
+                padding-left: 2px;
+                padding-right: 6px;
+                padding-bottom: -30px;
+                border-radius: 6px;
+            }
+    
+       
+        input{
+               padding-right: 30px;
+               width:60%
+            
+        }
+
+        span{
+            font-size: 12px;
+            font-weight: 500;
+            /* line-height: 16px; */
+            /* padding-left: 24px; */
+        }
+    }
+}
+
+.accessControlDiv{
+    display: flex;
+    padding-left: 24px;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 12px;
+    opacity: 0px;
+    background-color:  rgba(240, 240, 240, 1);
+    margin-left: 27px;
+    margin-top: 12px;
+    padding-bottom: 30px;
+
+
+    h6{
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 9px;
+    }
+
+    .accessSpan{
+            font-size: 10px;
+            font-weight: 400;
+            margin-top: 2px;
+    }
+
+    .accessControlInfo{
+        display: flex;
+        flex-direction: column;
+        padding-left: 24px;
+        width:  750px;
+        margin-top: 12px;
+        padding-bottom: 12px;
+        gap: -1px;
+        border-radius: 12px ;
+        background-color: rgba(255, 255, 255, 1);
+/* 
+        span {
+              margin-bottom: 12px;
+        } */
+    }
+
+
+    .accessControlToggle{
+        display: flex;
+        flex-direction: row;
+        gap:6px;
+        position: relative;
+        margin-top: -53px;
+        margin-left: 610px;
+        justify-content: center;
+       width:12%;
+
+        span{
+             padding-left: 12px;
+             padding-top: 3px;
+        }
+    }
+}
+
+
+
+.accessControlToggle{
+    background-color:  rgba(240, 240, 240, 1);
+    border-radius: 6px;
+    width:15%;
+
+    .toggleAndReset{
+        /* margin-top: 106px; */
+        /* padding-top: 12px; */
+    }
+    span{
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .toggleDiv{
+    
+        .form-check-input:focus {
+            border-color: none; /* or border-color: initial; */
+            outline: none; /* or outline: initial; */
+            box-shadow: none; /* or box-shadow: initial; */
+        }
+    }
+} 

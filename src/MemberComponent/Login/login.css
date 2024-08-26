@@ -1,0 +1,147 @@
+.navbar{
+    width: 143.22px;
+    height: 37.48px;
+    margin-top: 3%;
+    margin-left: 114.98px;
+
+    img{
+        margin-left: -10%;
+    }
+}
+
+
+.loginDashboard{
+    display: flex;
+    margin-top: 15%;
+    margin-left: 6%;
+    gap:400px;
+
+
+
+    .loginform{
+        width:56%;
+        height: 10%;
+        box-shadow: 6px 10px 20px 0px rgba(0, 0, 0, 0.1);
+        padding: 21px 42px 21px 42px;
+        margin-top: -3.9%;
+        border-radius: 15px;
+    }
+
+
+    .HeadingAndCaption{
+        display: flex;
+        flex-direction: column;
+        gap: -6px;
+    }
+
+    h3{
+        font-size: 16px;  
+    }
+
+    span{
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+
+    .email{
+        padding-top: 19px;
+    }
+
+    label, ::placeholder{
+        font-size: 10.9px;
+        color: black;
+        font-weight: 600;
+    }
+    
+    .form-select{
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 12px;
+        /* border: 1px solid rgba(121, 57, 239, 0.4); */
+    }
+
+    .div{
+        margin-top:-3px;
+    }
+
+    .input{
+        height: 30px;
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 10px;
+    }
+
+
+    .check{
+       /* height: 120%; */
+       background-color: white;
+    }
+
+
+
+    .imageDiv{
+        float: right;
+       margin-top: -9%;
+    }
+
+
+
+    .loginBtn{
+        width: 100%;
+        height: 40px;
+        margin-top: 9px;
+        border-radius: 12px;
+        background-color: rgba(121, 57, 239, 1) !important;
+        border: 1px solid  rgba(121, 57, 239, 1);
+        color:white;
+        font-size: 12px;
+        padding: 1%;
+        height: 31px;
+    }
+
+    .forget{
+        text-decoration:underline;
+        /* display: inline-block; */
+        /* text-align: center; */
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+
+
+    
+
+    .linkDiv{
+        display: flex;
+        margin-top: 6px !important;
+        margin-left: 24%;
+        /* width:100%; */
+        gap: 2%;
+
+        .resting{
+             display: flex;
+             justify-content: end;
+             padding-left: 30%;
+             margin-left: 3%;
+        }
+
+        .signup{
+           /* float: left; */
+        }
+   }
+
+    .imageDiv{
+        height: 600px;
+        margin-top: -9%;
+        padding: 21px;
+        width: 1000px;
+        /* background-color: red; */
+        border-radius: 50% ;
+        border: 2px solid purple;
+        display: inline-block;
+
+
+        img{
+            
+        }
+    }
+}

@@ -1,0 +1,156 @@
+.navbar{
+    width: 143.22px;
+    height: 37.48px;
+    margin-top: 3%;
+    margin-left: 114.98px;
+}
+
+
+.loginDashboard{
+    display: flex;
+    margin-top: 15%;
+    margin-left: 6%;
+    gap:410px;
+
+
+
+    .otpform{
+        width:46%;
+        height: 10%;
+        box-shadow: 6px 10px 20px 0px rgba(0, 0, 0, 0.1);
+        padding: 21px 42px 21px 42px;
+        margin-top: -3.9%;
+        border-radius: 22px;
+    }
+
+    h3{
+        font-size: 21px;  
+    }
+
+    span{
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    label, ::placeholder{
+        font-size: 12px;
+        color: black;
+        font-weight: 600;
+    }
+
+    
+    ::placeholder{
+        color: grey;
+    }
+    
+    .form-select{
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 12px;
+        /* border: 1px solid rgba(121, 57, 239, 0.4); */
+    }
+
+    .div{
+        /* margin-top:-3px; */
+    }
+
+
+    .resend{
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 10.3%;
+        
+        .sendAgain{
+            /* display: inline-block; */
+            width:100%;
+            /* text-align: center; */
+            font-size: 12px;
+            font-weight: 600;
+           /* margin-left: s%; */
+           display: flex;
+           justify-content: flex-start;
+        }
+    }
+
+
+    .input{
+        height: 30px;
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 12px;
+    }
+
+
+    .check{
+       /* height: 120%; */
+       background-color: white;
+    }
+
+    .imageDiv{
+        float: right;
+       margin-top: -9%;
+    }
+
+
+    .notRecieve{
+        /* text-decoration:underline; */
+        display: inline-block;
+        width:67%;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+         margin-left: 1%;
+    }
+
+    .linkDiv{
+        display: flex;
+        padding-top: 3%;
+    }
+
+    .imageDiv{
+        height: 600px;
+        margin-top: -9%;
+        padding: 21px;
+        width: 1000px;
+        /* background-color: red; */
+        border-radius: 50% ;
+        border: 2px solid purple;
+        display: inline-block;
+    }
+}
+
+
+
+#submit{
+    width: 100%;
+    margin-top: -3px;
+    border-radius: 12px;
+    background-color: rgba(121, 57, 239, 1) !important;
+    border: 1px solid  rgba(121, 57, 239, 1);
+    color:white;
+    font-size: 12px;
+    height: 33px;
+    padding: 1%;
+}
+
+.button{
+    padding-bottom: 3%;
+    
+}
+
+
+
+/* ------------------------------otpBo-------------------- */
+
+.otpBoxDiv{
+   display:flex;
+   justify-content: center;
+   justify-content: space-around;
+
+
+   .otpBox{
+    height: 47px;
+    border-radius: 6px;
+    padding-left: 3%;
+    border: 1px solid rgba(151, 151, 151, 0.4);
+   }
+}
+

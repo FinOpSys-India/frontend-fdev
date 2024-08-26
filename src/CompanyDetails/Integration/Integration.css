@@ -1,0 +1,175 @@
+/* ffffff :white 
+   #141414 : black
+   #f0f0f0 : grey
+
+
+*/
+
+
+
+.integrationNavbar{
+    display: flex;
+    gap: 547px;
+    margin-left: 29px;
+    margin-right: 20px;
+    margin-top: 12px;
+
+
+    h3{
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 16px;
+    }
+}
+
+
+
+.integrationDiv{
+    background-color: rgba(240, 240, 240, 1);
+   border-radius: 20px;
+   margin-left: 27px;
+   margin-top: 27px;
+
+
+   .personalDiv{
+       width: 236px;
+       background-color: rgba(255, 255, 255, 1);
+       border-radius: 10px;
+   }
+
+   .row1{
+
+       display: flex;
+       flex-direction: row;
+       gap: 21px;
+       padding: 19px;
+
+        .container1{
+            margin-bottom: 27px;
+            padding-top: 19px;
+            padding-left: 12px;
+        }
+    }   
+
+
+   .integrationDiv1{
+      margin-top: 12px;
+
+      img{
+        width: 19px;
+        height: 15px;
+      }
+
+      button{
+        float: right;
+        font-size: 10px;
+        border-radius: 12px;
+        color: #141414;
+        border: 1px solid #141414;;
+      }
+   }
+
+
+   .integrationDiv2{
+        padding-top: 12px;
+
+
+        h6{
+            font-size: 12px;
+        }
+
+        p{
+            font-size: 10px;
+            color: rgba(140, 140, 140, 1);
+        }
+   }
+
+   .integrationDiv3{
+      color: rgba(140, 140, 140, 1);
+        p{
+            padding-top: -41px;
+            margin-top: -9px;
+            font-size: 10px;
+        }
+
+   }
+   .container2{
+        /* margin-bottom: 27px; */
+        padding-bottom: 21px;
+        padding-left: 12px;
+    }
+}
+
+
+
+
+
+/* ----------------------------pop up------------------------ */
+
+.integrationPopUp{
+  margin-top: -16px;
+  padding-top: 0%;
+  margin-left: -16.9px;
+  width:100%;
+  height :100%;
+  margin-right: -12px;
+
+}
+
+
+.integrationPopUpImageDiv{
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    margin-right: -32.6px;
+
+
+    .integrationBackground{
+        width:100%;
+        height: 93px;
+    }
+
+    .integrationLogo{
+         position: absolute;
+        z-index: 100;
+        margin-top: 76px;
+        border-radius: 10px;
+        margin-left: 12px;
+    }
+
+}
+
+
+
+    .integrationPopUpDetail{
+
+        margin-top: 30px;
+        padding-left: 30px;
+        h5{
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 16px;
+        }
+
+        p{
+            font-size: 10px;
+            font-weight: 300;
+            line-height: 15px;
+           color: #8C8C8C;            
+
+        }
+    }
+
+
+
+    /* ----------------footerIntegration-------------- */
+
+    
+    .footerIntegration{
+          background-color:#7939EF;
+          border-radius: 12px;
+          margin-top: 1px;
+          font-size: 10px;
+          Padding : 8px, 16px, 8px, 16px
+    }
+

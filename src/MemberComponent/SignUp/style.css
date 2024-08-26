@@ -1,0 +1,166 @@
+.navbarSignup{
+    width: 143.22px;
+    height: 37.48px;
+    margin-top: 0x;
+    margin-left: 114.98px;
+
+
+    img{
+        height:49px;
+        width: 143.22px;
+        /* width: 143.22px; */
+        /* height: 37.48px; */
+        /* top: 71.52px;
+        left: 114.98px;
+        gap: 0px;
+        opacity: 0px; */
+
+    }
+}
+
+
+.formSignup{
+    width: 100%;
+    align-items: center;
+    gap:30px;
+    display: flex;
+    justify-content: center;
+    /* justify-items: center; */
+    height: auto;
+    /* padding-top: 3%; */
+
+
+    form{
+        padding: 47px 29px 47px 29px;
+        padding-bottom: 30%;
+        /* display: flex;
+        justify-content: center;
+        justify-items: center; */
+        height: 627px;
+        width: 540px;
+        border-radius: 20px;
+        box-shadow: 6px 10px 20px 0px rgba(41, 1, 1, 0.1);
+    }
+
+    h3{
+        font-size: 20px;  
+    }
+
+    span{
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    label, ::placeholder{
+        font-size: 11.6px;
+        color: black;
+        font-weight: 600;
+    }
+    
+    .form-select{
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 12px;
+        /* border: 1px solid rgba(121, 57, 239, 0.4); */
+    }
+
+    input{
+        height: 30px;
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 12px;
+        /* border: 1px solid rgba(121, 57, 239, 0.4); */
+    }
+    div{
+        margin-top:12px;
+    }
+
+    .signupName{
+        margin-top: -19px;
+    }
+
+    .firstname{
+        margin-top: 15px;
+    }
+
+    .already{
+        text-decoration:underline;
+        display: inline-block;
+        width:100%;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        /* align-items: center; */
+     }
+
+
+     .passwordAndEye{
+        margin-top: -2px;
+
+     }
+
+     .passwordAndEye{
+        display: flex;
+
+        .eyeDiv{
+                    height: 30px;
+        }
+
+        input{
+            border-radius: 12px;
+        }
+
+        .eyeDiv{
+            background-color: rgba(240, 240, 240, 1);
+            border-radius: 0 ;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border: 0;
+            height: 29.7px;
+            margin-top: 0px;
+           /* margin-left: 430px;   */
+           font-size: 12px;   
+           color: black;
+           border: 1px solid #dee2e6;
+           border-left: none;
+
+        }
+     }
+ } 
+
+
+
+.formDiv{
+    display: block;
+}
+
+.signupBtn{
+    width: 100%;
+    margin-top: 9px;
+    border-radius: 12px;
+    background-color: rgba(121, 57, 239, 1) !important;
+    border: 1px solid  rgba(121, 57, 239, 1);
+    color:white;
+    font-size: 12px;
+    padding: 1%;
+
+}
+
+
+
+/* ------------------nyumber------------------ */
+
+.number{
+    display: flex;
+    gap: 3px;
+    /* position: absolute;
+    margin-top: -32%; */
+
+    .countryCode{
+           width:79px;
+           border-radius: 12px;
+    }
+}
+/* 
+.input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+} */

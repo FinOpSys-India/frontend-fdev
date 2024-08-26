@@ -1,0 +1,412 @@
+.companyDetails{
+    margin-top: 15px;
+}
+
+
+.custom-file-upload {
+    display: flex;
+    flex-direction: column;
+    color: #595959;
+    font-weight: 400;
+    font-size: 14px;
+    width: 201px;
+    line-height: 16px;
+  }
+  
+  .add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #7939ef;
+    border-radius: 10px;
+    gap: 8px;
+    width: 141.8px;
+    height: 28px;
+    border: 0px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500px;
+    line-height: 16px;
+  }
+  
+  .addCompanyForm {
+    padding: 34px;
+    padding-top: 29px;
+  }
+  
+  .company {
+    width: 46px;
+    height: 16px;
+    color: #8c8c8c;
+    font-weight: 500;
+    font-size: 10px;
+    opacity: 0.8;
+    line-height: 16px;
+    margin-bottom: 0px;
+    margin-top: 30px;
+  }
+  
+  .ds {
+    width: 832px;
+    height: 16px;
+    font-weight: 600;
+    color: #000000;
+    font-size: 18px;
+    line-height: 16px;
+    margin-top: 0px;
+    margin-bottom: 41px;
+  }
+  
+  .dSetting {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 16px;
+    color: #8c8c8c;
+    opacity: 0.8;
+    height: 16px;
+    margin-bottom: 0px;
+  }
+  
+  .companyLogoSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .heading {
+    color: #141414;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 500;
+  }
+  
+  .firstCompany {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 770px;
+    height: 110px;
+    border-radius: 12px;
+    padding: 24px;
+    gap: 28px;
+    background-color: #f0f0f0;
+  }
+  
+  .firstBox {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+  }
+  
+
+
+  .heading2 {
+    color: #141414;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 500;
+    margin-top: 36px;
+  }
+  
+
+  .heading3 {
+    color: #141414;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 500;
+    margin-top: 36px;
+  }
+  
+  .second {
+    width: 770px;
+    height: 190px;
+  }
+  
+  .companyName {
+    width: 91px;
+    height: 15px;
+    font-weight: 600;
+    font-size: 120px;
+    line-height: 14.52px;
+    color: #000000;
+  }
+  
+  .companyNameInput {
+    width: 351px;
+    height: 32px;
+    border-radius: 10px;
+    color: #000000;
+    border: 0px;
+    padding-left: 15px;
+    font-size: 14px;
+  }
+  
+  .marginLeft {
+    margin-left: 30px;
+  }
+  
+  .fontSize {
+    font-size: 12px;
+    font-weight: 600;
+    color: #141414;
+  }
+  
+  .endButtons {
+    /* width: 876px; */
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .save {
+    background-color: #7939ef;
+    padding: auto;
+    border-radius: 10px;
+    width: 60px;
+    height: 28px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #ffffff;
+    line-height: 16px;
+    border: 0px;
+    cursor: pointer;
+  }
+  
+  .backToList {
+    background-color: #7939ef;
+    padding: auto;
+    border-radius: 10px;
+    width: 90px;
+    height: 28px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #ffffff;
+    line-height: 16px;
+    border: 0px;
+    cursor: pointer;
+    margin-right: 29px;
+  }
+  
+  .reset {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: auto;
+    border-radius: 10px;
+    width: 30px;
+    cursor: pointer;
+    height: 28px;
+    color: #374957;
+    border: 0px;
+  }
+  
+  .sign {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .but-searchList{
+    border: 0px;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    width: 170px;
+    height: 28px;
+    padding-left: 60px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #141414;
+  }
+  
+  .text {
+    width: 463.2px;
+    height: 16px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    color: #000000;
+  }
+
+  .company-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 25px;
+  }
+  
+  .companiesList {
+    width: 100%;
+    height: max-content;
+    border: 0px;
+    border-radius: 8px;
+    padding: 24px;
+    background-color: #f0f0f0;
+  }
+  
+  .companyItem {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* width: 786px; */
+    margin: 5px;
+    height: 48px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding-left: 24px;
+    margin-bottom: 12px;
+  }
+  
+  .main {
+    padding: 24px;
+  }
+  
+
+
+  /* ---------------------------------------company list------------------------- */
+  
+  
+  .cName {
+    width: 676px;
+    height: 16px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #141414;
+    margin-bottom: -1px;
+    margin-top: 15px;
+  }
+  
+  .cEid {
+    margin-top: 0px;
+    color: #8c8c8c;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16px;
+    width: 68px;
+    height: 16px;
+  }
+  
+  .arrow {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-left: -56px;
+  }
+  
+  .phoneDiv {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .enp {
+    border: 0px;
+    border-radius: 10px;
+    width: 40px;
+    height: 32px;
+    padding-left: 15px;
+  }
+  
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type="number"] {
+    appearance: textfield;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+  }
+  
+  .companyNameInput:focus {
+    outline: none;
+    padding-left: 15px;
+  }
+  
+  .companyName {
+    width: 832px;
+    height: 16px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 16px;
+    color: #000000;
+    margin-left: 33px;
+  }
+  
+  .heading {
+    width: 832px;
+    height: 16px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1px;
+    color: #141414;
+  }
+  
+  .logo {
+    font-weight: 400px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #141414;
+  }
+
+
+
+  /* --------------------------------hovber------------------------- */
+
+
+  .editable-field {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .editable-field input {
+    border: none;
+    background: transparent;
+    padding: 5px;
+    /* width: 100%; */
+    box-sizing: border-box;
+  }
+  
+  .editable-field .edit-icon {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .editable-field input:focus {
+    outline: none;
+    border-bottom: 1px solid #000;
+    background-color: white;
+  }
+  
+  .editable-field:hover .edit-icon {
+    display: block;
+  }
+  
+  .editable-field:hover input {
+    background-color: white;
+  }
+  
+  
+
+
+  /* ---------------------email------------ */
+  #email{
+    background-color: #f0f0f0;
+  }
