@@ -1,0 +1,114 @@
+.navbar{
+    width: 143.22px;
+    height: 37.48px;
+    margin-top: 3%;
+    margin-left: 114.98px;
+}
+
+
+.loginDashboard{
+    display: flex;
+    margin-top: 15%;
+    margin-left: 6%;
+    gap:410px;
+
+
+    .resetform{
+        width:49%;
+        height: 10%;
+        box-shadow: 6px 10px 20px 0px rgba(0, 0, 0, 0.1);
+        padding: 21px 42px 21px 42px;
+        margin-top: -6%;
+        border-radius: 15px;
+    }
+
+
+    .resetDisplay{
+        padding-bottom: 3% ;
+    }
+
+    .HeadingAndCaption{
+        display: flex;
+        flex-direction: column;
+        gap: -6px;
+    }
+
+    h3{
+        font-size: 16.6px;  
+    }
+
+    span{
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    label, ::placeholder{
+        font-size: 10.9px;
+        color: black;
+        font-weight: 600;
+    }
+
+    ::placeholder{
+        color: grey;
+    }
+    
+    .form-select{
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 12px;
+        /* border: 1px solid rgba(121, 57, 239, 0.4); */
+    }
+
+    .div{
+        margin-top:-3px;
+    }
+
+    .input{
+        height: 30px;
+        background-color: rgba(240, 240, 240, 1);
+        border-radius: 12px;
+    }
+
+
+    .check{
+       /* height: 120%; */
+       background-color: white;
+    }
+
+    .imageDiv{
+        float: right;
+       margin-top: -9%;
+    }
+
+
+
+    .resetBtn{
+        width: 100%;
+        margin-top: 9px;
+        border-radius: 12px;
+        background-color: rgba(121, 57, 239, 1) !important;
+        border: 1px solid  rgba(121, 57, 239, 1);
+        color:white;
+        font-size: 12px;
+        padding: 1%;
+        height: 30px;
+    
+    }
+
+
+
+    .imageDiv{
+        height: 600px;
+        margin-top: -9%;
+        padding: 21px;
+        width: 1000px;
+        /* background-color: red; */
+        border-radius: 50% ;
+        border: 2px solid purple;
+        display: inline-block;
+    }
+}
+
+/* 
+.buttonGap{
+    padding-bottom: 30%;
+ } */

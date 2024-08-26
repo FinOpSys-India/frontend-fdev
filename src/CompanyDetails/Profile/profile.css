@@ -1,0 +1,150 @@
+.mainDiv-profile {
+    display: flex;
+  }
+  
+  .profile {
+    padding-top: 15px;
+    /* margin-left: 29px; */
+    padding-left: 29px; 
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 16px;
+
+  }
+  
+  .sub-heading {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #141414;
+    margin-left: 29px;
+    padding-top: 15px;
+    margin-top: 12px;
+
+  }
+  
+
+  .sub-heading2{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #141414;
+    margin-left: 29px;
+    padding-top: 15px;
+    margin-top: 21px;
+  } 
+
+
+  
+  .sub-heading3{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #141414;
+    margin-left: 29px;
+    padding-top: 15px;
+    margin-top: 21px;
+  } 
+
+  .mainDivProfile {
+    display: flex;
+    /* justify-content: space-between; */
+    margin-right: 40px;
+    gap: 230px;;
+    width: 780px;
+    background-color: #f0f0f0;
+    margin-left: 29px;
+    border-radius: 10px;
+    height: 110px;
+    padding-right: 30px;
+    padding: 36px 24px 36px 24px;
+
+  }
+  
+  .logoContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 41px;
+    margin-left: 29px;
+    padding-top: 12px;
+
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        gap: -1020px;
+
+        .info{
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 16px;
+            color: rgba(89, 89, 89, 1);
+        }
+
+        .formLabel{
+            font-size: 12.9px;
+            font-weight: 500;
+            line-height: 16px;
+            color: rgba(20, 20, 20, 1);
+            margin-top: 2px;
+
+        }
+    }
+  }
+  
+  .personalInformation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    margin-left: 29px;
+    border-radius: 10px;
+    width: 762px;
+    height: 290px;
+  }
+  
+  .firstDiv {
+    display: flex;
+    justify-content: space-between;
+    width: 81%;
+    margin-right: 90px;
+    margin-top: 12px;
+  }
+  
+  .secondDiv {
+    display: flex;
+    /* justify-content: space-between; */
+    width: 100%;
+    margin-left: 47px;
+    gap: 341px;
+  }
+  
+  .thirdDiv {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin-right: 330px;
+    gap: 357px;
+    margin-bottom: 12px;
+  }
+  
+  .my-label {
+    font-weight: 500;
+    font-size: 12px;
+    color: #141414;
+    margin-top: 18px;
+    width:fit-content
+  }
+  
+  .label-value {
+    font-weight: 400;
+    font-size: 14px;
+    color: #595959;
+  }
+  
+
+  .passwordLabel{
+   margin-top: -12px;
+  }
