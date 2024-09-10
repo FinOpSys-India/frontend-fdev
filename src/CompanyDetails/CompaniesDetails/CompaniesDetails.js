@@ -139,7 +139,7 @@ function companySearchBar(e){
           }
         );
         alert("Successfully submitted");
-        fetchCompanies();
+        // fetchCompanies();
       } 
       catch (error) {
         console.error("There was an error submitting the form!", error);
