@@ -270,19 +270,20 @@ function Home() {
               </div>
               <hr />
             </li>
-            <div style={{marginTop:'-15%'}}>
-            <li>
-              <button style={{ fontSize: "10.5px", backgroundColor: "white", border:'none' }} onClick={() => handleButtonClick("settings")}>Settings</button>
-            </li>
-            <li>
-              <button
-                style={{ fontSize: "10.5px", backgroundColor: "white" , border:'none'}}
-                onClick={logOut}
-              >
-                Logout
-              </button>
-            </li>
-            </div>
+
+            <div style={{marginTop:'-3%'}} className="settingWithLogout">
+                <li>
+                  <button style={{ fontSize: "10.5px", backgroundColor: "white", border:'none' }} onClick={() => handleButtonClick("settings")}>Settings</button>
+                </li>
+                <li>
+                  <button
+                    style={{ fontSize: "10.5px", backgroundColor: "white" , border:'none'}}
+                    onClick={logOut}
+                  >
+                    Logout
+                  </button>
+                </li>
+                </div>
           </ul>
         </div>
       </div>
