@@ -100,17 +100,13 @@ function SignUp() {
           ...values,
           phoneNumber: `${countryCode}${values.phoneNumber}`
         };
-        console.log(updatedValues)
-        console.log("values"+values.firstName)
         // Sending values to server
         axios.post('http://localhost:9000/signup', updatedValues)
             .then(res => {
               console.log(res.data.Status);
                 if (res.data.Status === 'Successful') { 
-                    console.log('Signup successful');
                     navigate('/login'); 
                 } else {
-                    console.log('Signup failed', res.data.Error);
                     console.log(res.data.Status);
                 }
             })
