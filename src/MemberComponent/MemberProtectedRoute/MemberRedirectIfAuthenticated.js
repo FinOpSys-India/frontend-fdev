@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiEndPointUrl } from '../../utils/apiService';
 
 const MemberRedirectIfAuthenticated = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -9,7 +10,7 @@ const MemberRedirectIfAuthenticated = ({ children }) => {
   axios.defaults.withCredentials = true;
   
   const memberCheckAuth = () => {
-    axios.get('http://localhost:9000/home-member') // Adjust the endpoint accordingly
+    axios.get(`${apiEndPointUrl}/home-member`) // Adjust the endpoint accordingly
       .then(res => {
 
           console.log(res)

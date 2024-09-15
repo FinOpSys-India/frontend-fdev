@@ -5,6 +5,7 @@ import "./reset.css";
 import {  useNavigate } from "react-router-dom";
 import axios from "axios"
 import { Modal, Button } from 'react-bootstrap';
+import { apiEndPointUrl } from "../../utils/apiService";
 
 
 function ResetMember() {
@@ -63,7 +64,7 @@ function ResetMember() {
         setPasswordError(false);
   
     axios
-        .post("http://localhost:9000/reset-password-member", values, { withCredentials: true })
+        .post(`${apiEndPointUrl}/reset-password-member`, values, { withCredentials: true })
         .then((res) => {
           if (res.data.message === 'Password updated successfully') {
             navigate('/update-member');

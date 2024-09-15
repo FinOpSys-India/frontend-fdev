@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { apiEndPointUrl } from '../../utils/apiService';
 
 function Demo() {
 
@@ -24,7 +25,7 @@ function Demo() {
           }
     }
     function fetching(){
-        axios.get("http://localhost:9000/get-accessControl")
+        axios.get(`${apiEndPointUrl}/get-accessControl`)
         .then(res => {
 
             console.log(res.data);

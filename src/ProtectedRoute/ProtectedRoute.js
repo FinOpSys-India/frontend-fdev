@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 // import { useAuth } from '../AuthContext/AuthContext';
 import axios from "axios"
+import { apiEndPointUrl } from '../utils/apiService';
 
 const ProtectedRoute = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -11,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
 
 
   const checkAuth = () => {
-    axios.get('http://localhost:9000/') // Adjust the endpoint accordingly
+    axios.get(`${apiEndPointUrl}/`) // Adjust the endpoint accordingly
       .then(res => {
 
         console.log(res)

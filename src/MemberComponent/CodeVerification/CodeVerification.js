@@ -4,6 +4,7 @@ import pic from "./../../images/Dashboard.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CodeVerification.css"
+import { apiEndPointUrl } from "../../utils/apiService";
 
 function MemberCodeVerification() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function MemberCodeVerification() {
         console.log(values)
         //  Sending values to server
      axios
-        .post("http://localhost:9000/login-member", values, { withCredentials: true })
+        .post(`${apiEndPointUrl}/login-member`, values, { withCredentials: true })
         .then((res) => {
             console.log("res" + res.data);
             setPhone(res.data.phoneNumber);
@@ -48,7 +49,7 @@ function MemberCodeVerification() {
     function GetOtpAgain(e){
         e.preventDefault();
         axios
-        .post("http://localhost:9000/send-again-member", values, { withCredentials: true })
+        .post(`${apiEndPointUrl}/send-again-member`, values, { withCredentials: true })
         .then((res) => {
             setPhone(res.data.phoneNumber);
           if (res.data.message === "OTP sent successfully!") {

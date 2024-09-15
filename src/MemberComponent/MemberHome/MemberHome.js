@@ -14,6 +14,7 @@ import   axios from "axios" ;
 import Cookies from "js-cookie"
 import { Cookie } from "@mui/icons-material";
 import { Modal, Button, Nav, Tab } from 'react-bootstrap';
+import { apiEndPointUrl } from "../../utils/apiService";
 // import TeamAndMembers from "../CompanyDetails/TeamAndMembers";
 
 
@@ -51,7 +52,7 @@ function MemberHome() {
 
   const logOut= ()=>{
 
-    axios.get("http://localhost:9000/logout-member" , )
+    axios.get(`${apiEndPointUrl}/logout-member` , )
         .then(res =>{
           console.log(res.data)
           navigate("/login-member")

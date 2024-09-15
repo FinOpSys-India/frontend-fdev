@@ -7,6 +7,7 @@ import axios from "axios";
 import { Modal, Button } from 'react-bootstrap';
 import '@fortawesome/fontawesome-free/css/all.min.css'; // Import Font Awesome
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { apiEndPointUrl } from "../../utils/apiService";
 
 function SignUpMember() {
 
@@ -96,7 +97,7 @@ function SignUpMember() {
         };
         console.log("values"+updatedValues)
         // Sending values to server
-        axios.post('http://localhost:9000/signup-member', updatedValues)
+        axios.post(`${apiEndPointUrl}/signup-member`, updatedValues)
             .then(res => {
               console.log(res.data.Status);
                 if (res.data.Status === 'Successful') { 

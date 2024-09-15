@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import "./profile.css";
 import axios from "axios"
+import { apiEndPointUrl } from "../../utils/apiService";
 
 
 export const PersonContext = createContext();
@@ -15,7 +16,7 @@ const Profile = () => {
   useEffect(() => {
 
   const fetching= async () => {
-    axios.get("http://localhost:9000/get-person-details")
+    axios.get(`${apiEndPointUrl}/get-person-details`)
     .then((res) => {
       setPerson(res.data);
       console.error(" fetching", res.data);

@@ -178,6 +178,7 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { apiEndPointUrl } from "../utils/apiService";
 
 function Login() {
   const navigate = useNavigate();
@@ -197,14 +198,10 @@ function Login() {
 
     // Sending values to server
     axios
-      .post("http://localhost:9000/codeVerfication", values, { withCredentials: true })
+      .post(`${apiEndPointUrl}/codeVerfication`, values, { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         if (res.data.message === "OTP sent successfully!") {
-          // phoneNumber = res.data.phoneNumber
-          // console.log("phoneNumber");
-
-          // Store in cookies if rememberMe is true
           if (rememberMe) {
             Cookies.set("workEmail", values.workEmail, { expires: 7 }); // Expires in 7 days
             Cookies.set("password", values.password, { expires: 7 }); // Expires in 7 days
@@ -252,17 +249,6 @@ function Login() {
       <nav className="navbar" style={{ height: "12px" }}>
         <img src={logo} alt="Logo" />
       </nav>
-        {/* <div className="container">
-          <div className="circle circle1"></div>
-          <div className="circle circle2"></div>
-          <div className="imageContainer">
-            <img src={pic} alt="pic" />
-          </div>
-          <div className="circle circle3"></div>
-        </div> */}
-
-
-
       <div className="loginDashboard">
         <div className="loginform">
           <form onSubmit={onFinish}>
@@ -279,6 +265,7 @@ function Login() {
                 type="email"
                 className="form-control input"
                 id="email"
+                style={{marginLeft:'1%'}}
                 aria-describedby="emailHelp"
                 placeholder="Enter your email" required
                 value={values.workEmail}
@@ -288,7 +275,7 @@ function Login() {
               />
             </div>
 
-            <div className="mb-3 div">
+            <div className="mb-3">
               <label htmlFor="password" className="form-label">
                 Password <span style={{color:"red"}}>*</span>
               </label>

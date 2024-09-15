@@ -124,9 +124,7 @@
              margin-left: 3%;
         }
 
-        .signup{
-           /* float: left; */
-        }
+        
    }
 
     .imageDiv{
@@ -140,9 +138,7 @@
         display: inline-block;
 
 
-        img{
-            
-        }
+        
     }
 }
 

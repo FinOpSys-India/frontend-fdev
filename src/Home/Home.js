@@ -20,6 +20,7 @@ import finopsysBigLogo from "../assets/finopsysBig.svg";
 import finopsysSmallLogo from "../assets/finopsysSmall.svg";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
+import { apiEndPointUrl } from "../utils/apiService";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +53,7 @@ function Home() {
 
   const logOut = () => {
     axios
-      .get("http://localhost:9000/logout")
+      .get(`${apiEndPointUrl}/logout`)
       .then((res) => {
         console.log(res.data);
 

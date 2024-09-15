@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import SignUp from '../../SignUp/SignUp';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
+import { apiEndPointUrl } from '../../utils/apiService';
 
 // Mock axios for post request
 jest.mock('axios');
@@ -101,7 +102,7 @@ test('renders the signup form with all fields', () => {
     fireEvent.click(screen.getByRole('button', { name: /Sign in/i }));
   
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:9000/signup', expect.any(Object));
+      expect(axios.post).toHaveBeenCalledWith(`${apiEndPointUrl}/signup`, expect.any(Object));
     });
   });
   test('shows error if Password not matched', async () => {

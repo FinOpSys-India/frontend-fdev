@@ -6,6 +6,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { apiEndPointUrl } from "../../utils/apiService";
 
 const CompaniesDetails = () => {
   const [selectedCompany, setSelectedCompany] = useState(null);
@@ -44,7 +45,7 @@ const CompaniesDetails = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("http://localhost:9000/getCompanies");
+        const response = await axios.get(`${apiEndPointUrl}/getCompanies`);
         setCompanies(response.data);
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -82,7 +83,7 @@ function companySearchBar(e){
   // ---------------------- getting the data matched with the EID -------------------------------
   async function handleCompanyClick(eid) {
     try {
-      const url = `http://localhost:9000/getCompanies?eid=${eid}`;
+      const url = `${apiEndPointUrl}/getCompanies?eid=${eid}`;
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -130,7 +131,7 @@ function companySearchBar(e){
 
     try {
         const response = await axios.post(
-          "http://localhost:9000/insertData",
+          `${apiEndPointUrl}/insertData`,
           data,
           {
             headers: {
@@ -257,7 +258,7 @@ function companySearchBar(e){
 
       try{
         const response = await axios.post(
-        "http://localhost:9000/update-company-details",
+        `${apiEndPointUrl}/update-company-details`,
          data ,
         {
           headers: {

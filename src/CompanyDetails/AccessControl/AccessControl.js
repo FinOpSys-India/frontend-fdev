@@ -4,6 +4,7 @@ import "./AccessControl.css"
 import SearchIcon from '@mui/icons-material/Search';
 import Demo from '../Demo/Demo';
 import axios from "axios"
+import { apiEndPointUrl } from '../../utils/apiService';
 
 function AccessControl() {
 
@@ -34,7 +35,7 @@ useEffect(()=>{
 
     console.log(isCheckedNotification)
 
-    axios.post('http://localhost:9000/update-notification', isCheckedNotification, { withCredentials: true })
+    axios.post(`${apiEndPointUrl}/update-notification`, isCheckedNotification, { withCredentials: true })
     .then(response => {
         console.log(response.data);
         console.log(response.data.message);

@@ -7,6 +7,7 @@ import axios from "axios";
 import { Modal, Button } from 'react-bootstrap';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { apiEndPointUrl } from "../utils/apiService";
 
 function SignUp() {
 
@@ -101,7 +102,7 @@ function SignUp() {
           phoneNumber: `${countryCode}${values.phoneNumber}`
         };
         // Sending values to server
-        axios.post('http://localhost:9000/signup', updatedValues)
+        axios.post(`${apiEndPointUrl}/signup`, updatedValues)
             .then(res => {
               console.log(res.data.Status);
                 if (res.data.Status === 'Successful') { 

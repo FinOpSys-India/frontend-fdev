@@ -3,6 +3,7 @@ import { render, screen, fireEvent,waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom'; // needed to test components with react-router
 import Home from '../../Home/Home';
 import axios from "axios";
+import { apiEndPointUrl } from '../../utils/apiService';
 
 jest.mock("axios");
 
@@ -117,6 +118,6 @@ describe('Home Component', () => {
     fireEvent.click(logoutButton);
 
     // Expect the axios request to have been made
-    await waitFor(()=>{expect(axios.get).toHaveBeenCalledWith('http://localhost:9000/logout')});
+    await waitFor(()=>{expect(axios.get).toHaveBeenCalledWith(`${apiEndPointUrl}/logout`)});
   });
 });

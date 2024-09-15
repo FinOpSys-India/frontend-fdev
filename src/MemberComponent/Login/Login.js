@@ -5,6 +5,7 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { apiEndPointUrl } from "../../utils/apiService";
 
 function LoginMember() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function LoginMember() {
 
     // Sending values to server
     axios
-      .post("http://localhost:9000/codeVerification-member", values, { withCredentials: true })
+      .post(`${apiEndPointUrl}/codeVerification-member`, values, { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         if (res.data.message === "OTP sent successfully!") {
