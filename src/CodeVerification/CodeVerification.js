@@ -30,10 +30,13 @@ function CodeVerification() {
         .then((res) => {
             setPhone(res.data.phoneNumber);
             if (res.data.Status === "OTP verified successfully") {
-                
+                const token = res.data.token;
+                console.log(token)
+            localStorage.setItem('authToken', token);  // Example: storing in localStorage
+
             localStorage.setItem('user', JSON.stringify(values.phoneNumber));
                 console.log("Login successful");
-                navigate("/");
+                        navigate("/");
             } 
             else {
                 console.log("Login failed: ", res.data.Error);
@@ -51,10 +54,8 @@ function CodeVerification() {
         axios
         .post(`${apiEndPointUrl}/send-again`, values, { withCredentials: true })
         .then((res) => {
-            console.log(res.data)
             setPhone(res.data.phoneNumber);
-            console.log({phone})
-          if (res.data.message === "OTP sent successfully!") {
+              if (res.data.message === "OTP sent successfully!") {
             console.log("otp send again successful");
 
             setSendAgain("Otp sent successfully !")

@@ -9,10 +9,15 @@ const ProtectedRoute = ({ children }) => {
   
     
   axios.defaults.withCredentials = true;
+  const token = localStorage.getItem('authToken');  // Retrieve token from storage
 
 
   const checkAuth = () => {
-    axios.get(`${apiEndPointUrl}/`) // Adjust the endpoint accordingly
+    axios.get(`${apiEndPointUrl}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`  // Set Bearer token in Authorization header
+      }
+    }) // Adjust the endpoint accordingly
       .then(res => {
 
         console.log(res)
