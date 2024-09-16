@@ -92,11 +92,11 @@ function Home() {
           }
           {isCollapsed ? (<button className="collapseArrow" style={{
             backgroundColor: 'white', borderRadius: "50%", marginLeft: "10px", marginTop: "10px", boxShadow: "0.2px 0.2px grey",
-            height: "30px", width: "45px", border: "none"
+            height: "30px", width: "45px", border: "none",   opacity: "0.6"
           }} onClick={toggleCollapse}> <ArrowForwardIosOutlinedIcon style={{ height: "20px", margin: "10%" }} /> </button>) :
             (<button className="collapseArrow" style={{
               backgroundColor: 'white', borderRadius: "50%", marginLeft: "50px", marginTop: "25px", boxShadow: "0.2px 0.2px grey",
-              height: "30px", width: "45%"
+              height: "30px", width: "45%",   opacity: "0.6"
             }} onClick={toggleCollapse}> <ArrowBackIosNewOutlinedIcon style={{ height: "20px", marginTop: "35%" }} />  </button>)}
         </div>
 
