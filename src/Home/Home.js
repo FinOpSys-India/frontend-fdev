@@ -52,6 +52,8 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   const logOut = () => {
+    localStorage.removeItem("authToken");
+
     axios
       .get(`${apiEndPointUrl}/logout`)
       .then((res) => {
