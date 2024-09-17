@@ -85,18 +85,12 @@ function Login() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="email" className="form-label email">
+              <label htmlFor="emailLogin" className="form-label">
                 Email <span style={{color:"red"}}>*</span>
               </label>
-              <input
-                type="email"
-                className="form-control input"
-                id="email"
-                style={{marginLeft:'1%'}}
-                aria-describedby="emailHelp"
-                placeholder="Enter your email" required
-                value={values.workEmail}
-                onChange={(e) =>
+              <input type="email" className="form-control input"
+                id="emailLogin" style={{marginLeft:'1%'}} aria-describedby="emailHelp"
+                placeholder="Enter your email" required value={values.workEmail} onChange={(e) =>
                   setValues({ ...values, workEmail: e.target.value })
                 }
               />
