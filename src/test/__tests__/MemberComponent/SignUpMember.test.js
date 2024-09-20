@@ -1,8 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import SignUp from '../../SignUp/SignUp';
+// import SignUp from '../../SignUp/SignUp';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
+import SignUpMember from '../../../MemberComponent/SignUp/SignUpMember';
+// import SignUpMember from '../../../MemberComponent/SignUp/SignUpMember';
 
 // Mock axios for post request
 jest.mock('axios');
@@ -14,14 +16,14 @@ describe('SignUp Component', () => {
 test('renders the signup form with all fields', () => {
   render(
     <BrowserRouter>
-      <SignUp />
+      <SignUpMember/>
     </BrowserRouter>
   );  
     expect(screen.getByLabelText(/First Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Last Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Work Email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Company Name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Company Type/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Position/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Phone Number/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Enter the Password/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Confirm Password/i)).toBeInTheDocument();
@@ -30,7 +32,7 @@ test('renders the signup form with all fields', () => {
   test('shows error if work email is personal', async () => {
     render(
       <BrowserRouter>
-        <SignUp />
+        <SignUpMember />
       </BrowserRouter>
     );
     fireEvent.change(screen.getByLabelText(/First Name/i), {
@@ -45,7 +47,7 @@ test('renders the signup form with all fields', () => {
     fireEvent.change(screen.getByLabelText(/Company Name/i), {
       target: { value: 'Company' },
     });
-    fireEvent.change(screen.getByLabelText(/Company Type/i), {
+    fireEvent.change(screen.getByLabelText(/Position/i), {
       target: { value: 'IT' },
     });
     fireEvent.change(screen.getByLabelText(/Phone Number/i), {
@@ -72,7 +74,7 @@ test('renders the signup form with all fields', () => {
   
     render(
       <BrowserRouter>
-        <SignUp />
+        <SignUpMember />
       </BrowserRouter>
     );  
     fireEvent.change(screen.getByLabelText(/First Name/i), {
@@ -87,7 +89,7 @@ test('renders the signup form with all fields', () => {
     fireEvent.change(screen.getByLabelText(/Company Name/i), {
       target: { value: 'Company' },
     });
-    fireEvent.change(screen.getByLabelText(/Company Type/i), {
+    fireEvent.change(screen.getByLabelText(/Position/i), {
       target: { value: 'IT' },
     });
     fireEvent.change(screen.getByLabelText(/Phone Number/i), {
@@ -103,15 +105,17 @@ test('renders the signup form with all fields', () => {
     fireEvent.click(screen.getByRole('button', { name: /Sign in/i }));
   
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:9000/signup', expect.any(Object));
+      expect(axios.post).toHaveBeenCalledWith('http://localhost:9000/signup-member', expect.any(Object));
     });
   });
+
+
   test('shows error if Password not matched', async () => {
     axios.post.mockRejectedValueOnce(new Error('Signup failed'));
   
     render(
       <BrowserRouter>
-        <SignUp />
+        <SignUpMember />
       </BrowserRouter>
     );  
     fireEvent.change(screen.getByLabelText(/First Name/i), {
@@ -126,7 +130,7 @@ test('renders the signup form with all fields', () => {
     fireEvent.change(screen.getByLabelText(/Company Name/i), {
       target: { value: 'Company' },
     });
-    fireEvent.change(screen.getByLabelText(/Company Type/i), {
+    fireEvent.change(screen.getByLabelText(/Position/i), {
       target: { value: 'IT' },
     });
     fireEvent.change(screen.getByLabelText(/Phone Number/i), {

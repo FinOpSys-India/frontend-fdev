@@ -50,8 +50,7 @@ function LoginMember() {
         }
       })
       .catch((err) => {
-        console.error("Login error: ", err);
-        setError("Login failed: " + err.message); // Set error state with the error message
+        setError(err.message); // Set error state with the error message
       });
   }
 
@@ -100,7 +99,7 @@ function LoginMember() {
 
             <div className="mb-3">
               <label htmlFor="email" className="form-label email">
-                Email <span style={{color:"red"}}>*</span>
+               Work Email <span style={{color:"red"}}>*</span>
               </label>
               <input
                 type="email"

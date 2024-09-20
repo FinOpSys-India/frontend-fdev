@@ -199,11 +199,7 @@ function Login() {
     axios
       .post("http://localhost:9000/codeVerfication", values, { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
         if (res.data.message === "OTP sent successfully!") {
-          // phoneNumber = res.data.phoneNumber
-          // console.log("phoneNumber");
-
           // Store in cookies if rememberMe is true
           if (rememberMe) {
             Cookies.set("workEmail", values.workEmail, { expires: 7 }); // Expires in 7 days
@@ -218,13 +214,13 @@ function Login() {
 
           navigate("/codeVerification",{ state: res.data.phoneNumber} );
         } else {
-          console.log("Login failed: ", res.data.Error);
           setError(res.data.Error); // Set error state with the error message
+          
         }
       })
       .catch((err) => {
-        console.error("Login error: ", err);
-        setError("Login failed: " + err.message); // Set error state with the error message
+        
+        setError(err.message); // Set error state with the error message
       });
   }
 
@@ -273,7 +269,7 @@ function Login() {
 
             <div className="mb-3">
               <label htmlFor="email" className="form-label email">
-                Email <span style={{color:"red"}}>*</span>
+                Work Email <span style={{color:"red"}}>*</span>
               </label>
               <input
                 type="email"
