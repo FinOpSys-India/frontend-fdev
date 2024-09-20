@@ -9,6 +9,6 @@ module.exports = {
     transformIgnorePatterns: [
       'node_modules/(?!(axios)/)',  // Whitelist axios for transformation
     ],
-     testEnvironment: "jsdom"
+     testEnvironment: "jsdom",
   };
   

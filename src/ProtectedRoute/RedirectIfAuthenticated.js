@@ -12,7 +12,6 @@ const RedirectIfAuthenticated = ({ children }) => {
     axios.get('http://localhost:9000/') // Adjust the endpoint accordingly
       .then(res => {
 
-          console.log(res)
         if (res.status === 200) {
           setIsAuthenticated(true);
         } else {
@@ -21,7 +20,6 @@ const RedirectIfAuthenticated = ({ children }) => {
       })
       .catch((err) => {
 
-          console.log(err)
         setIsAuthenticated(false);
       });
   };

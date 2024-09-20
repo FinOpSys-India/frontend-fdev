@@ -43,7 +43,7 @@ const PersonSetting = () => {
                 <button className={activeButton === "profile" ? "clickedButton" : ""} onClick={() => handleButtonClick("profile")}> <AddCircleOutlineIcon style={{ fontSize: 14, marginRight:"9px" }} />    Profiles </button> <br/>
                 <button className={activeButton === "companies" ? "clickedButton" : ""} onClick={() => handleButtonClick("companies")}> <AddCircleOutlineIcon style={{ fontSize: 14 ,  marginRight:"9px"  }}/>Companies</button><br/>
                 <button className={activeButton === "teamAndMembers" ? "clickedButton" : ""} onClick={() => handleButtonClick("teamAndMembers")}> <AddCircleOutlineIcon style={{ fontSize: 14 ,  marginRight:"9px"  }}/>Team & Members</button><br/>
-                <button className={activeButton === "accessControl" ? "clickedButton" : ""} onClick={() => handleButtonClick("accessControl")}><AddCircleOutlineIcon style={{ fontSize: 14 ,  marginRight:"9px"  }}/> Access  Control</button><br/>
+                <button className={activeButton === "accessControl" ? "clickedButton" : ""} onClick={() => handleButtonClick("accessControl")}><AddCircleOutlineIcon style={{ fontSize: 14 ,  marginRight:"9px"  }}/>Access Control</button><br/>
             </div>
 
             <div className="dashboardSettings">
