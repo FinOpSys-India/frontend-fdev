@@ -28,7 +28,6 @@ const CompaniesDetails = () => {
   });
 
 
-
   function arrayBufferToBase64(buffer) {
     let binary = "";
     const bytes = new Uint8Array(buffer);
@@ -93,7 +92,6 @@ function companySearchBar(e){
       const company = data.find((company) => company.eid === eid);
 
       if (company) {
-        console.log("Company Details:", company);
         setSelectedCompany(company);
       } else {
         console.log(`Company with EID ${eid} not found.`);
@@ -125,9 +123,6 @@ function companySearchBar(e){
     Object.keys(formData).forEach((key) => {
       data.append(key, formData[key]);
     });
-
-    console.log(data)
-
 
     try {
         const response = await axios.post(
@@ -242,19 +237,6 @@ function companySearchBar(e){
       Object.keys(formUpdateData).forEach((key) => {
         data.append(key, formUpdateData[key]);
       });
-      console.log(formUpdateData)
-
-      // Object.keys(formUpdateData).forEach((key) => {
-      //   data.append(key, formUpdateData[key]);
-      // });
-      
-      // // Check if updatedLogo exists, and append accordingly
-      // data.append("companyLogo", updatedLogo || selectedCompany.companyLogo);
-      
-      // // Log the FormData content to verify
-      // for (let [key, value] of data.entries()) {
-      //   console.log(`${key}:`, value);
-      // }
 
       try{
         const response = await axios.post(
@@ -267,10 +249,6 @@ function companySearchBar(e){
         })
         if(response){
           console.log('Company updated successfully:');
-          console.log(response)
-          // setCompanies(companies.map(company => 
-          //   company.id === selectedCompany.id ? response.data : company
-          // ));
         }
       }catch(err){
         console.log(err)
@@ -454,7 +432,7 @@ function companySearchBar(e){
                           </div>
 
                           <div className="custom-file-upload">
-                            <label htmlFor="file-upload" className="fontSize" style={{ marginBottom: "10px" }}>  Company Logo </label>
+                            <label htmlFor="file-upload" className="fontSize" style={{ marginBottom: "10px" }}>Company Logo </label>
                             <input  type="file" accept="image/*" onChange={handleLogoChange} id="file-upload" name="companyLogo"  style={{ display: "none" }} />
                             <label htmlFor="file-upload"className="custom-file-label"> Browse  </label>
                           </div>
@@ -589,17 +567,14 @@ function companySearchBar(e){
                       companies.length > 0 
                             ? 
                       companies.map((company) => {
-
-                        console.log("details of company getting "+company)
-                        const imageDataBytes = company.companyLogo.data;
+                        const imageDataBytes = company.companyLogo ? company.companyLogo.data :null ;
                         const imageDataBase64 = arrayBufferToBase64(imageDataBytes);
                         const logoSrc = imageDataBase64  ?  `data:image/png;base64,${imageDataBase64}` :"path_to_default_logo.png";
-
                         return (
                           <div key={company.eid}  className="companyItem" onClick={() => handleCompanyClick(company.eid)} >
                             
                             <DragIndicatorIcon style={{fontSize:"15px", marginLeft:"-9px"}}/>
-                            <img src={logoSrc} style={{ width: "15px",  height: "15px",  marginRight: "10px",}}alt={`${company.companyName} Logo`} />
+                            <img src={logoSrc} style={{ width: "15px",  height: "15px",  marginRight: "10px",}} alt={`${company.companyName} Logo`} />
                             <div className="details">
                                 <p className="cName">{company.companyName}</p>
                                 <p className="cEid">{company.eid}</p>
@@ -617,8 +592,7 @@ function companySearchBar(e){
                              ? 
                        filteredCompanies.map((company) => {
  
-                         console.log("details of company getting "+company)
-                         const imageDataBytes = company.companyLogo.data;
+                         const imageDataBytes =  company.companyLogo ? company.companyLogo.data : null ;
                          const imageDataBase64 = arrayBufferToBase64(imageDataBytes);
                          const logoSrc = imageDataBase64  ?  `data:image/png;base64,${imageDataBase64}` :"path_to_default_logo.png";
  
@@ -626,7 +600,7 @@ function companySearchBar(e){
                            <div key={company.eid}  className="companyItem" onClick={() => handleCompanyClick(company.eid)} >
                              
                              <DragIndicatorIcon style={{fontSize:"15px", marginLeft:"-9px"}}/>
-                             <img src={logoSrc} style={{ width: "15px",  height: "15px",  marginRight: "10px",}}alt={`${company.companyName} Logo`} />
+                             <img src={logoSrc} style={{width: "15px", height: "15px", marginRight: "10px",}} alt={`${company.companyName} Logo`} />
                              <div className="details">
                                  <p className="cName">{company.companyName}</p>
                                  <p className="cEid">{company.eid}</p>

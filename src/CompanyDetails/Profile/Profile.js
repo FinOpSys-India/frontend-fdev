@@ -2,13 +2,14 @@ import React, { createContext, useEffect, useState } from "react";
 import "./profile.css";
 import axios from "axios"
 import { apiEndPointUrl } from "../../utils/apiService";
+import Cookies from "js-cookie";
 
 
 export const PersonContext = createContext();
 
 const Profile = () => {
 
-  const[person, setPerson] = useState([]);
+  const[companyUser, setCompanyUser] = useState({});
 
 
   axios.defaults.withCredentials = true;
@@ -16,10 +17,10 @@ const Profile = () => {
   useEffect(() => {
 
   const fetching= async () => {
-    axios.get(`${apiEndPointUrl}/get-person-details`)
+    const email = Cookies.get("workEmail");    
+    axios.get(`${apiEndPointUrl}/get-person-details`, {params:{workEmail:email}})
     .then((res) => {
-      setPerson(res.data);
-      console.error(" fetching", res.data);
+      setCompanyUser(res.data);
     })
     .catch((error) => {
       console.error("Error fetching :", error);
@@ -55,12 +56,7 @@ const Profile = () => {
                   </div>
             </div>
 
-            
-            {
-                Array.isArray(person) && person.length > 0 
-                          ? 
-                 person.map((p, index) => (
-                  <div key={index}>
+                  <div>
                       <div className="sub-heading2">
                         <p>Personal Information</p>
                       </div>
@@ -69,33 +65,33 @@ const Profile = () => {
                         <div className="firstDiv">
                           <div>
                             <p className="my-label">First Name</p>
-                            <p className="label-value"> {p.FIRSTNAME}</p>
+                            <p className="label-value"> {companyUser.FIRSTNAME}</p>
                           </div>
                           <div>
                             <p className="my-label">Middle Name</p>
-                            <p className="label-value">Joy@fan34 {}</p>
+                            <p className="label-value"> {}</p>
                           </div>
                           <div>
                             <p className="my-label">Last Name</p>
-                            <p className="label-value">{p.LASTNAME}</p>
+                            <p className="label-value">{companyUser.LASTNAME}</p>
                           </div>
                         </div>
 
                         <div className="secondDiv">
                           <div>
                             <p className="my-label">Phone Number</p>
-                            <p className="label-value">{p.PHONENUMBER}</p>
+                            <p className="label-value">{companyUser.PHONENUMBER}</p>
                           </div>
                           <div>
                             <p className="my-label">Email Address</p>
-                            <p className="label-value">{p.WORKMAIL}</p>
+                            <p className="label-value">{companyUser.WORKEMAIL}</p>
                           </div>
                         </div>
 
                         <div className="thirdDiv">
                           <div>
-                            <p className="my-label">Position</p>
-                            <p className="label-value">Joy@fan34</p>
+                            <p className="my-label">Designation</p>
+                            <p className="label-value">{}</p>
                           </div>
                           <div>
                             <p className="my-label">Address</p>
@@ -104,7 +100,7 @@ const Profile = () => {
                         </div>
                       </div>
 
-                      <div className="sub-heading3">
+                      {/* <div className="sub-heading3">
                         <p>Password</p>
                       </div>
 
@@ -118,12 +114,10 @@ const Profile = () => {
                           <p className="my-label passwordLabel ">Password</p>
                           <p className="label-value">Joy@fan34</p>
                         </div>
-                      </div>
+                      </div> */}
                   </div>
-                   ))
-                   :
-                    <p>No person data available.</p>
-                  }
+                   
+                   
         </form> 
     </div>
   );

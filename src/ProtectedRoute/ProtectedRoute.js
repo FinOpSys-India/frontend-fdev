@@ -19,8 +19,6 @@ const ProtectedRoute = ({ children }) => {
       }
     }) // Adjust the endpoint accordingly
       .then(res => {
-
-        console.log(res)
         if (res.status === 200) {
           setIsAuthenticated(true);
         } else {

@@ -7,6 +7,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { apiEndPointUrl } from "../utils/apiService";
 
+export var email = "";
+
 function Login() {
   const navigate = useNavigate();
   const [values, setValues] = useState({
