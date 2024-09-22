@@ -28,10 +28,10 @@ function MemberCodeVerification() {
      axios
         .post(`${apiEndPointUrl}/login-member`, values, { withCredentials: true })
         .then((res) => {
-            console.log("res" + res.data);
             setPhone(res.data.phoneNumber);
             if (res.data.Status === "OTP verified successfully") {
-                console.log("Login successful");
+                const memberToken = res.data.memberToken;
+                localStorage.setItem('authToken', memberToken);
                 navigate("/home-member");
             } 
             else {

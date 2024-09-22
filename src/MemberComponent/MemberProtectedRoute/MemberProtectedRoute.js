@@ -6,13 +6,19 @@ import { apiEndPointUrl } from '../../utils/apiService';
 
 const MemberProtectedRoute = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
-  
+    const memberToken = localStorage.getItem('authToken');
+
     
   axios.defaults.withCredentials = true;
 
 
   const memberCheckAuth = () => {
-    axios.get(`${apiEndPointUrl}/home-member`) // Adjust the endpoint accordingly
+    axios.get(`${apiEndPointUrl}/home-member`,{
+      headers: {
+        Authorization: `Bearer ${memberToken}`  // Set Bearer token in Authorization header
+      }
+    
+  }) // Adjust the endpoint accordingly
       .then(res => {
 
         console.log(res)

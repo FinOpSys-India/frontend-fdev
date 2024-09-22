@@ -29,10 +29,7 @@ function LoginMember() {
       .then((res) => {
         console.log(res.data);
         if (res.data.message === "OTP sent successfully!") {
-          // phoneNumber = res.data.phoneNumber
-          // console.log("phoneNumber");
-
-          // Store in cookies if rememberMe is true
+          
           if (rememberMe) {
             Cookies.set("workEmail-member", values.workEmail, { expires: 7 }); // Expires in 7 days
             Cookies.set("password-member", values.password, { expires: 7 }); // Expires in 7 days
@@ -100,13 +97,13 @@ function LoginMember() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="email" className="form-label email">
+              <label htmlFor="emailMember" className="form-label email">
                 Email <span style={{color:"red"}}>*</span>
               </label>
               <input
                 type="email"
                 className="form-control input"
-                id="email"
+                id="emailMember"
                 aria-describedby="emailHelp"
                 placeholder="Enter your email" required
                 value={values.workEmail}
