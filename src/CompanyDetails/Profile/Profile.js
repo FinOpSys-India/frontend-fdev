@@ -13,23 +13,20 @@ const Profile = () => {
 
 
   axios.defaults.withCredentials = true;
-
   useEffect(() => {
-
-  const fetching= async () => {
-    const email = Cookies.get("workEmail");    
-    axios.get(`${apiEndPointUrl}/get-person-details`, {params:{workEmail:email}})
-    .then((res) => {
-      setCompanyUser(res.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching :", error);
-    });
-  };
-
-  fetching()
+    const fetching = async () => {
+      try {
+        const email = Cookies.get("workEmail");    
+        const res = await axios.get(`${apiEndPointUrl}/get-person-details`, { params: { workEmail: email } });
+        setCompanyUser(res.data);
+      } catch (error) {
+        console.error("Error fetching:", error);
+      }
+    };
+  
+    fetching();
   }, []);
-
+  
 
 
   return (
@@ -43,7 +40,7 @@ const Profile = () => {
 
             <div className="mainDivProfile">
                   <div className="logoContent">
-                    <img className="logo" src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
+                    <img className="logo" alt="default avatar" src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
                     <div className="content">
                       <p className="formLabel my-label">Avatar</p>
                       <p className="info label-value">Change Avatar</p>

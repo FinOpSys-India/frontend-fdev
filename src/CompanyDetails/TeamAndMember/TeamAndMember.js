@@ -17,17 +17,16 @@ const [filteredCompanyMember, setFilteredCompanyMember] = useState([]);
 
   useEffect(() => {
     
-   const fetching= async () => {
-      axios.get(`${apiEndPointUrl}/get-company-member`)
-      .then((res) => {
+    const fetching = async () => {
+      try {
+        const res = await axios.get(`${apiEndPointUrl}/get-company-member`);
         setCompanyMember(res.data);
-        console.error(" fetching", {companyMember});
-      })
-      .catch((error) => {
+        console.log("Fetching:", res.data); // Log the response data directly
+      } catch (error) {
         console.error("Error fetching companies:", error);
-      });
+      }
     };
-
+    
     fetching()
   }, []);
 

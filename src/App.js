@@ -6,19 +6,17 @@ import Home from './Home/Home.js';
 import Reset from './Reset/Reset';
 import UpdateSuccessfully from './UpdateSuccessfully/UpdateSuccessfully';
 import CodeVerification from './CodeVerification/CodeVerification';
-// import TeamAndMembers from './CompanyDetails/TeamAndMembers.js';
 import Demo from './CompanyDetails/Demo/Demo.js';
-import SignUpMember from './MemberComponent/SignUp/SignUp.js';
-import LoginMember from './MemberComponent/Login/Login.js';
+import SignUpMember from './MemberComponent/SignUp/SignUpMember.js';
+import LoginMember from './MemberComponent/Login/LoginMember.js';
 import ResetMember from './MemberComponent/Reset/Reset.js';
 import MemberUpdateSuccessfully from './MemberComponent/UpdateSuccessfully/UpdateSuccessfully.js';
 import MemberHome from './MemberComponent/MemberHome/MemberHome.js';
-import MemberCodeVerification from './MemberComponent/CodeVerification/CodeVerification.js';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute.js';
 import RedirectIfAuthenticated from './ProtectedRoute/RedirectIfAuthenticated.js';
-// import MemberProtectedRoute from './MemberComponent/MemberProtectedRoute/MemberProtectedRoute.js';
 import MemberRedirectIfAuthenticated from './MemberComponent/MemberProtectedRoute/MemberRedirectIfAuthenticated.js';
 import MemberProtectedRoute from './MemberComponent/MemberProtectedRoute/MemberProtectedRoute.js';
+import MemberCodeVerification from './MemberComponent/CodeVerification/MemberCodeVerification.js';
 
 const App = () => {
 
