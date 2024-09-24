@@ -40,7 +40,7 @@ function MemberCodeVerification() {
         })
         .catch((err) => {
             console.error("Login error: ", err);
-            setError(err.message); // Set error state with the error message
+            setError("Login failed: " + err.message); // Set error state with the error message
         });
     };
 
@@ -62,7 +62,7 @@ function MemberCodeVerification() {
         })
         .catch((err) => {
           console.error("Login error: ", err);
-          setError(err.message); // Set error state with the error message
+          setError("Login failed: " + err.message); // Set error state with the error message
         });
     }
 

@@ -588,7 +588,8 @@ function companySearchBar(e){
                       companies.length > 0 
                             ? 
                       companies.map((company) => {
-                        
+
+                        console.log("details of company getting "+company)
                         const imageDataBytes = company.companyLogo.data;
                         const imageDataBase64 = arrayBufferToBase64(imageDataBytes);
                         const logoSrc = imageDataBase64  ?  `data:image/png;base64,${imageDataBase64}` :"path_to_default_logo.png";

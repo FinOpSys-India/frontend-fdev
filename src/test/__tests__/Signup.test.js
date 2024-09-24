@@ -65,8 +65,6 @@ test('renders the signup form with all fields', () => {
       expect(screen.getByText(/Please enter your work email/i)).toBeInTheDocument();
     });
   });
-
-
   test('submits form successfully if all inputs are valid', async () => {
     axios.post.mockResolvedValueOnce({ data: { Status: 'Successful' } });
   

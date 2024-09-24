@@ -14,20 +14,21 @@ const [filteredCompanyMember, setFilteredCompanyMember] = useState([]);
 
 // axios.defaults.withCredentials = true;
 
-useEffect(() => {
-  const fetching = async () => {
-    try {
-      const res = await axios.get("http://localhost:9000/get-company-member");
-      setCompanyMember(res.data);
-      console.error("fetching", { companyMember });
-    } catch (error) {
-      console.error("Error fetching companies:", error);
-    }
-  };
+  useEffect(() => {
+    
+   const fetching= async () => {
+      axios.get("http://localhost:9000/get-company-member")
+      .then((res) => {
+        setCompanyMember(res.data);
+        console.error(" fetching", {companyMember});
+      })
+      .catch((error) => {
+        console.error("Error fetching companies:", error);
+      });
+    };
 
-  fetching();
-}, []);
-
+    fetching()
+  }, []);
 
   
 
@@ -51,7 +52,7 @@ useEffect(() => {
   return (
     <>
       <div className="topDiv">
-        <p>Team</p>
+        <p>Team {}</p>
           <SearchIcon style={{fontSize:"16.9px", position:"absolute", marginLeft:"630px", marginTop:"6px"}}/> <input className="but-search"  id="search" onChange={companySearchBar}  value={searchTerm} placeholder="Search" />
       </div>
 
@@ -95,7 +96,7 @@ useEffect(() => {
                   <div className="membersRow"  key={member.eid} >
                     <div className="picNameProfile">
                       <DragIndicatorIcon  style={{fontSize:"12px", marginLeft:"1px"}}/> 
-                      <img src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg" alt="default-avatar"/> 
+                      <img src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/> 
                       <p >  {member.firstName} </p>
                     </div>
                     
@@ -135,7 +136,7 @@ useEffect(() => {
                   <div className="membersRow"  key={member.eid} >
                     <div className="picNameProfile">
                       <DragIndicatorIcon  style={{fontSize:"12px", marginLeft:"1px"}}/> 
-                      <img src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"  alt="default-avatar"/> 
+                      <img src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/> 
                       <p >  {member.firstName} </p>
                     </div>
                     
