@@ -7,8 +7,10 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { apiEndPointUrl } from "../../utils/apiService";
+import Cookies from "js-cookie";
 
-const CompaniesDetails = () => {
+const CompaniesDetails = (props) => {
+  const companyUserID=(props.companyUserId).toString();
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [updatedLogo, SetUpdatedLogo] = useState(null);
   const [companies, setCompanies] = useState([]);
@@ -25,6 +27,7 @@ const CompaniesDetails = () => {
     email: "",
     industryType: "",
     taxForm: "",
+    createdBy:companyUserID
   });
 
 
@@ -40,17 +43,16 @@ const CompaniesDetails = () => {
 
 
 // -----------------------get company details----------------------
+const fetchCompanies = async () => {
+  try {
+    const response = await axios.get(`${apiEndPointUrl}/getCompanies`,  {params:{createdBy:companyUserID}});
+    setCompanies(response.data);
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+  }
+};
 
   useEffect(() => {
-    const fetchCompanies = async () => {
-      try {
-        const response = await axios.get(`${apiEndPointUrl}/getCompanies`);
-        setCompanies(response.data);
-      } catch (error) {
-        console.error("Error fetching companies:", error);
-      }
-    };
-
     fetchCompanies();
   }, []);
 
@@ -60,7 +62,6 @@ function companySearchBar(e){
 
   const searchValue = e.target.value;
   setSearchTerm(searchValue);
-  console.log(searchValue);
 
   let filtered = [];
   if (searchValue) {
@@ -73,24 +74,18 @@ function companySearchBar(e){
   console.log(filtered);
   
 }
-
-
-
-
-
-  
+ 
   // ---------------------- getting the data matched with the EID -------------------------------
   async function handleCompanyClick(eid) {
     try {
-      const url = `${apiEndPointUrl}/getCompanies?eid=${eid}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
+      const response = await axios.get(`${apiEndPointUrl}/getCompanyByEid`, {params:{eid:eid}});
+      if (response.status != 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      const company = data.find((company) => company.eid === eid);
+      console.log(response.data);
 
+      // const data = response.data;
+      const company = response.data;
       if (company) {
         setSelectedCompany(company);
       } else {
@@ -119,8 +114,10 @@ function companySearchBar(e){
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+    console.log(formData)
     data.append("companyLogo", logo);
     Object.keys(formData).forEach((key) => {
+      console.log(key +" "+formData[key])
       data.append(key, formData[key]);
     });
 
@@ -144,7 +141,7 @@ function companySearchBar(e){
       setShowAddCompanyForm(false);
       setLogo(null);
       setPreview("");
-      setFormData({  companyName: "", legalName: "",  eid: "", phoneNumber: "",  email: "",  industryType: "",  taxForm: "", });
+      setFormData({  companyName: "", legalName: "",  eid: "", phoneNumber: "",  email: "",  industryType: "",  taxForm: "", createdBy:companyUserID });
   };
 
 
@@ -152,7 +149,7 @@ function companySearchBar(e){
 
       setLogo(null);
       setPreview("");
-      setFormData({  companyName: "", legalName: "", eid: "",  phoneNumber: "", email: "",   industryType: "", taxForm: "", });
+      setFormData({  companyName: "", legalName: "", eid: "",  phoneNumber: "", email: "",   industryType: "", taxForm: "", createdBy:companyUserID });
   };
 
 
@@ -226,6 +223,7 @@ function companySearchBar(e){
         email: selectedCompany.email,
         industryType: selectedCompany.industryType,
         taxForm: selectedCompany.taxForm,
+        createdBy:companyUserID
 
       };
 

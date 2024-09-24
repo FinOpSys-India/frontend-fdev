@@ -34,9 +34,7 @@ const Profile = () => {
         <form>
               <h5 className="profile">Profile</h5>
 
-            <div className="sub-heading">
-              <p>User Name</p>
-            </div>
+            
 
             <div className="mainDivProfile">
                   <div className="logoContent">
@@ -49,7 +47,7 @@ const Profile = () => {
 
                   <div style={{ marginRight: "200px"  ,  marginTop:"-20px"}}>
                     <p className="my-label formLabel">User Name</p>
-                    <p className="label-value info">Joy@fan34</p>
+                    <p className="label-value info">{companyUser.FIRSTNAME}</p>
                   </div>
             </div>
 
