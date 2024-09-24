@@ -4,6 +4,7 @@ import "./AccessControl.css"
 import SearchIcon from '@mui/icons-material/Search';
 import Demo from '../Demo/Demo';
 import axios from "axios"
+import { apiEndPointUrl } from '../../utils/apiService';
 
 function AccessControl() {
 
@@ -34,7 +35,7 @@ useEffect(()=>{
 
     console.log(isCheckedNotification)
 
-    axios.post('http://localhost:9000/update-notification', isCheckedNotification, { withCredentials: true })
+    axios.post(`${apiEndPointUrl}/update-notification`, isCheckedNotification, { withCredentials: true })
     .then(response => {
         console.log(response.data);
         console.log(response.data.message);
@@ -69,12 +70,12 @@ useEffect(()=>{
                   <div className='toggleAndReset '>
                        <div className='toggleDiv'>
                             <div class="form-check form-switch toggle" >
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" style={{ width: "15px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }}  checked={isCheckedNotification.generalAccess}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, generalAccess: !isCheckedNotification.generalAccess})  } />
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" data-testid="general-access-switch" style={{ width: "15px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }}  checked={isCheckedNotification.generalAccess}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, generalAccess: !isCheckedNotification.generalAccess})  } />
                             </div>
                        </div>
 
                         <div className='resetDiv'>
-                            <span> <RotateLeftIcon style={{ fontSize: 16}}/> Reset</span>
+                            <span> <RotateLeftIcon style={{ fontSize: 16}}/> Reset1</span>
                         </div>
                   </div>
                </div>
@@ -92,7 +93,7 @@ useEffect(()=>{
                                <span> {isCheckedNotification.notification  ? "Active" : "Inactive"} </span>
                                <div className='toggleDiv'>
                                     <div class="form-check form-switch toggle" > 
-                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" style={{ width: "30px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }} checked={isCheckedNotification.notification}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, notification: !isCheckedNotification.notification })  } />
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" data-testid="notification-switch" style={{ width: "30px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }} checked={isCheckedNotification.notification}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, notification: !isCheckedNotification.notification })  } />
                                     </div>
                                </div>
                              {/* <div style={{display:"none"}}><Demo isCheckedNotification={isCheckedNotification}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, notification: e.target.value })  }/> </div>  */}

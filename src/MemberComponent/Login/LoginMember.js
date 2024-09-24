@@ -5,6 +5,7 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { apiEndPointUrl } from "../../utils/apiService";
 
 function LoginMember() {
   const navigate = useNavigate();
@@ -24,14 +25,11 @@ function LoginMember() {
 
     // Sending values to server
     axios
-      .post("http://localhost:9000/codeVerification-member", values, { withCredentials: true })
+      .post(`${apiEndPointUrl}/codeVerification-member`, values, { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         if (res.data.message === "OTP sent successfully!") {
-          // phoneNumber = res.data.phoneNumber
-          // console.log("phoneNumber");
-
-          // Store in cookies if rememberMe is true
+          
           if (rememberMe) {
             Cookies.set("workEmail-member", values.workEmail, { expires: 7 }); // Expires in 7 days
             Cookies.set("password-member", values.password, { expires: 7 }); // Expires in 7 days
@@ -51,7 +49,7 @@ function LoginMember() {
       })
       .catch((err) => {
         console.error("Login error: ", err);
-        setError("Login failed: " + err.message); // Set error state with the error message
+        setError(err.message); // Set error state with the error message
       });
   }
 
@@ -99,13 +97,13 @@ function LoginMember() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="email" className="form-label email">
-                Email <span style={{color:"red"}}>*</span>
+              <label htmlFor="emailMember" className="form-label email">
+                Work Email <span style={{color:"red"}}>*</span>
               </label>
               <input
                 type="email"
                 className="form-control input"
-                id="email"
+                id="emailMember"
                 aria-describedby="emailHelp"
                 placeholder="Enter your email" required
                 value={values.workEmail}

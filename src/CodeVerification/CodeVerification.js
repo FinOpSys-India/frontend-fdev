@@ -4,6 +4,7 @@ import pic from "./../images/Dashboard.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CodeVerification.css"
+import { apiEndPointUrl } from "../utils/apiService";
 
 function CodeVerification() {
     const navigate = useNavigate();
@@ -25,16 +26,17 @@ function CodeVerification() {
         console.log(values)
         //  Sending values to server
        axios
-        .post("http://localhost:9000/login", values, { withCredentials: true })
+        .post(`${apiEndPointUrl}/login`, values, { withCredentials: true })
         .then((res) => {
-            console.log("res" + res.data);
-
             setPhone(res.data.phoneNumber);
             if (res.data.Status === "OTP verified successfully") {
-                
+                const token = res.data.token;
+                console.log(token)
+            localStorage.setItem('authToken', token);  // Example: storing in localStorage
+
             localStorage.setItem('user', JSON.stringify(values.phoneNumber));
                 console.log("Login successful");
-                navigate("/");
+                        navigate("/");
             } 
             else {
                 console.log("Login failed: ", res.data.Error);
@@ -43,7 +45,6 @@ function CodeVerification() {
         })
         .catch((err) => {
             console.error("Login error: ", err);
-            // setError("Login failed: " + err.message); // Set error state with the error message
         });
     };
 
@@ -51,12 +52,10 @@ function CodeVerification() {
     function GetOtpAgain(e){
         e.preventDefault();
         axios
-        .post("http://localhost:9000/send-again", values, { withCredentials: true })
+        .post(`${apiEndPointUrl}/send-again`, values, { withCredentials: true })
         .then((res) => {
-            console.log(res.data)
             setPhone(res.data.phoneNumber);
-            console.log({phone})
-          if (res.data.message === "OTP sent successfully!") {
+              if (res.data.message === "OTP sent successfully!") {
             console.log("otp send again successful");
 
             setSendAgain("Otp sent successfully !")
@@ -134,39 +133,6 @@ function CodeVerification() {
 
 export default CodeVerification;
 
-
-// import React, { useState } from "react";
-// import axios from "axios";
-
-// function CodeVerification() {
-//     const [otp, setOtp] = useState("");
-
-//     const onSubmitForm = (e) => {
-//         e.preventDefault();
-
-//         axios.post("http://localhost:9000/login", { workEmail: "user@email.com", password: "password" })
-//             .then(response => {
-//                 console.log(response.data);
-//                 // Handle success, navigate to next page or show success message
-//             })
-//             .catch(error => {
-//                 console.error('Login error:', error);
-//                 // Handle error, show error message to user
-//             });
-//     };
-
-//     return (
-//         <div>
-//             <form onSubmit={onSubmitForm}>
-//                 <label htmlFor="otp">Enter OTP:</label>
-//                 <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} required />
-//                 <button type="submit">Submit</button>
-//             </form>
-//         </div>
-//     );
-// }
-
-// export default CodeVerification;
 
 
 

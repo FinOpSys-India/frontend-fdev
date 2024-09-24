@@ -3,6 +3,7 @@ import "./TeamAndMember.css";
 import SearchIcon from '@mui/icons-material/Search';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import axios from "axios"
+import { apiEndPointUrl } from "../../utils/apiService";
 
 const TeamAndMember = () => {
 
@@ -16,17 +17,16 @@ const [filteredCompanyMember, setFilteredCompanyMember] = useState([]);
 
   useEffect(() => {
     
-   const fetching= async () => {
-      axios.get("http://localhost:9000/get-company-member")
-      .then((res) => {
+    const fetching = async () => {
+      try {
+        const res = await axios.get(`${apiEndPointUrl}/get-company-member`);
         setCompanyMember(res.data);
-        console.error(" fetching", {companyMember});
-      })
-      .catch((error) => {
+        console.log("Fetching:", res.data); // Log the response data directly
+      } catch (error) {
         console.error("Error fetching companies:", error);
-      });
+      }
     };
-
+    
     fetching()
   }, []);
 

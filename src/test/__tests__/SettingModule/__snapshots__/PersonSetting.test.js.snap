@@ -1,0 +1,361 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PersonSetting Component matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="dashboardPop"
+  >
+    <div
+      class="leftMenu"
+    >
+      <div
+        class="imageAndDetails"
+      >
+        <img
+          src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
+        />
+        <div>
+          <h5
+            class="name "
+          >
+            James Young
+          </h5>
+          <p
+            class="admin "
+          >
+            Admin
+          </p>
+        </div>
+      </div>
+      <div
+        class="companySection"
+      >
+        <h6>
+          Company
+        </h6>
+        <button
+          class="clickedButton"
+        >
+           
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+              Profiles 
+        </button>
+         
+        <br />
+        <button
+          class=""
+        >
+           
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+          Companies
+        </button>
+        <br />
+        <button
+          class=""
+        >
+           
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+          Team & Members
+        </button>
+        <br />
+        <button
+          class=""
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+           Access  Control
+        </button>
+        <br />
+      </div>
+      <div
+        class="dashboardSettings"
+      >
+        <h6>
+          Dashboard Settings
+        </h6>
+        <button
+          class=""
+        >
+           
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+            Notifications 
+        </button>
+         
+        <br />
+        <button
+          class=""
+        >
+           
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+          Security
+        </button>
+        <br />
+        <button
+          class=""
+        >
+           
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+          Integration
+        </button>
+        <br />
+        <button
+          class=""
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="AddCircleOutlineIcon"
+            focusable="false"
+            style="font-size: 14px; margin-right: 9px;"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+            />
+          </svg>
+           Connection
+        </button>
+        <br />
+      </div>
+    </div>
+    <div
+      class="rightSide"
+    >
+      <div>
+        <form>
+          <h5
+            class="profile"
+          >
+            Profile
+          </h5>
+          <div
+            class="sub-heading"
+          >
+            <p>
+              User Name
+            </p>
+          </div>
+          <div
+            class="mainDivProfile"
+          >
+            <div
+              class="logoContent"
+            >
+              <img
+                alt="default avatar"
+                class="logo"
+                src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
+              />
+              <div
+                class="content"
+              >
+                <p
+                  class="formLabel my-label"
+                >
+                  Avatar
+                </p>
+                <p
+                  class="info label-value"
+                >
+                  Change Avatar
+                </p>
+              </div>
+            </div>
+            <div
+              style="margin-right: 200px; margin-top: -20px;"
+            >
+              <p
+                class="my-label formLabel"
+              >
+                User Name
+              </p>
+              <p
+                class="label-value info"
+              >
+                Joy@fan34
+              </p>
+            </div>
+          </div>
+          <div>
+            <div
+              class="sub-heading2"
+            >
+              <p>
+                Personal Information
+              </p>
+            </div>
+            <div
+              class="personalInformation"
+            >
+              <div
+                class="firstDiv"
+              >
+                <div>
+                  <p
+                    class="my-label"
+                  >
+                    First Name
+                  </p>
+                  <p
+                    class="label-value"
+                  >
+                     
+                  </p>
+                </div>
+                <div>
+                  <p
+                    class="my-label"
+                  >
+                    Middle Name
+                  </p>
+                  <p
+                    class="label-value"
+                  >
+                     
+                  </p>
+                </div>
+                <div>
+                  <p
+                    class="my-label"
+                  >
+                    Last Name
+                  </p>
+                  <p
+                    class="label-value"
+                  />
+                </div>
+              </div>
+              <div
+                class="secondDiv"
+              >
+                <div>
+                  <p
+                    class="my-label"
+                  >
+                    Phone Number
+                  </p>
+                  <p
+                    class="label-value"
+                  />
+                </div>
+                <div>
+                  <p
+                    class="my-label"
+                  >
+                    Email Address
+                  </p>
+                  <p
+                    class="label-value"
+                  />
+                </div>
+              </div>
+              <div
+                class="thirdDiv"
+              >
+                <div>
+                  <p
+                    class="my-label"
+                  >
+                    Designation
+                  </p>
+                  <p
+                    class="label-value"
+                  />
+                </div>
+                <div>
+                  <p
+                    class="my-label"
+                  >
+                    Address
+                  </p>
+                  <p
+                    class="label-value"
+                  >
+                    Joy@fan34
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

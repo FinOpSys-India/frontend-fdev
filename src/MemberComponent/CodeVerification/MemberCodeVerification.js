@@ -4,6 +4,7 @@ import pic from "./../../images/Dashboard.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CodeVerification.css"
+import { apiEndPointUrl } from "../../utils/apiService";
 
 function MemberCodeVerification() {
     const navigate = useNavigate();
@@ -25,12 +26,12 @@ function MemberCodeVerification() {
         console.log(values)
         //  Sending values to server
      axios
-        .post("http://localhost:9000/login-member", values, { withCredentials: true })
+        .post(`${apiEndPointUrl}/login-member`, values, { withCredentials: true })
         .then((res) => {
-            console.log("res" + res.data);
             setPhone(res.data.phoneNumber);
             if (res.data.Status === "OTP verified successfully") {
-                console.log("Login successful");
+                const memberToken = res.data.memberToken;
+                localStorage.setItem('authToken', memberToken);
                 navigate("/home-member");
             } 
             else {
@@ -48,7 +49,7 @@ function MemberCodeVerification() {
     function GetOtpAgain(e){
         e.preventDefault();
         axios
-        .post("http://localhost:9000/send-again-member", values, { withCredentials: true })
+        .post(`${apiEndPointUrl}/send-again-member`, values, { withCredentials: true })
         .then((res) => {
             setPhone(res.data.phoneNumber);
           if (res.data.message === "OTP sent successfully!") {
@@ -131,38 +132,7 @@ function MemberCodeVerification() {
 export default MemberCodeVerification;
 
 
-// import React, { useState } from "react";
-// import axios from "axios";
 
-// function CodeVerification() {
-//     const [otp, setOtp] = useState("");
-
-//     const onSubmitForm = (e) => {
-//         e.preventDefault();
-
-//         axios.post("http://localhost:9000/login", { workEmail: "user@email.com", password: "password" })
-//             .then(response => {
-//                 console.log(response.data);
-//                 // Handle success, navigate to next page or show success message
-//             })
-//             .catch(error => {
-//                 console.error('Login error:', error);
-//                 // Handle error, show error message to user
-//             });
-//     };
-
-//     return (
-//         <div>
-//             <form onSubmit={onSubmitForm}>
-//                 <label htmlFor="otp">Enter OTP:</label>
-//                 <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} required />
-//                 <button type="submit">Submit</button>
-//             </form>
-//         </div>
-//     );
-// }
-
-// export default CodeVerification;
 
 
 

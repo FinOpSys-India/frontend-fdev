@@ -20,6 +20,7 @@ import finopsysBigLogo from "../assets/finopsysBig.svg";
 import finopsysSmallLogo from "../assets/finopsysSmall.svg";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
+import { apiEndPointUrl } from "../utils/apiService";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,8 +52,10 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   const logOut = () => {
+    localStorage.removeItem("authToken");
+
     axios
-      .get("http://localhost:9000/logout")
+      .get(`${apiEndPointUrl}/logout`)
       .then((res) => {
         console.log(res.data);
 
@@ -91,11 +94,11 @@ function Home() {
           }
           {isCollapsed ? (<button className="collapseArrow" style={{
             backgroundColor: 'white', borderRadius: "50%", marginLeft: "10px", marginTop: "10px", boxShadow: "0.2px 0.2px grey",
-            height: "30px", width: "45px", border: "none"
+            height: "30px", width: "45px", border: "none",   opacity: "0.6"
           }} onClick={toggleCollapse}> <ArrowForwardIosOutlinedIcon style={{ height: "20px", margin: "10%" }} /> </button>) :
             (<button className="collapseArrow" style={{
               backgroundColor: 'white', borderRadius: "50%", marginLeft: "50px", marginTop: "25px", boxShadow: "0.2px 0.2px grey",
-              height: "30px", width: "45%"
+              height: "30px", width: "45%",   opacity: "0.6"
             }} onClick={toggleCollapse}> <ArrowBackIosNewOutlinedIcon style={{ height: "20px", marginTop: "35%" }} />  </button>)}
         </div>
 

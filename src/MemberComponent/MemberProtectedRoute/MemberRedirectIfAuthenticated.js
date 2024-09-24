@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiEndPointUrl } from '../../utils/apiService';
 
 const MemberRedirectIfAuthenticated = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-
+  const memberToken = localStorage.getItem('authToken');
   axios.defaults.withCredentials = true;
   
   const memberCheckAuth = () => {
-    axios.get('http://localhost:9000/home-member') // Adjust the endpoint accordingly
+    axios.get(`${apiEndPointUrl}/home-member`,{
+        headers: {
+          Authorization: `Bearer ${memberToken}`  // Set Bearer token in Authorization header
+        }
+      
+    }) 
       .then(res => {
 
           console.log(res)

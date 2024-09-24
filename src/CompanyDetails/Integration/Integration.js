@@ -8,6 +8,7 @@ import { Modal, Button, Nav, Tab } from 'react-bootstrap';
 import quickBookBackground from "../../images/quickbookBackground.png"
 import quickbookLogo from "../../images/quickbookLogo.png"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { apiEndPointUrl } from "../../utils/apiService";
 
 
 function Integration() {
@@ -24,11 +25,11 @@ function Integration() {
          
     const fetching = async () => {
         try {
-            const res = await axios.get("http://localhost:9000/get-person-details")
+            const res = await axios.get(`${apiEndPointUrl}/get-person-details`)
             if(res && res.data.length > 0) {
                 const firstName = res.data[0].FIRSTNAME;
                 console.log(firstName)
-                const response = await axios.get('http://localhost:9000/get-updated-quickbook',{params: { firstName: firstName }});
+                const response = await axios.get(`${apiEndPointUrl}/get-updated-quickbook`,{params: { firstName: firstName }});
                 console.log(response.data.quickbookActiveness)
                 setQuickbookActiveness(response.data.quickbookActiveness)
             }  
@@ -68,7 +69,7 @@ function Integration() {
             
             console.log("3"+newQuickbookActiveness)
             console.log("Sending payload:", payload);
-            axios.post('http://localhost:9000/update-quickbook', payload)
+            axios.post(`${apiEndPointUrl}/update-quickbook`, payload)
                 .then(response => {
                     console.log('Success:', response.data);
                 })
@@ -85,7 +86,7 @@ function Integration() {
     const handleConnectClick = async () => {
         
        if(quickbookActiveness!==true){
-          await  axios.get('http://localhost:9000/auth')
+          await  axios.get(`${apiEndPointUrl}/auth`)
             .then(res => {
                 console.log(res);
                 if (res.status === 200) {

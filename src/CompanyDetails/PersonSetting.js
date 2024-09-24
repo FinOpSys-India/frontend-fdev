@@ -15,9 +15,6 @@ const PersonSetting = () => {
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName === activeButton ? null : buttonName);
-
-    
-
   };
 
 

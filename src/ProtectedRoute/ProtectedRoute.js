@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Route, Navigate } from 'react-router-dom';
 // import { useAuth } from '../AuthContext/AuthContext';
 import axios from "axios"
+import { apiEndPointUrl } from '../utils/apiService';
 
 const ProtectedRoute = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
   
     
   axios.defaults.withCredentials = true;
+  const token = localStorage.getItem('authToken');  // Retrieve token from storage
 
 
   const checkAuth = () => {
-    axios.get('http://localhost:9000/') // Adjust the endpoint accordingly
+    axios.get(`${apiEndPointUrl}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`  // Set Bearer token in Authorization header
+      }
+    }) // Adjust the endpoint accordingly
       .then(res => {
-
-        console.log(res)
         if (res.status === 200) {
           setIsAuthenticated(true);
         } else {
