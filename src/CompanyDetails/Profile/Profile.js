@@ -13,14 +13,17 @@ const Profile = () => {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    const fetching = async () => {
-      try {
-        const response = await axios.get("http://localhost:9000/get-person-details");
-        setPerson(response.data);
-      } catch (error) {
-        console.error("Error fetching:", error);
-      }
-    };
+
+  const fetching= async () => {
+    axios.get("http://localhost:9000/get-person-details")
+    .then((res) => {
+      setPerson(res.data);
+      console.error(" fetching", res.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching :", error);
+    });
+  };
 
   fetching()
   }, []);
@@ -38,7 +41,7 @@ const Profile = () => {
 
             <div className="mainDivProfile">
                   <div className="logoContent">
-                    <img className="logo" alt="default avatar" src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
+                    <img className="logo" src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
                     <div className="content">
                       <p className="formLabel my-label">Avatar</p>
                       <p className="info label-value">Change Avatar</p>
@@ -101,7 +104,7 @@ const Profile = () => {
                       </div>
 
                       <div className="sub-heading3">
-                        <p>Password </p>
+                        <p>Password</p>
                       </div>
 
                       <div className="mainDivProfile">

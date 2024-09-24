@@ -69,12 +69,12 @@ useEffect(()=>{
                   <div className='toggleAndReset '>
                        <div className='toggleDiv'>
                             <div class="form-check form-switch toggle" >
-                                    <input class="form-check-input" data-testid="general-access-switch" type="checkbox" id="flexSwitchCheckDefault" style={{ width: "15px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }}  checked={isCheckedNotification.generalAccess}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, generalAccess: !isCheckedNotification.generalAccess})  } />
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" style={{ width: "15px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }}  checked={isCheckedNotification.generalAccess}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, generalAccess: !isCheckedNotification.generalAccess})  } />
                             </div>
                        </div>
 
                         <div className='resetDiv'>
-                            <span> <RotateLeftIcon style={{ fontSize: 16}}/> Reset1</span>
+                            <span> <RotateLeftIcon style={{ fontSize: 16}}/> Reset</span>
                         </div>
                   </div>
                </div>
@@ -92,7 +92,7 @@ useEffect(()=>{
                                <span> {isCheckedNotification.notification  ? "Active" : "Inactive"} </span>
                                <div className='toggleDiv'>
                                     <div class="form-check form-switch toggle" > 
-                                            <input class="form-check-input"  data-testid="notification-switch" type="checkbox" id="flexSwitchCheckDefault" style={{ width: "30px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }} checked={isCheckedNotification.notification}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, notification: !isCheckedNotification.notification })  } />
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" style={{ width: "30px", height: "15px", backgroundColor: isChecked ? 'rgba(22, 163, 74, 1)' : '' }} checked={isCheckedNotification.notification}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, notification: !isCheckedNotification.notification })  } />
                                     </div>
                                </div>
                              {/* <div style={{display:"none"}}><Demo isCheckedNotification={isCheckedNotification}  onChange={(e) =>  setIsCheckedNotification({ ...isCheckedNotification, notification: e.target.value })  }/> </div>  */}

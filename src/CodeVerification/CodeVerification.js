@@ -67,7 +67,7 @@ function CodeVerification() {
         })
         .catch((err) => {
           console.error("Login error: ", err);
-          setError("Login failed: " + err.message); // Set error state with the error message
+        //   setError("Login failed: " + err.message); // Set error state with the error message
         });
     }
 
@@ -133,3 +133,40 @@ function CodeVerification() {
 }
 
 export default CodeVerification;
+
+
+// import React, { useState } from "react";
+// import axios from "axios";
+
+// function CodeVerification() {
+//     const [otp, setOtp] = useState("");
+
+//     const onSubmitForm = (e) => {
+//         e.preventDefault();
+
+//         axios.post("http://localhost:9000/login", { workEmail: "user@email.com", password: "password" })
+//             .then(response => {
+//                 console.log(response.data);
+//                 // Handle success, navigate to next page or show success message
+//             })
+//             .catch(error => {
+//                 console.error('Login error:', error);
+//                 // Handle error, show error message to user
+//             });
+//     };
+
+//     return (
+//         <div>
+//             <form onSubmit={onSubmitForm}>
+//                 <label htmlFor="otp">Enter OTP:</label>
+//                 <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+//                 <button type="submit">Submit</button>
+//             </form>
+//         </div>
+//     );
+// }
+
+// export default CodeVerification;
+
+
+
