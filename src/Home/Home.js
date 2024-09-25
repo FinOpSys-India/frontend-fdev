@@ -21,6 +21,8 @@ import finopsysSmallLogo from "../assets/finopsysSmall.svg";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import { apiEndPointUrl } from "../utils/apiService";
+import AQ from "../AccountPayable/AQ/AQ";
+import Bills from "../AccountPayable/Bills/Bills";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,7 +104,7 @@ function Home() {
             }} onClick={toggleCollapse}> <ArrowBackIosNewOutlinedIcon style={{ height: "20px", marginTop: "35%" }} />  </button>)}
         </div>
 
-        <div className="AccountPayable">
+        <div className="AccountPayable" >
           {isCollapsed ? (<h6>AP</h6>) : (<h6>Account Payable</h6>)}
           {isCollapsed ? (
             <div className="accountPayableButtonsCollapsed">
@@ -120,8 +122,8 @@ function Home() {
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
               <button
-                className="accountPayableButton"
-                onClick={() => handleButtonClick("invoiceQueue")}
+                className={activeButton === "accountPayableButton" ? "connectButton" : ""}
+                onClick={() => ButtonClick("accountPayableButton")}
               >
                 <img
                   src={approvalQueuelogo}
@@ -131,8 +133,8 @@ function Home() {
               </button>
               <br />
               <button
-                className="accountPayableButton"
-                onClick={() => handleButtonClick("invoices")}
+               className={activeButton === "billAQButton" ? "connectButton" : ""}
+               onClick={() => ButtonClick("billAQButton")}
               >
                 {" "}
                 <img src={billslogo} style={{ width: "2em", height: "1em" }} onClick={() => handleButtonClick("credits")} />
@@ -292,7 +294,22 @@ function Home() {
       </div>
 
       <div className="rightMenu">
-        <h2> Invoice Queue</h2>
+
+        
+  
+
+      {
+              activeButton === "accountPayableButton" 
+                       ?
+                <AQ />
+                 :
+                 activeButton ==="billAQButton"
+                 ?
+              <Bills/>
+                     :""
+
+      }
+        {/* <h2> Invoice Queue</h2>
 
         <div className="navbarInvoice">
           <div
@@ -330,25 +347,10 @@ function Home() {
           <div id="details">
             <div className="a"></div>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      <Modal
-        show={showModal}
-        onHide={handleClose}
-        size="xl"
-        style={{ marginTop: "2%", width: "70%", marginLeft: "19%" }}
-        scrollable
-      >
-        <Modal.Body>
-          <PersonSetting />
-        </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer> */}
-      </Modal>
+    
     </div>
   );
 }

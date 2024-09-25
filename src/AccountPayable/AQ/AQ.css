@@ -1,0 +1,202 @@
+.AQNavbar{
+    margin-top: 27px;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: row;
+    gap: 65.3%;
+
+
+    .AQHeading{
+        font-size: 24px;
+        font-weight: 600;
+        align-items: center;
+    }
+
+    .AQNavbarSideButtons{
+       display: flex;
+       gap:9%;
+
+    }
+    
+    .AQNavbarSideButtons img {
+        width: 0.9em;
+        height: auto;
+        margin-top: 6px; /* Add space between the image and the text */
+      }
+
+    .AQNavbarUpdateButton{
+        display: flex;
+        gap:12%;
+        padding: 8px 19px 8px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+         border: 1px solid rgba(121, 57, 239, 1);
+         color: rgba(121, 57, 239, 1);
+         background-color: white;
+    }
+
+
+   .AQNavbarUploadButton{
+        display: flex;
+        gap:12%;
+        padding: 8px 26px 8px 16px;
+        width:fit-content;
+        font-size: 14px;
+        border-radius: 12px;
+         border: 1px solid rgba(121, 57, 239, 1);
+         color:white;
+         background-color: rgba(121, 57, 239, 1);
+    }
+}
+
+
+
+/* -------------------------------------AQBelowHeading------------------------------ */
+
+
+.AQBelowHeading{
+    display: flex;
+    gap:60%;
+    height: 46px;
+    margin-left: 31px;
+    margin-top: 19px;
+    background-color: rgba(240, 240, 240, 1);
+    border-radius: 12px;
+    margin-right: 24px;
+
+
+    .AQAcceptAndDecline{
+        display: flex;
+        /* gap:3%; */
+
+
+      img {
+        width: 0.9em;
+        height: auto;
+        margin-top: -6px; 
+      }
+
+    }
+
+
+    .AQAllDiv{
+        display: flex;
+        justify-content: space-between;
+        color:black;
+        gap: 96px;
+        padding-right: 15px;
+        height: 33px;
+        padding: 3px;
+        font-size: 14px;
+        padding-left: 9px;
+
+        margin-top: 6px;
+        margin-left: 19px;
+
+        /*  ad on css  */
+        /* border-radius: 12px ; */
+        border: 0;
+        /* background-color: rgba(121, 57, 239, 1); */
+
+
+        p{
+            padding-right: 19px;
+            background-color:white;
+            border-radius: 3px;
+            width:12px;
+            font-size: 10px;
+            color: black;
+            padding-left: 3.6px;
+            margin-top: 6px;
+            margin-right: 12px;
+        }
+    }
+
+
+    .insideAQAllDiv{
+        display: flex;
+        gap:39%;
+        width:100%;
+        padding-top: 3px;
+    }
+
+    .AQDeclineDiv{
+         display: flex;
+        justify-content: space-between;
+        color:white;
+        gap: 96px;
+        height: 33px;
+        padding: 3px;
+        margin-top: 6px;
+        margin-left: 19px;
+         padding-left: 9px;
+         padding-right: 12px;
+         font-size: 14px;
+
+        /*  ad on css  */
+        border-radius: 12px ;
+        border: 1px solid rgba(121, 57, 239, 1);
+        background-color: rgba(121, 57, 239, 1);
+
+
+        p{
+            padding-right: 15px;
+            background-color:white;
+            border-radius: 3px;
+            width:12px;
+            font-size: 10px;
+            color: black;
+            padding-left: 3.6px;
+            margin-top: 6px;
+            margin-right: 3px;
+        }
+    }
+ 
+    .insideAQDeclineDiv{
+        display: flex;
+        gap:21%;
+        width:100%;
+        padding-top: 3px;
+    }
+
+   .AQfilter{
+    display:flex;
+    width:69px;
+    gap: 6px;
+    padding: 3px;
+    padding-left: 7px;
+    padding-top: 6.3px;
+    color:black;
+    height: 33px;
+    margin-top: 6px;
+
+    /*  ad on css  */
+    border-radius: 12px ;
+    border: 1px solid rgba(121, 57, 239, 1);
+   }
+    
+
+   img {
+    width: 0.9em;
+    height: auto;
+    margin-top: -6px; 
+  }
+
+
+   /* ----------------hovering states ------------------------------*/
+
+   .AQAllDiv.active, .AQDeclineDiv.active {
+    border-radius: 12px;
+    border: 1px solid rgba(121, 57, 239, 1);
+    background-color: rgba(121, 57, 239, 1);
+    color: white;
+  }
+  
+  .AQAllDiv, .AQDeclineDiv {
+    /* Add your default button styles here */
+    background-color:  rgba(240, 240, 240, 1);
+    border: 0;
+    color: black;
+  }
+  
+}
