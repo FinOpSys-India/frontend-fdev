@@ -306,7 +306,7 @@ function Home() {
                  activeButton ==="billAQButton"
                  ?
               <Bills/>
-                     :""
+                 :""
 
       }
         {/* <h2> Invoice Queue</h2>
@@ -351,6 +351,22 @@ function Home() {
       </div>
 
     
+      <Modal
+        show={showModal}
+        onHide={handleClose}
+        size="xl"
+        style={{ marginTop: "2%", width: "70%", marginLeft: "19%" }}
+        scrollable
+      >
+        <Modal.Body>
+          <PersonSetting />
+        </Modal.Body>
+        {/* <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer> */}
+      </Modal>
     </div>
   );
 }
