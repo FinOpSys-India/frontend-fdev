@@ -3,7 +3,7 @@
     margin-left: 30px;
     display: flex;
     flex-direction: row;
-    gap: 65.3%;
+    gap: 65%;
 
 
     .AQHeading{
@@ -35,13 +35,13 @@
          background-color: white;
     }
 
-
+/*  */
    .AQNavbarUploadButton{
         display: flex;
         gap:12%;
         padding: 8px 26px 8px 16px;
         width:fit-content;
-        font-size: 14px;
+        font-size: 12px;
         border-radius: 12px;
          border: 1px solid rgba(121, 57, 239, 1);
          color:white;
