@@ -7,13 +7,14 @@ import crop from '../../assets/crop.svg';
 import { apiEndPointUrl } from "../../utils/apiService";
 import { Table } from 'react-bootstrap';
 import Pagination from '@mui/material/Pagination';
-import { PaginationItem } from '@mui/material';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import { useDropzone } from 'react-dropzone';
 import uploadLogo from '../../assets/uploadLogo.jpeg';
 import billsLogo from '../../assets/bills.svg' 
 import axios from "axios";
+import Home from '../../Home/Home';
+import { DisplaySettings } from '@mui/icons-material';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -125,15 +126,17 @@ function AQ() {
   const totalPages = Math.ceil(totalItems / itemsPerPage1);
 
   return (
-    <>
-      <nav className='AQNavbar'>
+    <div style={{display:"flex"}}>
+    <Home currentPage="invoiceQueue" />
+    <div className='AQTab'>
+      <div className='AQNavbar'>
             <h4 className='AQHeading'>  Approval Queue </h4>
 
             <div className='AQNavbarSideButtons'> 
               <button className='AQNavbarUpdateButton'>  <img src={update} /> Update</button>
-              <button className='AQNavbarUploadButton' onClick={handleUploadClick}><img src={upload}/>Upload_Bill</button>
+              <button className='AQNavbarUploadButton' onClick={handleUploadClick}><img src={upload}/>Upload Bill</button>
             </div>
-      </nav>
+      </div>
 
 
      <div className='AQBelowHeading'>
@@ -164,8 +167,7 @@ function AQ() {
      </div>
 
 
-      <div>
-          <div className="container mt-4 d-flex flex-column align-items-center outerTableDiv">
+          <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
             <Table   className="custom-width">
               <thead>
                 <tr>
@@ -193,16 +195,15 @@ function AQ() {
               </tbody>
             </Table>
         </div>
-      </div>
-
 
       <div className="pagination-div">
+        <div className='pagination-insideDiv'>
           <Pagination
-            className='AQPagination'
             count={totalPages}
             page={pageNumber}
             onChange={handlePageChange}
           />
+          </div>
       </div>
       <Modal
           show={showModal}
@@ -264,8 +265,8 @@ function AQ() {
           </Modal.Body>
         </Modal>
         <ToastContainer />
-
-    </>
+        </div>
+    </div>
   )
 }
 

@@ -19,18 +19,15 @@ import wipcclogo from "../assets/wip_cc.svg";
 import finopsysBigLogo from "../assets/finopsysBig.svg";
 import finopsysSmallLogo from "../assets/finopsysSmall.svg";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
-import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
+import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import { apiEndPointUrl } from "../utils/apiService";
-import AQ from "../AccountPayable/AQ/AQ";
-import Bills from "../AccountPayable/Bills/Bills";
 
-function Home() {
+function Home(props) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(props.currentPage);
   const [showModal, setShowModal] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-
   const handleClose = () => setShowModal(false);
 
   const handleButtonClick = (buttonName) => {
@@ -39,10 +36,7 @@ function Home() {
     if (buttonName === "settings") {
       setShowModal(true);
     }
-  };
-
-  const ButtonClick = (buttonName) => {
-    setActiveButton(buttonName === activeButton ? null : buttonName);
+    else navigate(`/${buttonName}`)
   };
 
   const toggleMenu = () => {
@@ -83,29 +77,28 @@ function Home() {
   }, [dropdownRef]);
 
   return (
-    <div className="dashboard">
-      <div className={`${isCollapsed ? "collapsed" : "sideMenu"} dropdown`}>
-        <div className="finopsysLogo">
+    <div className={`${isCollapsed ? "collapsed" : "sideMenu"}`} style={{ width:isCollapsed ? "5%" : "12.5%" ,backgroundColor:"#f5f1fe", height:"100vh", position: "relative"}} >
+        <div className="finopsysLogo" style={{margin: isCollapsed ? "20%" : "10%" , marginTop: isCollapsed ? "30%" : "10%"}}>
           {isCollapsed ? (<img
             src={finopsysSmallLogo}
-            style={{ width: "3.5rem", height: "2.5rem" }} />) :
+            style={{ width: "57%", height: "20%" }} />) :
             <img
               src={finopsysBigLogo}
-              style={{ width: "8rem", height: "7rem" }}
+              style={{ width: "80%"}}
             />
           }
           {isCollapsed ? (<button className="collapseArrow" style={{
-            backgroundColor: 'white', borderRadius: "50%", marginLeft: "10px", marginTop: "10px", boxShadow: "0.2px 0.2px grey",
-            height: "30px", width: "45px", border: "none",   opacity: "0.6"
-          }} onClick={toggleCollapse}> <ArrowForwardIosOutlinedIcon style={{ height: "20px", margin: "10%" }} /> </button>) :
+            backgroundColor: 'white', borderRadius: "20px", marginLeft: "32%", boxShadow: "0.2px 0.2px grey",
+            height: "34px", width: "34px", border: "none"
+          }} onClick={toggleCollapse}> <ArrowForwardIosOutlinedIcon style={{ height: "15px", width:"15px", margin: "12%", marginBottom:"32%", color:"#141414" }} /> </button>) :
             (<button className="collapseArrow" style={{
-              backgroundColor: 'white', borderRadius: "50%", marginLeft: "50px", marginTop: "25px", boxShadow: "0.2px 0.2px grey",
-              height: "30px", width: "45%",   opacity: "0.6"
-            }} onClick={toggleCollapse}> <ArrowBackIosNewOutlinedIcon style={{ height: "20px", marginTop: "35%" }} />  </button>)}
+              backgroundColor: 'white', borderRadius: "20px", marginLeft: "24%", boxShadow: "0.2px 0.2px grey",
+              height: "34px", width: "34px",border: "none",
+            }} onClick={toggleCollapse}> <ArrowBackIosOutlinedIcon style={{ height: "15x", width:"15px", margin: "10%",color:"#141414" }} />  </button>)}
         </div>
 
-        <div className="AccountPayable" >
-          {isCollapsed ? (<h6>AP</h6>) : (<h6>Account Payable</h6>)}
+        <div className="accountPayableHeading" >
+          {isCollapsed ? (<h6 style={{margin:"30%"}}>AP</h6>) : (<h6>Account Payable</h6>)}
           {isCollapsed ? (
             <div className="accountPayableButtonsCollapsed">
 
@@ -122,8 +115,8 @@ function Home() {
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
               <button
-                className={activeButton === "accountPayableButton" ? "connectButton" : ""}
-                onClick={() => ButtonClick("accountPayableButton")}
+                className={activeButton === "invoiceQueue" ? "connectButton" : ""}
+                onClick={() => handleButtonClick("invoiceQueue")}
               >
                 <img
                   src={approvalQueuelogo}
@@ -134,7 +127,7 @@ function Home() {
               <br />
               <button
                className={activeButton === "billAQButton" ? "connectButton" : ""}
-               onClick={() => ButtonClick("billAQButton")}
+               onClick={() => handleButtonClick("billAQButton")}
               >
                 {" "}
                 <img src={billslogo} style={{ width: "2em", height: "1em" }} onClick={() => handleButtonClick("credits")} />
@@ -291,13 +284,13 @@ function Home() {
                 </div>
           </ul>
         </div>
-      </div>
+      
 
-      <div className="rightMenu">
+      {/* <div className="rightMenu"> */}
 
         
   
-
+{/* 
       {
               activeButton === "accountPayableButton" 
                        ?
@@ -308,47 +301,9 @@ function Home() {
               <Bills/>
                  :""
 
-      }
-        {/* <h2> Invoice Queue</h2>
-
-        <div className="navbarInvoice">
-          <div
-            id="email"
-            className={activeButton === "email" ? "connectButton" : ""}
-            onClick={() => ButtonClick("email")}
-          >
-            Email <AttachEmailOutlinedIcon /> <span>39</span>
-          </div>
-
-          <div
-            id="ocr"
-            className={activeButton === "ocr" ? "connectButton" : ""}
-            onClick={() => ButtonClick("ocr")}
-          >
-            OCR <CropFreeIcon /> <span>39</span>
-          </div>
-
-          <div
-            id="chat"
-            className={activeButton === "chat" ? "connectButton" : ""}
-            onClick={() => ButtonClick("chat")}
-          >
-            Chat <ChatIcon /> <span>39</span>
-          </div>
-
-          <div
-            id="manual"
-            className={activeButton === "manual" ? "connectButton" : ""}
-            onClick={() => ButtonClick("manual")}
-          >
-            Manual <CloudUploadIcon /> <span>39</span>
-          </div>
-
-          <div id="details">
-            <div className="a"></div>
-          </div>
-        </div> */}
-      </div>
+      } */}
+        
+      {/* </div> */}
 
     
       <Modal
@@ -361,11 +316,6 @@ function Home() {
         <Modal.Body>
           <PersonSetting />
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer> */}
       </Modal>
     </div>
   );

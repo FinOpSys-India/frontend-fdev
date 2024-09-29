@@ -1,226 +1,174 @@
-.AQNavbar{
-    margin-top: 27px;
-    margin-left: 30px;
-    display: flex;
-    flex-direction: row;
-    gap: 65%;
+.AQTab{
+  width: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
 
+}
+.AQAcceptAndDecline{
+  display: flex;
+}
+.AQfilter{
+  display:flex;
+  width:69px;
+  padding: 3px;
+  padding-top: 6.3px;
+  color:black;
+  height: 33px;
+  margin-top: 6px;
+  margin-right: 1.5%;
+  border-radius: 12px ;
+  border: 1px solid rgba(121, 57, 239, 1);
+ }
 
-    .AQHeading{
-        font-size: 24px;
-        font-weight: 600;
-        align-items: center;
-    }
+ .AQAllDiv{
+  display: flex;
+  justify-content: space-between;
+  color:black;
+  gap: 96px;
+  padding-right: 15px;
+  height: 33px;
+  padding: 3px;
+  font-size: 14px;
+  padding-left: 9px;
+  margin-top: 6px;
+  margin-left: 19px;
+  border: 0;
 
-    .AQNavbarSideButtons{
-       display: flex;
-       gap:9%;
-
-    }
-    
-    .AQNavbarSideButtons img {
-        width: 0.9em;
-        height: auto;
-        margin-top: 6px; /* Add space between the image and the text */
-      }
-
-    .AQNavbarUpdateButton{
-        display: flex;
-        gap:12%;
-        padding: 8px 19px 8px 16px;
-        border-radius: 12px;
-        font-size: 14px;
-         border: 1px solid rgba(121, 57, 239, 1);
-         color: rgba(121, 57, 239, 1);
-         background-color: white;
-    }
-
-/*  */
-   .AQNavbarUploadButton{
-        display: flex;
-        gap:12%;
-        padding: 8px 26px 8px 16px;
-        width:fit-content;
-        font-size: 12px;
-        border-radius: 12px;
-         border: 1px solid rgba(121, 57, 239, 1);
-         color:white;
-         background-color: rgba(121, 57, 239, 1);
-    }
+  p{
+      padding-right: 19px;
+      background-color:white;
+      border-radius: 3px;
+      width:12px;
+      font-size: 10px;
+      color: black;
+      padding-left: 3.6px;
+      margin-top: 6px;
+      margin-right: 12px;
+  }
 }
 
+.insideAQAllDiv{
+  display: flex;
+  gap:39%;
+  width:100%;
+  padding-top: 3px;
+}
+.AQDeclineDiv{
+  display: flex;
+ justify-content: space-between;
+ color:white;
+ gap: 96px;
+ height: 33px;
+ padding: 3px;
+ margin-top: 6px;
+ margin-left: 19px;
+  padding-left: 9px;
+  padding-right: 12px;
+  font-size: 14px;
+   border-radius: 12px ;
+ border: 1px solid rgba(121, 57, 239, 1);
+ background-color: rgba(121, 57, 239, 1);
 
+ p{
+     padding-right: 15px;
+     background-color:white;
+     border-radius: 3px;
+     width:12px;
+     font-size: 10px;
+     color: black;
+     padding-left: 3.6px;
+     margin-top: 6px;
+     margin-right: 3px;
+ }
+}
 
-/* -------------------------------------AQBelowHeading------------------------------ */
+.insideAQDeclineDiv{
+  display: flex;
+  gap:21%;
+  width:100%;
+  padding-top: 3px;
+}
 
-
+img {
+width: 0.9em;
+height: auto;
+margin-top: -6px; 
+}
 .AQBelowHeading{
-    display: flex;
-    gap:60%;
-    height: 46px;
-    margin-left: 31px;
-    margin-top: 19px;
-    background-color: rgba(240, 240, 240, 1);
-    border-radius: 12px;
-    margin-right: 24px;
-
-
-    .AQAcceptAndDecline{
-        display: flex;
-        /* gap:3%; */
-
-
-      img {
-        width: 0.9em;
-        height: auto;
-        margin-top: -6px; 
-      }
-
-    }
-
-
-    .AQAllDiv{
-        display: flex;
-        justify-content: space-between;
-        color:black;
-        gap: 96px;
-        padding-right: 15px;
-        height: 33px;
-        padding: 3px;
-        font-size: 14px;
-        padding-left: 9px;
-
-        margin-top: 6px;
-        margin-left: 19px;
-
-        /*  ad on css  */
-        /* border-radius: 12px ; */
-        border: 0;
-        /* background-color: rgba(121, 57, 239, 1); */
-
-
-        p{
-            padding-right: 19px;
-            background-color:white;
-            border-radius: 3px;
-            width:12px;
-            font-size: 10px;
-            color: black;
-            padding-left: 3.6px;
-            margin-top: 6px;
-            margin-right: 12px;
-        }
-    }
-
-
-    .insideAQAllDiv{
-        display: flex;
-        gap:39%;
-        width:100%;
-        padding-top: 3px;
-    }
-
-    .AQDeclineDiv{
-         display: flex;
-        justify-content: space-between;
-        color:white;
-        gap: 96px;
-        height: 33px;
-        padding: 3px;
-        margin-top: 6px;
-        margin-left: 19px;
-         padding-left: 9px;
-         padding-right: 12px;
-         font-size: 14px;
-
-        /*  ad on css  */
-        border-radius: 12px ;
-        border: 1px solid rgba(121, 57, 239, 1);
-        background-color: rgba(121, 57, 239, 1);
-
-
-        p{
-            padding-right: 15px;
-            background-color:white;
-            border-radius: 3px;
-            width:12px;
-            font-size: 10px;
-            color: black;
-            padding-left: 3.6px;
-            margin-top: 6px;
-            margin-right: 3px;
-        }
-    }
- 
-    .insideAQDeclineDiv{
-        display: flex;
-        gap:21%;
-        width:100%;
-        padding-top: 3px;
-    }
-
-   .AQfilter{
-    display:flex;
-    width:69px;
-    gap: 6px;
-    padding: 3px;
-    padding-left: 7px;
-    padding-top: 6.3px;
-    color:black;
-    height: 33px;
-    margin-top: 6px;
-
-    /*  ad on css  */
-    border-radius: 12px ;
-    border: 1px solid rgba(121, 57, 239, 1);
-   }
-    
-
-   img {
-    width: 0.9em;
-    height: auto;
-    margin-top: -6px; 
-  }
-
-
-   /* ----------------hovering states ------------------------------*/
-
-   .AQAllDiv.active, .AQDeclineDiv.active {
-    border-radius: 12px;
-    border: 1px solid rgba(121, 57, 239, 1);
-    background-color: rgba(121, 57, 239, 1);
-    color: white;
-  }
-  
-  .AQAllDiv, .AQDeclineDiv {
-    /* Add your default button styles here */
-    background-color:  rgba(240, 240, 240, 1);
-    border: 0;
-    color: black;
-  }
-  
+  display: flex;
+  height: 46px;
+  margin-top: 19px;
+  background-color: rgba(240, 240, 240, 1);
+  border-radius: 12px;
+  justify-content: space-between;
 }
 
+.AQAllDiv.active, .AQDeclineDiv.active {
+  border-radius: 12px;
+  border: 1px solid rgba(121, 57, 239, 1);
+  background-color: rgba(121, 57, 239, 1);
+  color: white;
+}
 
+.AQAllDiv, .AQDeclineDiv {
+  background-color:  rgba(240, 240, 240, 1);
+  border: 0;
+  color: black;
+}
+.AQNavbar{
+  margin-top: 27px;
+  display: flex;
+  justify-content: space-between;   
+}
 
+.AQHeading{
+  font-size: 24px;
+  font-weight: 600;
+  align-items: center;
+}
 
+.AQNavbarSideButtons{
+ display: flex;
+ gap:9%;
+}
 
+.AQNavbarSideButtons img {
+  width: 0.9em;
+  height: auto;
+  margin-top: 6px; 
+}
 
+.AQNavbarUpdateButton{
+  display: flex;
+  gap:12%;
+  padding: 8px 19px 8px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+   border: 1px solid rgba(121, 57, 239, 1);
+   color: rgba(121, 57, 239, 1);
+   background-color: white;
+   white-space: nowrap;
+}
 
-
-
-
-
-
-/* /* ---------------------table --------------- */
-
+.AQNavbarUploadButton{
+  display: flex;
+  padding: 8px 26px 8px 16px;
+  white-space: nowrap;
+  gap:12%;
+  width:fit-content;
+  font-size: 12px;
+  border-radius: 12px;
+   border: 1px solid rgba(121, 57, 239, 1);
+   color:white;
+   background-color: rgba(121, 57, 239, 1);
+   margin-right:20px;
+}
 
 .outerTableDiv{
     background-color: rgba(240, 240, 240, 1);
     padding: 16px 0px 0px 0px;
     gap: 12px;
     border-radius: 20px ;
-    width:96%;
 }
 
 .custom-width{
@@ -228,18 +176,12 @@
    border-collapse: separate;
    border-spacing: 0 10px;
  
-
-/* .custom-width tbody tr {
-    margin-bottom: 10px;
-  }
-  */
   tbody tr td {
     background-color: white ;
     font-size: 14px;
     font-weight: 400;
 
   } 
-
 
     th{
         background-color: rgba(121, 57, 239, 1) ;
@@ -269,84 +211,49 @@
     tbody tr td:first-child {
         border-top-left-radius:12px;
         border-bottom-left-radius:12px;
-        padding-left: 15px; /* Adds space inside the first cell */
+        padding-left: 15px; 
     }
 
     tbody tr td:last-child {
         border-top-right-radius:12px;
         border-bottom-right-radius:12px;
-        /* padding-right: 15px; Adds space inside the last cell */
     }
 
   
 }
 
-
-
-
-
-
-
-
-/* ------------pagination------------------ */
-
-
 .custom-pagination {
     width: 100%;
-    margin: 0 auto; /* Centers the pagination */
-  }
-  
-  .custom-pagination .page-item {
-    display: flex;
-    align-items: center;
-  }
-  
-  .custom-pagination .page-item.disabled .page-link {
-    pointer-events: none;
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  
-  .custom-pagination .page-link {
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.25rem;
-  }
-  
+    margin: 0 auto; 
+}
 
+.custom-pagination .page-item {
+  display: flex;
+  align-items: center;
+}
 
-  
+.custom-pagination .page-item.disabled .page-link {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
+.custom-pagination .page-link {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+}
 
-  /* ------------------pagination ----------------------*/
 .pagination-div {
-    display: flex;
-    margin: 2rem 0rem 3rem 0rem;
-    justify-content: center;
-    align-items: center;
-  }
-
-
-  .AQPagination{
-    background-color: rgba(240, 240, 240, 1);
-    padding: 6px 6px;
-    border-radius: 16px;
-    width:81%;
-    position: fixed; /* Change to fixed */
-    bottom: 21px;
-    display: flex;
-    justify-content: center;
-  }
-  
-
-
-
-.AQPagination .MuiPaginationItem-root {
-    border-radius:6px; 
-  }
-  
-  .AQPagination .MuiPaginationItem-root:hover {
-    background-color: rgba(200, 200, 200, 0.5); 
-  }
-  
-  
-
+  position: fixed; 
+  bottom: 0; 
+  width: 90%;
+  margin-right: 10%;
+  margin-bottom: 1%;
+  display: flex;
+  justify-content: center;
+  border-radius: 20px;
+}
+.pagination-insideDiv{
+  margin-right: 10%;
+  background-color: rgba(240, 240, 240, 1); 
+}

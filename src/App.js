@@ -17,6 +17,7 @@ import RedirectIfAuthenticated from './ProtectedRoute/RedirectIfAuthenticated.js
 import MemberRedirectIfAuthenticated from './MemberComponent/MemberProtectedRoute/MemberRedirectIfAuthenticated.js';
 import MemberProtectedRoute from './MemberComponent/MemberProtectedRoute/MemberProtectedRoute.js';
 import MemberCodeVerification from './MemberComponent/CodeVerification/MemberCodeVerification.js';
+import AQ from './AccountPayable/AQ/AQ.js';
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/reset" element={ <RedirectIfAuthenticated> <Reset/></RedirectIfAuthenticated> } />
         <Route path="/update" element={ <RedirectIfAuthenticated><UpdateSuccessfully/> </RedirectIfAuthenticated> } />
         <Route path="/codeVerification" element={ <RedirectIfAuthenticated><CodeVerification/> </RedirectIfAuthenticated> } />
+        <Route path='/invoiceQueue' element={ <ProtectedRoute><AQ /></ProtectedRoute>} />
        
         <Route path="/"  element={ <ProtectedRoute>  <Home /> </ProtectedRoute> }/>
         {/* -----not needed---------- */}
