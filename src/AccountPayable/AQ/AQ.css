@@ -257,3 +257,42 @@ margin-top: -6px;
   margin-right: 10%;
   /* background-color: rgba(240, 240, 240, 1);  */
 }
+
+
+
+
+/*-------------------------------------------------------------- Custom styles for left and right arrow buttons */
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1050; /* Ensure the buttons stay on top of the modal */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white; /* White background */
+  color: black; /* Black text */
+  border: 2px solid white;
+}
+
+.left-arrow {
+  left: -50px; /* Adjust this to position the button relative to the modal */
+
+}
+
+
+.right-arrow {
+  right: -50px; /* Adjust this to position the button relative to the modal */
+}
+
+
+.arrow-btn:hover {
+  background-color: grey; /* Changes background to black */
+  color: white; /* Changes text to white */
+  border: 2px solid white;
+}
+
+

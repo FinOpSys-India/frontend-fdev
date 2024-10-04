@@ -1,5 +1,5 @@
 import React,{ useState, useCallback }  from 'react'
-import { Modal, ProgressBar } from "react-bootstrap";import  "./AQ.css";
+import { Button, Modal, ProgressBar } from "react-bootstrap";import  "./AQ.css";
 import update from '../../assets/update.svg';
 import upload from '../../assets/upload.svg';
 import filter from '../../assets/filter.svg';
@@ -15,6 +15,8 @@ import billsLogo from '../../assets/bills.svg'
 import axios from "axios";
 import Home from '../../Home/Home';
 import { DisplaySettings } from '@mui/icons-material';
+import { useEffect } from 'react';
+import PreviewSection from './PreviewSection/PreviewSection';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -29,6 +31,67 @@ function AQ() {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+
+  // invoice---
+  const [invoices, setInvoices] = useState([]);
+  const [totalInvoices, setTotalInvoices] = useState(0);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
+
+  
+    // Fetch invoices from the backend
+    const fetchInvoices = async (page) => {
+      try {
+        const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
+          params: { page, itemsPerPage }
+        });
+        setInvoices(response.data);
+        console.log(response.data)
+        // setTotalInvoices(response.headers['x-total-count']); // Assuming your API sends the total count in the header
+      } catch (error) {
+        toast.error("Failed to fetch invoices", { autoClose: 1500 });
+      }
+    };
+  
+    useEffect(() => {
+      fetchInvoices();
+    }, []);
+  
+
+
+
+    // -----------preview---------
+    const handleShowPreview = (invoice, index) =>{ 
+      setShowPreview(true);
+      setSelectedInvoice(invoice); 
+      setcurrentInvoiceIndex(index)
+    }
+
+    const handleBackPreview = () =>{ 
+      if(currentInvoiceIndex>=0){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex-1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex-1)
+        console.log(currentInvoiceIndex-1);
+      }
+    }
+
+    const handleRightPreview = () =>{ 
+      if(currentInvoiceIndex< invoices.length){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex+1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex+1)
+        console.log(currentInvoiceIndex+1);
+      }
+    }
+    
+    const handleClose = () => setShowPreview(false);
+
+
+
+
+
   const handleUploadClick = () => {
     setShowModal(true);
 }; 
@@ -181,15 +244,15 @@ function AQ() {
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((item) => (
-                  <tr key={item.id}>
+                {invoices.map((invoice, index) => (
+                  <tr key={invoice.billId}  onClick={() => handleShowPreview(invoice, index)}>
                     <td>  <input type="checkbox" />  <img  src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
-                     &nbsp;&nbsp;&nbsp;{item.col1}</td>
-                    <td>{item.col2}</td>
-                    <td>{item.col3}</td>
-                    <td>{item.col4}</td>
-                    <td>{item.col5}</td>
-                    <td>{item.col6}</td>
+                     &nbsp;&nbsp;&nbsp;{invoice.vendorName}</td>
+                    <td>{invoice.billId}</td>
+                    <td>{new Date(invoice.billDate).toLocaleDateString()}</td>
+                    <td>{invoice.inboxMethod}</td>
+                    <td>{invoice.amount}</td>
+                    <td>{invoice.col6}</td>
                   </tr>
                 ))}
               </tbody>
@@ -205,6 +268,8 @@ function AQ() {
           />
           </div>
       </div>
+
+
       <Modal
           show={showModal}
           onHide={handleModalClose}
@@ -266,7 +331,42 @@ function AQ() {
         </Modal>
         <ToastContainer />
         </div>
+
+
+
+        {/* -----------preview section---------- */}
+        <Modal show={showPreview} onHide={handleClose} centered size="xl">
+            {/* <Modal.Header closeButton>
+            </Modal.Header> */}
+            <Modal.Body style={{paddingTop:"0%"}}>
+              
+              <PreviewSection invoice={selectedInvoice} />
+            </Modal.Body>
+           
+            <Button
+              className="arrow-btn left-arrow"
+              variant="outline-primary"
+              onClick={handleBackPreview}
+              disabled={currentInvoiceIndex <=0}
+            >
+               <span className="large-arrow">&#8249;</span> {/* Left arrow icon */}
+            </Button>
+
+            {/* Right arrow button */}
+            <Button
+              className="arrow-btn right-arrow"
+              variant="outline-primary"
+              onClick={handleRightPreview}
+              disabled={currentInvoiceIndex >= invoices.length-1}
+            >
+              &#8250; {/* Right arrow icon */}
+            </Button>
+      </Modal>
     </div>
+
+
+
+
   )
 }
 
