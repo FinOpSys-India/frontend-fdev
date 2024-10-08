@@ -169,6 +169,7 @@ margin-top: -6px;
     padding: 16px 0px 0px 0px;
     gap: 12px;
     border-radius: 20px ;
+    /* height: 69%; */
 }
 
 .custom-width{
@@ -246,12 +247,15 @@ margin-top: -6px;
 .pagination-div {
   position: fixed; 
   bottom: 0; 
-  width: 90%;
+  width: 85.3%;
   margin-right: 10%;
   margin-bottom: 1%;
   display: flex;
   justify-content: center;
-  border-radius: 20px;
+  border-radius:15px;
+  background-color: rgba(240, 240, 240, 1);
+  padding: 0.3%;
+
 }
 .pagination-insideDiv{
   margin-right: 10%;
@@ -260,6 +264,53 @@ margin-top: -6px;
 
 
 
+#actionOfAQ{
+   display: flex;
+   gap:6%;
+   cursor: pointer;
+   text-align: center;
+}
+
+
+.actionOfAQ{
+  font-size: 16px;
+  background-color:  rgba(240, 240, 240, 1);
+  /* padding: 3.9%; */
+  width:24%;
+  border-radius: 6px;
+}
+
+
+#actionOfAQAccept:hover  {
+  display: inline;  
+  background-color: green; 
+  color: white;  
+  width:39%;
+  content: 'Accept'; 
+  font-size: 14px;
+  font-weight: 500;   
+}
+
+
+#actionOfAQ .actionOfAQAccept:hover::after {
+    display: none;
+    content: "Accept"; 
+}
+
+#actionOfAQ .actionOfAQAccept:hover::after {
+  content: "Accept"; /* Change to Accept on hover */
+}
+
+
+#actionOfAQDecline:hover {
+  display: inline;   
+  color: white; 
+  width:39%;  
+  background-color: rgba(231, 51, 51, 1);
+  font-size: 14px;
+  font-weight: 500;  
+
+}
 
 /*-------------------------------------------------------------- Custom styles for left and right arrow buttons */
 .arrow-btn {
@@ -296,3 +347,151 @@ margin-top: -6px;
 }
 
 
+
+
+
+
+
+
+/* --------------------------------------------------declineWithTableOfAQ-------------------- */
+
+#declineWithTableOfAQ{
+
+  display: flex;
+  flex-direction: row;  
+  Table{
+     margin-left: 1.3%;
+     margin-top: -9.6%;
+  }
+}
+
+
+
+#actionOfAQWithDelineform{
+   display: flex;
+   gap:6%;
+   cursor: pointer;
+   text-align: center;
+}
+
+
+.actionOfAQWithDelineform{
+  font-size: 16px;
+  background-color:  rgba(240, 240, 240, 1);
+  /* padding: 3.9%; */
+  width:24%;
+  border-radius: 6px;
+}
+
+
+#actionOfAQAcceptWithDelineform:hover  {
+  display: inline;  
+  background-color: green; 
+  color: white;  
+  width:47%;
+  display:flex;
+  justify-content: center;
+  align-items:center ;
+  content: 'Accept'; 
+  font-size: 9px;
+  font-weight: 500;   
+}
+
+
+#actionOfAQWithDelineform .actionOfAQAcceptWithDelineform:hover::after {
+    display: none;
+    content: "Accept"; 
+}
+
+#actionOfAQWithDelineform .actionOfAQAcceptWithDelineform:hover::after {
+  content: "Accept"; /* Change to Accept on hover */
+}
+
+
+#actionOfAQDeclineWithDelineform:hover {
+  display: inline;   
+  color: white; 
+  width:47%;
+  display:flex;
+  justify-content: center;
+  align-items:center ; 
+  background-color: rgba(231, 51, 51, 1);
+  font-size: 9px;
+  font-weight: 500;  
+}
+
+
+
+
+/* -----------------------------formCloseButton-------------------------------------------- */
+
+
+.RightDivOfAQDelineform{
+  background-color:white;
+  border-radius: 12px;
+  padding-top: 1%;
+  margin-right: 1.3%;
+  width:30%;
+  padding-left: 0.6%;
+  padding-bottom: 0.1%;
+  margin-bottom: 1.2%;
+}
+
+.formCloseButtonOnTable{
+  border-radius:12px;
+  background-color: rgba(231, 51, 51, 0.10);
+  padding: 6px 16px;
+  color:rgba(231, 51, 51, 1);
+  border: 0 solid  rgba(231, 51, 51, 0.10);
+  width: 96%;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+.reasonOfDeclineDivOnTable{
+  /* margin-left: 3%; */
+  margin-top: 3.9%;
+  height: 100%;
+}
+
+
+
+.reasonOfDeclineOnTable{
+  font-size: 12px;
+  font-weight: 400;
+  width:96%;
+  border-radius: 8px;
+  background-color: rgba(240, 240, 240, 1);
+  padding-left: 3%;
+  padding-top: 1.9%;
+  padding-bottom: 1.9%;
+  transition: border 0.3s ease;
+  align-items: center;
+  cursor: pointer;
+}
+
+.reasonOfDeclineOnTable:hover{
+ border: 1px solid rgba(140, 140, 140, 0.4)
+}
+
+.DeclineButtonOnTable{
+
+  margin-top: auto;
+  width:96%;
+  border-radius:12px;
+  background-color: rgba(231, 51, 51, 0.10);
+  padding: 6px 16px;
+  color:rgba(231, 51, 51, 1);
+  border: 1px solid rgba(231, 51, 51, 1);;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6%;
+}
+
+.selected {
+  background-color: rgba(121, 57, 239, 1); 
+  color: white;
+}
+
+/* background: rgba(121, 57, 239, 1); */

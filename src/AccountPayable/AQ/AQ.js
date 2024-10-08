@@ -17,6 +17,7 @@ import Home from '../../Home/Home';
 import { DisplaySettings } from '@mui/icons-material';
 import { useEffect } from 'react';
 import PreviewSection from './PreviewSection/PreviewSection';
+import EditIcon from '@mui/icons-material/Edit';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -32,6 +33,13 @@ function AQ() {
   const [progress, setProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+  const [acceptHoveredIndex, setacceptHoveredIndex] = useState(null);
+  const [declineHoveredIndex, setdeclineHoveredIndex] = useState(null);
+
+  const [acceptStatus, setacceptStatus] = useState();
+  const [declinedStatus, setdeclinedStatus] = useState('');
+  const [declinedform, setdeclinedform] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   // invoice---
   const [invoices, setInvoices] = useState([]);
@@ -61,7 +69,7 @@ function AQ() {
 
 
 
-    // -----------preview---------
+    // --------------------------------preview-----------------------------------
     const handleShowPreview = (invoice, index) =>{ 
       setShowPreview(true);
       setSelectedInvoice(invoice); 
@@ -89,6 +97,38 @@ function AQ() {
     const handleClose = () => setShowPreview(false);
 
 
+
+
+// -------------------------------------handleDeclineform-------------------------------------------
+    
+const handleClickReason = (index) => {
+  setSelected(index); // Set the clicked item as selected
+};
+
+  function handleDeclineform(){
+    setdeclinedform(true)
+  };
+
+ const DeclineButtonWithform = async ()=> {
+    setdeclinedStatus("Decline the invoice")
+    // if(selected!==null){
+    //   try {
+    //     console.log(invoice.caseId)
+    //     const response = await axios.post(`${apiEndPointUrl}/decline`, {
+    //       invoiceId: invoice.caseId, // Replace with the actual invoice ID field
+    //       status: declinedStatus
+    //     });
+    //     console.log('Invoice declinedStatus:', response.data.message);
+    //     toast.success(`${response.data.message}`);
+    //    } catch (error) {
+    //     console.log('Error declinedStatus invoice:', error.message); 
+    //     // toast.error(`${error.message}`);
+    //   }
+    // }
+    // else{
+    //   toast.error('Slelect the reason!');
+    // }
+};
 
 
 
@@ -229,35 +269,100 @@ function AQ() {
 
      </div>
 
+        {    
+            declinedform === false  
+                    ?
+              <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+                <Table   className="custom-width">
+                  <thead>
+                    <tr>
+                      {/* <th><input type="checkbox" /></th> */}
+                      <th><input type="checkbox" />&nbsp;&nbsp;&nbsp;Vendor Name</th>
+                      <th>Bill Number</th>
+                      <th>Bill Date</th>
+                      <th>Inbox Method</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invoices.map((invoice, index) => (
+                      <tr key={invoice.billId}  >
+                        <td>  <input type="checkbox" />  <img  src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
+                        &nbsp;&nbsp;&nbsp;{invoice.vendorName}</td>
+                        <td onClick={() => handleShowPreview(invoice, index)}>{invoice.billId}</td>
+                        <td>{new Date(invoice.billDate).toLocaleDateString()}</td>
+                        <td>{invoice.inboxMethod}</td>
+                        <td>{invoice.amount}</td>
+                        <td id='actionOfAQ'>
+                          {
+                            <>
+                              <span className='actionOfAQ' id="actionOfAQAccept" onMouseEnter={() => setacceptHoveredIndex(index)}     onMouseLeave={() => setacceptHoveredIndex(null)} > {acceptHoveredIndex === index ? ' ✓ Accept' : '✓'}</span>
+                              <span className='actionOfAQ' id="actionOfAQDecline"  onClick={handleDeclineform} onMouseEnter={() => setdeclineHoveredIndex(index)}     onMouseLeave={() => setdeclineHoveredIndex(null)} > {declineHoveredIndex === index ? ' × Decline' : '✕'}</span>
+                            </>
+                          }
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+            </div>
 
-          <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
-            <Table   className="custom-width">
-              <thead>
-                <tr>
-                  {/* <th><input type="checkbox" /></th> */}
-                  <th><input type="checkbox" />&nbsp;&nbsp;&nbsp;Vendor Name</th>
-                  <th>Bill Number</th>
-                  <th>Bill Date</th>
-                  <th>Inbox Method</th>
-                  <th>Amount</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invoices.map((invoice, index) => (
-                  <tr key={invoice.billId}  onClick={() => handleShowPreview(invoice, index)}>
-                    <td>  <input type="checkbox" />  <img  src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
-                     &nbsp;&nbsp;&nbsp;{invoice.vendorName}</td>
-                    <td>{invoice.billId}</td>
-                    <td>{new Date(invoice.billDate).toLocaleDateString()}</td>
-                    <td>{invoice.inboxMethod}</td>
-                    <td>{invoice.amount}</td>
-                    <td>{invoice.col6}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-        </div>
+                                 :
+
+
+              <div className="mt-4 d-flex  align-items-center outerTableDiv" id='declineWithTableOfAQ'>
+                <Table   className="custom-width">
+                  <thead>
+                    <tr>
+                      {/* <th><input type="checkbox" /></th> */}
+                      <th><input type="checkbox" />&nbsp;&nbsp;&nbsp;Vendor Name</th>
+                      <th>Bill Number</th>
+                      <th>Bill Date</th>
+                      <th>Inbox Method</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invoices.map((invoice, index) => (
+                      <tr key={invoice.billId}  >
+                        <td>  <input type="checkbox" />  <img  src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
+                        &nbsp;&nbsp;&nbsp;{invoice.vendorName}</td>
+                        <td onClick={() => handleShowPreview(invoice, index)}>{invoice.billId}</td>
+                        <td>{new Date(invoice.billDate).toLocaleDateString()}</td>
+                        <td>{invoice.inboxMethod}</td>
+                        <td>{invoice.amount}</td>
+                        <td id='actionOfAQWithDelineform'>
+                          {
+                            <>
+                              <span className='actionOfAQWithDelineform' id="actionOfAQAcceptWithDelineform" onMouseEnter={() => setacceptHoveredIndex(index)}     onMouseLeave={() => setacceptHoveredIndex(null)} > {acceptHoveredIndex === index ? ' ✓ Accept' : '✓'}</span>
+                              <span className='actionOfAQWithDelineform' id="actionOfAQDeclineWithDelineform"  onClick={handleDeclineform} onMouseEnter={() => setdeclineHoveredIndex(index)}     onMouseLeave={() => setdeclineHoveredIndex(null)} > {declineHoveredIndex === index ? ' × Decline' : '✕'}</span>
+                            </>
+                          }
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+
+                <div  className='RightDivOfAQDelineform '  style={{ marginLeft: '1.5rem', width:"30%" }}>
+                    <nav  className='AQDelineformCrossOnTable'>
+                        <button className='formCloseButtonOnTable'>Decline Feedback</button>
+                    </nav>
+
+                    <div className='reasonOfDeclineDivOnTable'>
+                        <p className={`reasonOfDeclineOnTable ${selected === 0 ? 'selected' : ''}`} onClick={() => handleClickReason(0)}><EditIcon style={{fontSize:"12px"}}/> Incorrect data</p>
+                        <p  className={`reasonOfDeclineOnTable ${selected === 1  ? 'selected' : ''}`} onClick={() => handleClickReason(1)}><EditIcon style={{fontSize:"12px"}}/>Missing Invoice</p>
+                        <p  className={`reasonOfDeclineOnTable ${selected === 2 ? 'selected' : ''}`} onClick={() => handleClickReason(2)}><EditIcon style={{fontSize:"12px"}}/> Duplicate Invoice</p>
+                        <p  className={`reasonOfDeclineOnTable ${selected === 3 ? 'selected' : ''}`} onClick={() => handleClickReason(3)}><EditIcon style={{fontSize:"12px"}}/> Calculation Error</p>
+                        <p  className={`reasonOfDeclineOnTable ${selected === 4 ? 'selected' : ''}`} onClick={() => handleClickReason(4)}><EditIcon style={{fontSize:"12px"}}/> Other</p>
+                        <button className='DeclineButtonOnTable' onClick={DeclineButtonWithform}> Decline </button>
+                    </div>
+                </div>  
+            </div>
+        }
+
 
       <div className="pagination-div">
         <div className='pagination-insideDiv'>
@@ -338,7 +443,8 @@ function AQ() {
         <Modal show={showPreview} onHide={handleClose} centered size="xl">
             {/* <Modal.Header closeButton>
             </Modal.Header> */}
-            <Modal.Body style={{paddingTop:"0%"}}>
+            <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
+            }}>
               
               <PreviewSection invoice={selectedInvoice} />
             </Modal.Body>

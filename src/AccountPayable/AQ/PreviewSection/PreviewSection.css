@@ -1,12 +1,15 @@
 #invoiceImg{
     width:73%;
-    height: 73%;
+    height: 79%;
+    border: 1px solid black;
+    border-radius: 12px;
 }
 
 .PreviewSectionLeft{
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border: 1px solid black; */
 }
 
 
@@ -144,6 +147,8 @@ font-weight: 500;
 
 
 
+
+
 /* ------------------------------------accept and --------------- */
 
 .PreviewDataAcceptAndDeline{
@@ -182,34 +187,68 @@ font-weight: 500;
 
 
 }
-/* 
-            <div className='PreviewDataAcceptAndDeline'>
-              <button className='PreviewDataAccept'>Accept</button>
-              <button className='PreviewDataDeline'>Deline</button>
-            </div> */
-
-/* 
-
-green ::a
-
-width: Fill (308px)px;
-height: Fixed (40px)px;
-padding: 8px 16px 8px 16px;
-gap: 10px;
-border-radius: 12px 0px 0px 0px;
-border: 1px 0px 0px 0px;
-opacity: 0px;
-
-border: 1px solid rgba(22, 101, 52, 1)  Radius 12px
 
 
 
 
-red
 
-border: 1px solid rgba(231, 51, 51, 1)
-
-background: rgba(231, 51, 51, 0.1);
+/* -----------------------------formCloseButton-------------------------------------------- */
 
 
-*/
+.formCloseButton{
+    border-radius:12px;
+    background-color: rgba(231, 51, 51, 0.10);
+    padding: 8px 16px;
+    color:rgba(231, 51, 51, 1);
+    border: 0 solid  rgba(231, 51, 51, 0.10);
+    width: 96%;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.reasonOfDeclineDiv{
+    margin-left: 3%;
+    margin-top: 3.9%;
+    height: 5.3%;
+}
+
+
+
+.reasonOfDecline{
+    font-size: 12px;
+    font-weight: 400;
+    /* background-color: red; */
+    width:96%;
+    border-radius: 8px;
+    height: 100%;
+    padding-left: 3%;
+    padding-top: 1%;
+    transition: border 0.3s ease;
+}
+
+.reasonOfDecline:hover{
+   border: 1px solid rgba(140, 140, 140, 0.4)
+   
+}
+
+.DeclineButton{
+
+    margin-top: 39%;
+    width:96%;
+    border-radius:12px;
+    background-color: rgba(231, 51, 51, 0.10);
+    padding: 8px 16px;
+    color:rgba(231, 51, 51, 1);
+    border: 1px solid rgba(231, 51, 51, 1);;
+    font-size: 14px;
+    font-weight: 500;
+
+}
+
+.selected {
+    background-color: rgba(121, 57, 239, 1); 
+    color: white;
+  }
+
+/* background: rgba(121, 57, 239, 1); */
