@@ -65,11 +65,11 @@ function PreviewSection({ invoice }) {
 };
 
   return (
-    <div>
+    <div style={{borderRadius:"24px"}}>
       {/* <p>Case ID: {invoice.caseId}</p> */}
 {console.log(invoice)}
 
-      <div  className='PreviewSectionEach' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+      <div  className='PreviewSectionEach' style={{ display: 'flex', borderRadius:"24px" }}>
           <div style={{ flex: '1',}} className='PreviewSectionLeft'>
             <img src={invoiceImg} id='invoiceImg'/>
           </div>

@@ -440,7 +440,7 @@ const handleClickReason = (index) => {
 
 
         {/* -----------preview section---------- */}
-        <Modal show={showPreview} onHide={handleClose} centered size="xl">
+        <Modal show={showPreview} onHide={handleClose} centered size="xl" style={{borderRadius:"24px"}}>
             {/* <Modal.Header closeButton>
             </Modal.Header> */}
             <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
