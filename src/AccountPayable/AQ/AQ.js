@@ -18,13 +18,15 @@ import { DisplaySettings } from '@mui/icons-material';
 import { useEffect } from 'react';
 import PreviewSection from './PreviewSection/PreviewSection';
 import EditIcon from '@mui/icons-material/Edit';
+import DeclineTable from './DeclineTable/DeclineTable';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
 
 function AQ() {
 
-  const [activeButton, setActiveButton] = useState(null);
+  const [pendingTable, setpendingTable] = useState(true);
+  const [activeButton, setActiveButton] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [activePage, setActivePage] = useState(1); // State for active pagination item
   const [itemsPerPage] = useState(5);   
@@ -36,6 +38,8 @@ function AQ() {
   const [acceptHoveredIndex, setacceptHoveredIndex] = useState(null);
   const [declineHoveredIndex, setdeclineHoveredIndex] = useState(null);
 
+
+  const [acceptClickIndex, setacceptClickIIndex] = useState(null);
   const [acceptStatus, setacceptStatus] = useState();
   const [declinedStatus, setdeclinedStatus] = useState('');
   const [declinedform, setdeclinedform] = useState(false);
@@ -48,6 +52,7 @@ function AQ() {
   const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
 
   
+  let index="";
     // Fetch invoices from the backend
     const fetchInvoices = async (page) => {
       try {
@@ -105,29 +110,80 @@ const handleClickReason = (index) => {
   setSelected(index); // Set the clicked item as selected
 };
 
-  function handleDeclineform(){
+  function handleDeclineform(index){
     setdeclinedform(true)
+    // setacceptClickIIndex(invoices[index])
+    console.log(invoices[index]) 
+    index = invoices[index]
   };
 
- const DeclineButtonWithform = async ()=> {
-    setdeclinedStatus("Decline the invoice")
-    // if(selected!==null){
-    //   try {
-    //     console.log(invoice.caseId)
-    //     const response = await axios.post(`${apiEndPointUrl}/decline`, {
-    //       invoiceId: invoice.caseId, // Replace with the actual invoice ID field
-    //       status: declinedStatus
-    //     });
-    //     console.log('Invoice declinedStatus:', response.data.message);
-    //     toast.success(`${response.data.message}`);
-    //    } catch (error) {
-    //     console.log('Error declinedStatus invoice:', error.message); 
-    //     // toast.error(`${error.message}`);
-    //   }
-    // }
-    // else{
-    //   toast.error('Slelect the reason!');
-    // }
+
+ 
+  function closeDeclineform(){
+    setdeclinedform(false)
+  };
+
+
+  const DeclineButtonWithform = async ()=> {
+    console.log(index)
+      if(selected!==null){
+        let declinedStatus = "Decline the invoice"
+        console.log("gygu"+index)
+        try {
+          console.log(acceptClickIndex)
+          const response = await axios.post(`${apiEndPointUrl}/decline`, {
+            invoiceId: acceptClickIndex.caseId, // Replace with the actual invoice ID field
+            status: declinedStatus
+          });
+
+          console.log(response.data.status)
+          if(response.data.status===500 || response.data.status===400 ){
+            toast.error('Sttatus is already approved/ declined !');
+          }
+          else{
+            console.log('Invoice declinedStatus:', response.data.message);
+            toast.success(`${response.data.message}`);
+          }
+        } catch (error) {
+          console.log('Error declinedStatus invoice:', error.message);
+        }
+      }
+      else{
+        toast.error('Slelect the reason!');
+      }
+  
+};
+
+
+
+
+// ------------accept------------
+const handleAccept = async (index) => {
+  setacceptStatus("Accept the invoice")
+  setacceptClickIIndex(invoices[index].caseId)
+  if(acceptClickIndex && acceptStatus){
+      try {
+        console.log(invoices[index].caseId)
+        const response = await axios.post(`${apiEndPointUrl}/accept`, {
+          invoiceId: acceptClickIndex.caseId, // Replace with the actual invoice ID field
+          status: acceptStatus
+        });
+
+        console.log(response)
+        if(response.data.status===500 || response.data.status===400 ){
+          console.log('Invoice', response.data.message);
+          toast.error('Status is already approved/ declined !');
+        }
+        else{
+          console.log(response.data.status);
+          toast.success(`${response.data.message}`);
+        }
+      } catch (error) {
+        console.log('Error accepting invoice:', error.response.data.message);
+        toast.error(`${error.response.data.message}`)
+      }
+
+    }
 };
 
 
@@ -199,10 +255,17 @@ const handleClickReason = (index) => {
     }
   };
 
-  const handleButtonClick = (buttonName) => {
+  const handleButtonClickAll = (buttonName) => {
     setActiveButton(buttonName);
+    setpendingTable(true)
   };
 
+
+
+  const handleButtonClickDeclined = (buttonName) => {
+    setActiveButton(buttonName);
+    setpendingTable(false)
+  };
 
   const data = [
     { id: 1, col1: 'Data 1', col2: 'Data 2', col3: 'Data 3', col4: 'Data 4', col5: 'Data 5', col6: 'Data 6' },
@@ -245,7 +308,7 @@ const handleClickReason = (index) => {
      <div className='AQBelowHeading'>
         <div className='AQAcceptAndDecline'>
           <button className={`AQAllDiv ${activeButton === 'all' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('all')}>
+            onClick={() => handleButtonClickAll('all')}>
             <div className='insideAQAllDiv'>
                  <img src={crop} style={{ width: "0.9em", height: "2em" , color:"black"}} /> <span>All</span>
             </div>
@@ -254,7 +317,7 @@ const handleClickReason = (index) => {
           </button>
 
           <button className={`AQDeclineDiv ${activeButton === 'declined' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('declined')}>
+            onClick={() => handleButtonClickDeclined('declined')}>
             <div className='insideAQDeclineDiv '>
                  <img src={crop} style={{ width:"0.9em", height: "2em" }} /> <span>Declined</span>
             </div>
@@ -269,99 +332,145 @@ const handleClickReason = (index) => {
 
      </div>
 
-        {    
-            declinedform === false  
-                    ?
-              <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
-                <Table   className="custom-width">
-                  <thead>
-                    <tr>
-                      {/* <th><input type="checkbox" /></th> */}
-                      <th><input type="checkbox" />&nbsp;&nbsp;&nbsp;Vendor Name</th>
-                      <th>Bill Number</th>
-                      <th>Bill Date</th>
-                      <th>Inbox Method</th>
-                      <th>Amount</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {invoices.map((invoice, index) => (
-                      <tr key={invoice.billId}  >
-                        <td>  <input type="checkbox" />  <img  src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
-                        &nbsp;&nbsp;&nbsp;{invoice.vendorName}</td>
-                        <td onClick={() => handleShowPreview(invoice, index)}>{invoice.billId}</td>
+      {
+          declinedform === false && activeButton === "all" && pendingTable 
+                                          ? 
+            <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+              <Table className="custom-width">
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" />
+                      &nbsp;&nbsp;&nbsp;Vendor Name
+                    </th>
+                    <th>Bill Number</th>
+                    <th>Bill Date</th>
+                    <th>Inbox Method</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {
+                      invoices.map((invoice, index) => (
+                        <tr key={invoice.billId}>
+                          <td onClick={() => handleShowPreview(invoice, index)}>
+                            <input type="checkbox" />{" "}
+                            <img
+                              src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
+                              alt="Vendor Avatar"
+                            />
+                            &nbsp;&nbsp;&nbsp;{invoice.vendorName}
+                          </td>
+                          <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
+                          <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.billDate).toLocaleDateString()} </td>
+                          <td onClick={() => handleShowPreview(invoice, index)}> {invoice.inboxMethod}</td>
+                          <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
+                          <td id="actionOfAQ">
+                            <>
+                              <span className="actionOfAQ"  id="actionOfAQAccept" onClick={() => handleAccept(index)} onMouseEnter={() => setacceptHoveredIndex(index)}
+                                onMouseLeave={() => setacceptHoveredIndex(null)}>
+                                {acceptHoveredIndex === index ? "✓ Accept" : "✓"}
+                              </span>
+                              <span className="actionOfAQ" id="actionOfAQDecline" onClick={() => handleDeclineform(index)}  onMouseEnter={() => setdeclineHoveredIndex(index)}
+                                onMouseLeave={() => setdeclineHoveredIndex(null)} >
+                                {declineHoveredIndex === index ? "× Decline" : "✕"}
+                              </span>
+                            </>
+                          </td>
+                        </tr>
+                      ))
+                    }
+                </tbody>
+              </Table>
+            </div>
+                                         : 
+            declinedform === true && activeButton === "all" && pendingTable 
+                                          ? 
+            <div className="mt-4 d-flex align-items-center outerTableDiv" id="declineWithTableOfAQ">
+              <Table className="custom-width">
+                <thead>
+                  <tr>
+                    <th> <input type="checkbox" /> &nbsp;&nbsp;&nbsp;Vendor Name </th>
+                    <th>Bill Number</th>
+                    <th>Bill Date</th>
+                    <th>Inbox Method</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    invoices.map((invoice, index) => (
+                      <tr key={invoice.billId}>
+                        <td>
+                          <input type="checkbox" />{" "}
+                          <img
+                            src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
+                            alt="Vendor Avatar"
+                          />
+                          &nbsp;&nbsp;&nbsp;{invoice.vendorName}
+                        </td>
+                        <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
                         <td>{new Date(invoice.billDate).toLocaleDateString()}</td>
                         <td>{invoice.inboxMethod}</td>
                         <td>{invoice.amount}</td>
-                        <td id='actionOfAQ'>
-                          {
-                            <>
-                              <span className='actionOfAQ' id="actionOfAQAccept" onMouseEnter={() => setacceptHoveredIndex(index)}     onMouseLeave={() => setacceptHoveredIndex(null)} > {acceptHoveredIndex === index ? ' ✓ Accept' : '✓'}</span>
-                              <span className='actionOfAQ' id="actionOfAQDecline"  onClick={handleDeclineform} onMouseEnter={() => setdeclineHoveredIndex(index)}     onMouseLeave={() => setdeclineHoveredIndex(null)} > {declineHoveredIndex === index ? ' × Decline' : '✕'}</span>
-                            </>
-                          }
+                        <td id="actionOfAQWithDeclineform">
+                          <>
+                            <span
+                              className="actionOfAQWithDeclineform" id="actionOfAQAcceptWithDeclineform" onClick={() => handleAccept(index)}  onMouseEnter={() => setacceptHoveredIndex(index)}
+                              onMouseLeave={() => setacceptHoveredIndex(null)}
+                            >
+                              {acceptHoveredIndex === index ? "✓ Accept" : "✓"}
+                            </span>
+                            <span className="actionOfAQWithDeclineform"  id="actionOfAQDeclineWithDeclineform"    onClick={() => handleDeclineform(index)}  onMouseEnter={() => setdeclineHoveredIndex(index)}
+                              onMouseLeave={() => setdeclineHoveredIndex(null)}
+                            >
+                              {declineHoveredIndex === index ? "× Decline" : "✕"}
+                            </span>
+                          </>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                    ))
+                  }
+                </tbody>
+              </Table>
+
+              <div className="RightDivOfAQDeclineform" style={{ marginLeft: "1.5rem", width: "30%" }}>
+                <nav className="AQDeclineformCrossOnTable">
+                  <button className="formCloseButtonOnTable" onClick={closeDeclineform}> Decline Feedback </button>
+                </nav>
+
+                <div className="reasonOfDeclineDivOnTable">
+                  <p className={`reasonOfDeclineOnTable ${selected === 0 ? "selected" : ""}`} onClick={() => handleClickReason(0)} >
+                    <EditIcon style={{ fontSize: "12px" }} /> Incorrect data
+                  </p>
+                  <p className={`reasonOfDeclineOnTable ${selected === 1 ? "selected" : ""}`} onClick={() => handleClickReason(1)}
+                  >
+                    <EditIcon style={{ fontSize: "12px" }} /> Missing Invoice
+                  </p>
+                  <p className={`reasonOfDeclineOnTable ${selected === 2 ? "selected" : ""}`}  onClick={() => handleClickReason(2)}
+                  >
+                    <EditIcon style={{ fontSize: "12px" }} /> Duplicate Invoice
+                  </p>
+                  <p className={`reasonOfDeclineOnTable ${selected === 3 ? "selected" : ""}`}  onClick={() => handleClickReason(3)}
+                  >
+                    <EditIcon style={{ fontSize: "12px" }} /> Calculation Error
+                  </p>
+                  <p className={`reasonOfDeclineOnTable ${selected === 4 ? "selected" : ""}`} onClick={() => handleClickReason(4)}
+                  >
+                    <EditIcon style={{ fontSize: "12px" }} /> Other
+                  </p>
+                  <button className="DeclineButtonOnTable" onClick={DeclineButtonWithform}> Decline </button>
+                </div>
+              </div>
             </div>
-
-                                 :
-
-
-              <div className="mt-4 d-flex  align-items-center outerTableDiv" id='declineWithTableOfAQ'>
-                <Table   className="custom-width">
-                  <thead>
-                    <tr>
-                      {/* <th><input type="checkbox" /></th> */}
-                      <th><input type="checkbox" />&nbsp;&nbsp;&nbsp;Vendor Name</th>
-                      <th>Bill Number</th>
-                      <th>Bill Date</th>
-                      <th>Inbox Method</th>
-                      <th>Amount</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {invoices.map((invoice, index) => (
-                      <tr key={invoice.billId}  >
-                        <td>  <input type="checkbox" />  <img  src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
-                        &nbsp;&nbsp;&nbsp;{invoice.vendorName}</td>
-                        <td onClick={() => handleShowPreview(invoice, index)}>{invoice.billId}</td>
-                        <td>{new Date(invoice.billDate).toLocaleDateString()}</td>
-                        <td>{invoice.inboxMethod}</td>
-                        <td>{invoice.amount}</td>
-                        <td id='actionOfAQWithDelineform'>
-                          {
-                            <>
-                              <span className='actionOfAQWithDelineform' id="actionOfAQAcceptWithDelineform" onMouseEnter={() => setacceptHoveredIndex(index)}     onMouseLeave={() => setacceptHoveredIndex(null)} > {acceptHoveredIndex === index ? ' ✓ Accept' : '✓'}</span>
-                              <span className='actionOfAQWithDelineform' id="actionOfAQDeclineWithDelineform"  onClick={handleDeclineform} onMouseEnter={() => setdeclineHoveredIndex(index)}     onMouseLeave={() => setdeclineHoveredIndex(null)} > {declineHoveredIndex === index ? ' × Decline' : '✕'}</span>
-                            </>
-                          }
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-
-                <div  className='RightDivOfAQDelineform '  style={{ marginLeft: '1.5rem', width:"30%" }}>
-                    <nav  className='AQDelineformCrossOnTable'>
-                        <button className='formCloseButtonOnTable'>Decline Feedback</button>
-                    </nav>
-
-                    <div className='reasonOfDeclineDivOnTable'>
-                        <p className={`reasonOfDeclineOnTable ${selected === 0 ? 'selected' : ''}`} onClick={() => handleClickReason(0)}><EditIcon style={{fontSize:"12px"}}/> Incorrect data</p>
-                        <p  className={`reasonOfDeclineOnTable ${selected === 1  ? 'selected' : ''}`} onClick={() => handleClickReason(1)}><EditIcon style={{fontSize:"12px"}}/>Missing Invoice</p>
-                        <p  className={`reasonOfDeclineOnTable ${selected === 2 ? 'selected' : ''}`} onClick={() => handleClickReason(2)}><EditIcon style={{fontSize:"12px"}}/> Duplicate Invoice</p>
-                        <p  className={`reasonOfDeclineOnTable ${selected === 3 ? 'selected' : ''}`} onClick={() => handleClickReason(3)}><EditIcon style={{fontSize:"12px"}}/> Calculation Error</p>
-                        <p  className={`reasonOfDeclineOnTable ${selected === 4 ? 'selected' : ''}`} onClick={() => handleClickReason(4)}><EditIcon style={{fontSize:"12px"}}/> Other</p>
-                        <button className='DeclineButtonOnTable' onClick={DeclineButtonWithform}> Decline </button>
-                    </div>
-                </div>  
-            </div>
+                       : 
+                      
+                <DeclineTable />
+        
         }
+
 
 
       <div className="pagination-div">

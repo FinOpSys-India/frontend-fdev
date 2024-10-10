@@ -44,10 +44,12 @@ function PreviewSection({ invoice }) {
   };
 
  const DeclineButtonWithform = async ()=> {
-    setdeclinedStatus("Decline the invoice")
+    // setdeclinedStatus("Decline the invoice")
     if(selected!==null){
       try {
         console.log(invoice.caseId)
+        let declinedStatus = "Decline the invoice"
+        console.log(declinedStatus)
         const response = await axios.post(`${apiEndPointUrl}/decline`, {
           invoiceId: invoice.caseId, // Replace with the actual invoice ID field
           status: declinedStatus
