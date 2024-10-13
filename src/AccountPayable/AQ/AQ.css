@@ -368,7 +368,7 @@ margin-top: -6px;
 
 
 
-#actionOfAQWithDelineform{
+#actionOfAQWithDeclineform{
    display: flex;
    gap:6%;
    cursor: pointer;
@@ -376,16 +376,16 @@ margin-top: -6px;
 }
 
 
-.actionOfAQWithDelineform{
+.actionOfAQWithDeclineform{
   font-size: 16px;
   background-color:  rgba(240, 240, 240, 1);
   /* padding: 3.9%; */
   width:24%;
   border-radius: 6px;
 }
+/* actionOfAQAcceptWithDeclineform */
 
-
-#actionOfAQAcceptWithDelineform:hover  {
+#actionOfAQAcceptWithDeclineform:hover  {
   display: inline;  
   background-color: green; 
   color: white;  
@@ -404,12 +404,12 @@ margin-top: -6px;
     content: "Accept"; 
 }
 
-#actionOfAQWithDelineform .actionOfAQAcceptWithDelineform:hover::after {
+#actionOfAQWithDeclineform .actionOfAQAcceptWithDelineform:hover::after {
   content: "Accept"; /* Change to Accept on hover */
 }
+/* actionOfAQWithDeclineform */
 
-
-#actionOfAQDeclineWithDelineform:hover {
+#actionOfAQDeclineWithDeclineform:hover {
   display: inline;   
   color: white; 
   width:47%;

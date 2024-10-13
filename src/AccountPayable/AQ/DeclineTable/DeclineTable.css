@@ -1,6 +1,6 @@
 
 #ActionOfdecline{
-    display: flex;
+    /* display: flex; */
     gap:6%;
     cursor: pointer;
     text-align: center;
@@ -12,8 +12,9 @@
    font-size: 16px;
    background-color:  rgba(240, 240, 240, 1);
    /* padding: 3.9%; */
-   width:24%;
+   width:30%;
    border-radius: 12px;
+   padding: 3%;
  }
 
  
@@ -22,7 +23,7 @@
  #sendActionOfdecline:hover {
    display: inline;   
    color: white; 
-   width:43%;  
+   width:47%;  
    background-color:rgba(121, 57, 239, 1);
    font-size: 14px;
    font-weight: 500;  
