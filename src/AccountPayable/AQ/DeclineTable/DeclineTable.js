@@ -3,27 +3,32 @@ import { Button, Modal, ProgressBar } from "react-bootstrap";
 import  "./DeclineTable.css";
 import sendHover from '../../../assets/sendHover.svg';
 import send from '../../../assets/send.svg';
-// import filter from '../../assets/filter.svg';
-// import crop from '../../assets/crop.svg';
 import { apiEndPointUrl } from "../../../utils/apiService";
 import { Table } from 'react-bootstrap';
-// import Pagination from '@mui/material/Pagination';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
-// import { useDropzone } from 'react-dropzone';
-// import uploadLogo from '../../assets/uploadLogo.jpeg';
-// import billsLogo from '../../assets/bills.svg' 
 import axios from "axios";
-// import Home from '../../Home/Home';
 import { DisplaySettings } from '@mui/icons-material';
 import { useEffect } from 'react';
-// import PreviewSection from './PreviewSection/PreviewSection';
-// import EditIcon from '@mui/icons-material/Edit';
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 function DeclineTable() {
   
-  
+  const [showVendorNameSearch, setShowVendorNameSearch] = useState(false);
+  const [searchQueryByName, setSearchQueryByName] = useState('');
+  const [selectedVendorName, setSelectedVendorName] = useState('');
+  const [showCrossIcon, setShowCrossIcon] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [filteredInvoices, setFilteredInvoices] = useState([]);
+
+  const [showBillNumberSearch, setShowBillNumberSearch] = useState(false);
+  const [searchQueryByBillNumber, setSearchQueryByBillNumber] = useState('');
+  const [selectedVendorBillNumber, setSelectedVendorBillNumber] = useState('');
+  const [showCrossBillNumber, setShowCrossBillNumber] = useState(false);
+  const [showDropdownBillNumber, setShowDropdownBillNumber] = useState(false);
+  // const [filteredInvoices, setFilteredInvoices] = useState([]);
   
     // invoice---
     const [invoices, setInvoices] = useState([]);
@@ -46,6 +51,103 @@ function DeclineTable() {
       }, []);
     
   
+
+
+      
+// ------------------------toottip vendor name---------------------
+
+const handleMouseEnter = () => {
+  setShowVendorNameSearch(true);  // Show search bar on hover
+};
+
+const handleMouseLeave = () => {
+  setShowVendorNameSearch(false);  // Hide search bar when not hovered
+};
+
+
+const handleNameSearchChange = (e) => {
+  setSearchQueryByName(e.target.value);
+  setShowDropdown(e.target.value.length > 0);
+  setShowCrossIcon(false); // Reset cross icon when typing
+};
+
+const handleVendorClick = (vendorName) => {
+  setSelectedVendorName(vendorName);
+  setSearchQueryByName(vendorName); // Set input value to selected vendor
+  setShowCrossIcon(true); 
+  setShowDropdown(false);
+  
+  const filtered = invoices.filter(invoice => invoice.vendorName.toLowerCase() === vendorName.toLowerCase());
+    setFilteredInvoices(filtered); 
+    // setInvoices(filtered)
+};
+
+const clearSearch = () => {
+  setSearchQueryByName('');
+  setSelectedVendorName(''); // Clear selected vendor
+  setShowCrossIcon(false); // Hide cross icon
+  setShowDropdown(false);
+
+  setFilteredInvoices(invoices);
+};
+
+
+
+const filteredVendorNameInvoices = invoices.filter(invoice =>
+  invoice.vendorName.toLowerCase().includes(searchQueryByName.toLowerCase())
+);
+
+
+
+
+
+
+// ------------------------toottip bill numbber---------------------
+
+const handleMouseEnterBill = () => {
+  setShowBillNumberSearch(true);  // Show search bar on hover
+};
+
+const handleMouseLeaveBill = () => {
+  setShowBillNumberSearch(false);  // Hide search bar when not hovered
+};
+
+
+const handleBillNumberSearch = (e) => {
+  setSearchQueryByBillNumber(e.target.value);
+  setShowDropdownBillNumber(e.target.value.length > 0);
+  setShowCrossBillNumber(false); // Reset cross icon when typing
+};
+
+const handleBillNumber = (billId) => {
+  setSelectedVendorBillNumber(billId);
+  setSearchQueryByBillNumber(billId); // Set input value to selected vendor
+  setShowCrossBillNumber(true); 
+  setShowDropdownBillNumber(false);
+  
+  const filtered = invoices.filter(invoice => invoice.billId.toLowerCase() === billId.toLowerCase());
+    setFilteredInvoices(filtered); 
+    // setInvoices(filtered)
+};
+
+const clearBillNumber = () => {
+  setSearchQueryByBillNumber('');
+  setSelectedVendorBillNumber(''); // Clear selected vendor
+  setShowCrossBillNumber(false); // Hide cross icon
+  setShowDropdownBillNumber(false);
+
+  setFilteredInvoices(invoices);
+};
+
+
+
+const filteredBillNumberInvoices = invoices.filter(invoice =>
+  invoice.billId.toLowerCase().includes(searchQueryByBillNumber.toLowerCase())
+);
+
+
+
+
     
   return (
     <div>
@@ -53,11 +155,83 @@ function DeclineTable() {
               <Table className="custom-width">
                 <thead>
                   <tr>
-                    <th>
-                      <input type="checkbox" />
+                     
+                  <th  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ondata-toggle="tooltip" data-placement="bottom" >
+                      <input type="checkbox"  />
                       &nbsp;&nbsp;&nbsp;Vendor Name
+                     {
+                               showVendorNameSearch 
+                                       && 
+                      <div className="vendorNameTooltip">
+                        <div className="vendorNameSearchDiv">
+                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorName || "Search Vendor"} // Update placeholder
+                              value={searchQueryByName} onChange={handleNameSearchChange}/>
+                          {
+                            showCrossIcon 
+                                   ? 
+                              <CloseIcon
+                                style={{  fontSize: '19px',  position: 'absolute', top: '12px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearSearch}/>
+                                  : 
+                              <SearchIcon
+                                style={{ fontSize: '19px', position: 'absolute', top: '12px', left: '79%',color: 'black', }}/>
+                            }
+                          {
+                             showDropdown && searchQueryByName
+                                       ? 
+                              filteredVendorNameInvoices.length > 0 
+                                          ? 
+                              filteredVendorNameInvoices.map((invoice) => (
+                                <div key={invoice.id} className="invoiceCard"  onClick={() => handleVendorClick(invoice.vendorName)} >
+                                  <div className="vendorName" id='filterTooltip'>{invoice.vendorName}</div>
+                                </div>
+                              ))
+                                              : 
+                            <div className="noResults"  id='filterTooltip'>No matching invoices found</div>
+                                                   : 
+                                                ""
+                          }
+                        </div>
+                      </div>
+                    }
                     </th>
-                    <th>Bill Number</th>
+
+                    <th  onMouseEnter={handleMouseEnterBill} onMouseLeave={handleMouseLeaveBill} ondata-toggle="tooltip" data-placement="bottom" >
+                      Bill Number
+                     {
+                               showBillNumberSearch 
+                                       && 
+                      <div className="vendorNameTooltip" id='billNumberAQTool'>
+                        <div className="vendorNameSearchDiv">
+                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorBillNumber || "Search Vendor"} // Update placeholder
+                              value={searchQueryByBillNumber} onChange={handleBillNumberSearch}/>
+                          {
+                            showCrossBillNumber 
+                                   ? 
+                              <CloseIcon
+                                style={{  fontSize: '19px',  position: 'absolute', top: '12px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearBillNumber}/>
+                                  : 
+                              <SearchIcon
+                                style={{ fontSize: '19px', position: 'absolute', top: '12px', left: '79%',color: 'black', }}/>
+                            }
+                          {
+                             showDropdownBillNumber && searchQueryByBillNumber
+                                       ? 
+                              filteredBillNumberInvoices.length > 0 
+                                          ? 
+                              filteredBillNumberInvoices.map((invoice) => (
+                                <div key={invoice.id} className="invoiceCard"  onClick={() => handleBillNumber(invoice.billId)} >
+                                  <div className="vendorName" id='filterTooltip'>{invoice.billId}</div>
+                                </div>
+                              ))
+                                              : 
+                            <div className="noResults"  id='filterTooltip'>No matching invoices found</div>
+                                                   : 
+                                                ""
+                          }
+                        </div>
+                      </div>
+                    }
+                    </th>
                     <th>Bill Date</th>
                     <th>Inbox Method</th>
                     <th>Amount</th>
@@ -77,7 +251,7 @@ function DeclineTable() {
                             &nbsp;&nbsp;&nbsp;{invoice.vendorName}
                           </td>
                           <td>  {invoice.billId}</td>
-                          <td>{new Date(invoice.billDate).toLocaleDateString()} </td>
+                          <td>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                           <td> {invoice.inboxMethod}</td>
                           <td> {invoice.amount}</td>
                           <td id="ActionOfdecline">
