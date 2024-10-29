@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import PreviewSection from './PreviewSection/PreviewSection';
 import EditIcon from '@mui/icons-material/Edit';
 import DeclineTable from './DeclineTable/DeclineTable';
+import FilterDrawer from './FilterSection/FilterDrawer';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -29,7 +30,7 @@ function AQ() {
   const [activeButton, setActiveButton] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [activePage, setActivePage] = useState(1); // State for active pagination item
-  const [itemsPerPage] = useState(5);   
+  const [itemsPerPage] = useState(7);   
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -39,18 +40,24 @@ function AQ() {
   const [declineHoveredIndex, setdeclineHoveredIndex] = useState(null);
 
 
-  const [acceptClickIndex, setacceptClickIIndex] = useState(null);
+  const [acceptClickIndex, setacceptClickIIndex] = useState(0);
   const [acceptStatus, setacceptStatus] = useState();
   const [declinedStatus, setdeclinedStatus] = useState('');
   const [declinedform, setdeclinedform] = useState(false);
   const [selected, setSelected] = useState(null);
+  const[toBeDeclineCaseId, setToBeDeclineCaseId] = useState("")
 
   // invoice---
   const [invoices, setInvoices] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState(0);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
-
+  const [filteredData, setFilteredData] = useState([]);
+  const [filters, setFilters] = useState({ dateRange: { from: null, to: null },
+    keyword: "",
+    amount: { equalTo: "", greaterThan: "", lessThan: "" },
+    selectedMethods: [],
+    selectedDepartments: [],});
   
   let index="";
     // Fetch invoices from the backend
@@ -60,7 +67,7 @@ function AQ() {
           params: { page, itemsPerPage }
         });
         setInvoices(response.data);
-        console.log(response.data)
+        setFilteredData(response.data);
         // setTotalInvoices(response.headers['x-total-count']); // Assuming your API sends the total count in the header
       } catch (error) {
         toast.error("Failed to fetch invoices", { autoClose: 1500 });
@@ -70,8 +77,47 @@ function AQ() {
     useEffect(() => {
       fetchInvoices();
     }, []);
+    useEffect(() => {
+      // Filter data based on selected filters
+      let tempData = [...invoices];
   
+      // Filter by date range
+      if (filters.dateRange && filters.dateRange.from && filters.dateRange.to) {
+        tempData = tempData.filter((invoice) =>
+          new Date(invoice.receivingDate) >= new Date(filters.dateRange.from) &&
+          new Date(invoice.receivingDate) <= new Date(filters.dateRange.to)
+        );
+      }
+  
+      // Filter by keyword
+      if (filters.keyword) {
+        tempData = tempData.filter((invoice) =>
+          invoice.vendorName.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+        invoice.billId.toLowerCase().includes(filters.keyword.toLowerCase())
+        );
+      }
+      if (filters.amount) {
+        if (filters.amount.equalTo) {
+          tempData = tempData.filter((invoice) => invoice.amount === filters.amount.equalTo);
+        }
+        if (filters.amount.greaterThan) {
+          tempData = tempData.filter((invoice) => invoice.amount >= filters.amount.greaterThan);
+        }
+        if (filters.amount.lessThan) {
+          tempData = tempData.filter((invoice) => invoice.amount <= filters.amount.lessThan);
+        }
+      }
+  
+      // Filter by options
+      if (filters.selectedMethods.length) {
+        tempData = tempData.filter((invoice) => filters.selectedMethods.includes(invoice.inboxMethod));
+      }
 
+      if (filters.selectedDepartments.length) {
+        tempData = tempData.filter((invoice) => filters.selectedDepartments.includes(invoice.department));
+      }
+      setFilteredData(tempData);
+    }, [filters, invoices]);
 
 
     // --------------------------------preview-----------------------------------
@@ -111,9 +157,13 @@ const handleClickReason = (index) => {
 };
 
   function handleDeclineform(index){
+    console.log(index)
     setdeclinedform(true)
     // setacceptClickIIndex(invoices[index])
-    console.log(invoices[index]) 
+    setCurrentPage(1);  // Reset to the first page when showing the decline form
+    setPageNumber(1); 
+    console.log(invoices[index].caseId) 
+    setToBeDeclineCaseId(invoices[index].caseId)
     index = invoices[index]
   };
 
@@ -125,24 +175,23 @@ const handleClickReason = (index) => {
 
 
   const DeclineButtonWithform = async ()=> {
-    console.log(index)
+    console.log(toBeDeclineCaseId)
       if(selected!==null){
         let declinedStatus = "Decline the invoice"
-        console.log("gygu"+index)
         try {
           console.log(acceptClickIndex)
           const response = await axios.post(`${apiEndPointUrl}/decline`, {
-            invoiceId: acceptClickIndex.caseId, // Replace with the actual invoice ID field
+            invoiceId: toBeDeclineCaseId, // Replace with the actual invoice ID field
             status: declinedStatus
           });
-
-          console.log(response.data.status)
           if(response.data.status===500 || response.data.status===400 ){
             toast.error('Sttatus is already approved/ declined !');
           }
           else{
-            console.log('Invoice declinedStatus:', response.data.message);
-            toast.success(`${response.data.message}`);
+            toast.success(`${response.data.message}`,{ autoClose: 700 });
+            setdeclinedform(false);
+            fetchInvoices();
+
           }
         } catch (error) {
           console.log('Error declinedStatus invoice:', error.message);
@@ -159,31 +208,31 @@ const handleClickReason = (index) => {
 
 // ------------accept------------
 const handleAccept = async (index) => {
+  console.log(index);
   setacceptStatus("Accept the invoice")
   setacceptClickIIndex(invoices[index].caseId)
-  if(acceptClickIndex && acceptStatus){
       try {
         console.log(invoices[index].caseId)
         const response = await axios.post(`${apiEndPointUrl}/accept`, {
-          invoiceId: acceptClickIndex.caseId, // Replace with the actual invoice ID field
-          status: acceptStatus
+          invoiceId: invoices[index].caseId, // Replace with the actual invoice ID field
+          status: "Accept the invoice"
         });
 
         console.log(response)
         if(response.data.status===500 || response.data.status===400 ){
-          console.log('Invoice', response.data.message);
-          toast.error('Status is already approved/ declined !');
+          toast.error('Error in accepting invoice !');
         }
         else{
           console.log(response.data.status);
-          toast.success(`${response.data.message}`);
+          toast.success(`${response.data.message}`, { autoClose: 1500 });
+          fetchInvoices();
         }
       } catch (error) {
-        console.log('Error accepting invoice:', error.response.data.message);
+        console.log('Error in accepting invoice:', error.response.data.message);
         toast.error(`${error.response.data.message}`)
       }
 
-    }
+    
 };
 
 
@@ -275,7 +324,7 @@ const handleAccept = async (index) => {
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -289,7 +338,7 @@ const handleAccept = async (index) => {
   };
 
   // Calculate total pages
-  const totalPages = Math.ceil(totalItems / itemsPerPage1);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
     <div style={{display:"flex"}}>
@@ -326,9 +375,11 @@ const handleAccept = async (index) => {
           </button>
         </div>
 
-         <button className='AQfilter'>
-             <img src={filter} style={{ width:"0.9em", height: "2em" }} /> <span>Filter</span>
-         </button>
+         {/* <button className='AQfilter'>
+             
+         </button> */}
+         <FilterDrawer onApplyFilters={setFilters} />
+
 
      </div>
 
@@ -352,7 +403,7 @@ const handleAccept = async (index) => {
                 </thead>
                 <tbody>
                     {
-                      invoices.map((invoice, index) => (
+                      currentItems.map((invoice, index) => (
                         <tr key={invoice.billId}>
                           <td onClick={() => handleShowPreview(invoice, index)}>
                             <input type="checkbox" />{" "}
@@ -363,7 +414,7 @@ const handleAccept = async (index) => {
                             &nbsp;&nbsp;&nbsp;{invoice.vendorName}
                           </td>
                           <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
-                          <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.billDate).toLocaleDateString()} </td>
+                          <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.inboxMethod}</td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                           <td id="actionOfAQ">
@@ -401,7 +452,7 @@ const handleAccept = async (index) => {
                 </thead>
                 <tbody>
                   {
-                    invoices.map((invoice, index) => (
+                    currentItems.map((invoice, index) => (
                       <tr key={invoice.billId}>
                         <td>
                           <input type="checkbox" />{" "}
@@ -412,7 +463,7 @@ const handleAccept = async (index) => {
                           &nbsp;&nbsp;&nbsp;{invoice.vendorName}
                         </td>
                         <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
-                        <td>{new Date(invoice.billDate).toLocaleDateString()}</td>
+                        <td>{new Date(invoice.receivingDate).toLocaleDateString()}</td>
                         <td>{invoice.inboxMethod}</td>
                         <td>{invoice.amount}</td>
                         <td id="actionOfAQWithDeclineform">
@@ -467,7 +518,8 @@ const handleAccept = async (index) => {
             </div>
                        : 
                       
-                <DeclineTable />
+                <DeclineTable filters={filters} currentPage={currentPage}
+          itemsPerPage={itemsPerPage}/>
         
         }
 
@@ -477,7 +529,7 @@ const handleAccept = async (index) => {
         <div className='pagination-insideDiv'>
           <Pagination
             count={totalPages}
-            page={pageNumber}
+            page={currentPage}
             onChange={handlePageChange}
           />
           </div>

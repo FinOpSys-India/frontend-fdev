@@ -75,7 +75,15 @@ function Home(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
-
+  useEffect(() => {
+    axios.get(`${apiEndPointUrl}/emails`)  // Replace with your backend URL
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.error('Error fetching emails:', error);
+      });
+  }, []);
   return (
     <div className={`${isCollapsed ? "collapsed" : "sideMenu"}`} style={{ width:isCollapsed ? "5%" : "12.5%" ,backgroundColor:"#f5f1fe", height:"100vh", position: "relative"}} >
         <div className="finopsysLogo" style={{margin: isCollapsed ? "20%" : "10%" , marginTop: isCollapsed ? "30%" : "10%"}}>

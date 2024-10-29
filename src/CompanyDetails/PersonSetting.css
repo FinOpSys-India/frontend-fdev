@@ -93,17 +93,10 @@
 }
 
 
-img{
+.avatarLogo{
   width: 33px;
   height: 36px;
   gap: 0px;
-  border-radius: 11px 0px 0px 0px;
-
-  width: 35px;
-  height: 35px;
-  gap: 0px;
-  border-radius: 11px 0px 0px 0px;
   opacity: 0px;
-
-
+  border-radius: 11px 0px 0px 0px;
 }

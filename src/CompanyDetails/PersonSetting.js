@@ -39,7 +39,7 @@ const PersonSetting = () => {
     <div className="dashboardPop">
         <div className="leftMenu">
             <div className="imageAndDetails">
-                <img  src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
+                <img className="avatarLogo" src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
                 <div>
                   <h5 className="name ">{companyUser.FIRSTNAME} {companyUser.LASTNAME}</h5>
                   <p className="admin ">Admin</p>
