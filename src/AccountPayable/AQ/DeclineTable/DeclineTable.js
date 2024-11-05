@@ -205,7 +205,7 @@ const filteredBillNumberInvoices = invoices.filter(invoice =>
                                        && 
                       <div className="vendorNameTooltip" id='billNumberAQTool'>
                         <div className="vendorNameSearchDiv">
-                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorBillNumber || "Search Vendor"} // Update placeholder
+                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorBillNumber || "Search Bill"} // Update placeholder
                               value={searchQueryByBillNumber} onChange={handleBillNumberSearch}/>
                           {
                             showCrossBillNumber 

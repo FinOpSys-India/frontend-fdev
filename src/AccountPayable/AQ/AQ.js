@@ -511,7 +511,7 @@ const handleAccept = async (index) => {
                                        && 
                       <div className="vendorNameTooltip" id='billNumberAQTool'>
                         <div className="vendorNameSearchDiv">
-                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorBillNumber || "Search Vendor"} // Update placeholder
+                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorBillNumber || "Search Bill"} // Update placeholder
                               value={searchQueryByBillNumber} onChange={handleBillNumberSearch}/>
                           {
                             showCrossBillNumber 
@@ -634,7 +634,7 @@ const handleAccept = async (index) => {
                                        && 
                       <div className="vendorNameTooltip"  style={{ width: '9%'}}>
                         <div className="vendorNameSearchDiv">
-                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorBillNumber || "Search Vendor"} // Update placeholder
+                          <input id="vendorNameSearch"  type="text"  className="form-control" placeholder={selectedVendorBillNumber || "Search Bill"} // Update placeholder
                               value={searchQueryByBillNumber} onChange={handleBillNumberSearch}/>
                           {
                             showCrossBillNumber 
