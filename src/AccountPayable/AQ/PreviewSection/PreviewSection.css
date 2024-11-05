@@ -1,0 +1,254 @@
+#invoiceImg{
+    width:73%;
+    height: 94%;
+    border: 1px solid black;
+    border-radius: 12px;
+}
+
+.PreviewSectionLeft{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+
+/* --------------------right-------------------------- */
+.PreviewSectionRight{
+    background-color: rgba(240, 240, 240, 1);
+    margin-top: 0% !important;  
+    padding-top: 0% !important; 
+}
+
+
+.PreviewSectionNavBar{
+     margin-top: 3.6%;
+     margin-left: 3%;
+     display:flex;
+     justify-content: space-between;
+
+    p{
+        font-size: 24px;
+       font-weight: 600;
+    }
+
+    .p{
+        font-size: 10px;
+       font-weight: 500;
+       margin-right: 3%;
+       background-color: white;
+        padding: 1%;
+        height: 24px;
+       border-radius: 6px;
+    }
+}
+
+
+.PreviewSectionAdress{
+    color: rgba(140, 140, 140, 1);
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 3%;
+}
+
+.Previewdescription{
+    margin-left: 3%;
+}
+
+.PreviewLabelAndInput{
+    display: flex;
+    justify-content: space-between;
+}
+
+.PreviewdescriptionLabel{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.PreviewdescriptionInput{
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(140, 140, 140, 1);
+    margin-right: 3%;
+}
+
+#PreviewdescriptionLabel{
+    padding-top: 2%;
+}
+
+#PreviewdescriptionInput{
+    padding-top: 2%;
+}
+
+.PreviewdescriptionTable{
+    /* margin-right: 3%;
+    margin-left: 3%; */
+
+    width:96%;
+    border-radius: 12px;
+    border-collapse: separate; /* Use 'separate' to allow border-radius to work */
+    border-spacing: 0; /* Remove spacing between cells */
+    border: 1px solid #dee2e6; /* Border for table */
+    border-radius: 12px; /* Apply rounded corners to the table */
+    overflow: hidden;
+}
+
+.PreviewdescriptionTable thead th {
+    /* border-top-left-radius: 12px; */
+    background-color:rgba(121, 57, 239, 1);
+    font-size:  14px;
+    font-weight: 500;
+    color: white;
+}
+
+.PreviewdescriptionTable thead th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.PreviewdescriptionData{
+    border-radius: 12px;
+font-size: 14px;
+font-weight: 400;
+color: rgba(140, 140, 140, 1);
+
+}
+
+
+.PreviewdescriptionTable tbody td{
+font-size: 14px;
+font-weight: 400;
+color: rgba(140, 140, 140, 1);
+
+}
+
+
+.PreviewDataTotalDiv{
+    background-color: white;
+    display: flex;
+    margin-right: 3%;
+    margin-left: 3%;
+    justify-content: space-between;
+    padding-top:1%;
+    border-radius:  9px;
+}
+
+.PreviewDataTotal{
+    padding-left:  3%;
+    padding-bottom: 1%;
+    font-size: 14px;
+font-weight: 500;
+}
+
+.PreviewDataTotalInput{
+   padding-right: 3%;
+   font-size: 14px;
+font-weight: 500;
+}
+
+
+
+
+
+/* ------------------------------------accept and --------------- */
+
+.PreviewDataAcceptAndDeline{
+     display: flex;
+     justify-content: space-between;
+     margin-left: 3%;
+     margin-right: 3%;
+     margin-top: 3%;
+}
+
+.PreviewDataAccept{
+    padding-top:3px;
+    padding-bottom: 3px;
+    gap: 10px;
+    border-radius: 12px;
+    border: 1px ;
+    border: 1px solid rgba(22, 101, 52, 1);
+    background-color: rgba(22, 101, 52, 1); ;
+    width:49%;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+ .PreviewDataDeline{
+    padding-top:3px;
+    padding-bottom: 3px;
+    gap: 10px;
+    border-radius: 12px;
+    border: 1px;
+    border: 1px solid rgba(231, 51, 51, 1);
+    background-color: rgba(231, 51, 51, 0.1);
+    width:49% ;
+    color: rgba(231, 51, 51, 1);
+    font-size: 14px;
+    font-weight: 500;
+
+
+}
+
+
+
+
+
+/* -----------------------------formCloseButton-------------------------------------------- */
+
+
+.formCloseButton{
+    border-radius:12px;
+    background-color: rgba(231, 51, 51, 0.10);
+    padding: 8px 16px;
+    color:rgba(231, 51, 51, 1);
+    border: 0 solid  rgba(231, 51, 51, 0.10);
+    width: 96%;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.reasonOfDeclineDiv{
+    margin-left: 3%;
+    margin-top: 3.9%;
+    height: 5.3%;
+}
+
+
+
+.reasonOfDecline{
+    font-size: 12px;
+    font-weight: 400;
+    /* background-color: red; */
+    width:96%;
+    border-radius: 8px;
+    height: 100%;
+    padding-left: 3%;
+    padding-top: 1%;
+    transition: border 0.3s ease;
+}
+
+.reasonOfDecline:hover{
+   border: 1px solid rgba(140, 140, 140, 0.4)
+   
+}
+
+.DeclineButton{
+
+    margin-top: 39%;
+    width:96%;
+    border-radius:12px;
+    background-color: rgba(231, 51, 51, 0.10);
+    padding: 8px 16px;
+    color:rgba(231, 51, 51, 1);
+    border: 1px solid rgba(231, 51, 51, 1);;
+    font-size: 14px;
+    font-weight: 500;
+
+}
+
+.selected {
+    background-color: rgba(121, 57, 239, 1); 
+    color: white;
+  }
+
+/* background: rgba(121, 57, 239, 1); */

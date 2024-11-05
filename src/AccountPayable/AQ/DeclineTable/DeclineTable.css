@@ -1,0 +1,36 @@
+
+#ActionOfdecline{
+    /* display: flex; */
+    gap:6%;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+ }
+ 
+ 
+ .sendActionOfdecline{
+   font-size: 16px;
+   background-color:  rgba(240, 240, 240, 1);
+   /* padding: 3.9%; */
+   width:30%;
+   border-radius: 12px;
+   padding: 3%;
+ }
+
+ 
+
+ 
+ #sendActionOfdecline:hover {
+   display: inline;   
+   color: white; 
+   width:47%;  
+   background-color:rgba(121, 57, 239, 1);
+   font-size: 14px;
+   font-weight: 500;  
+   padding: 3%;
+   padding-right: 3.3%;
+ 
+ }
+ #billNumberAQTool{
+  width:12%
+}
