@@ -190,6 +190,7 @@ margin-top: -6px;
         font-size: 14px;
         font-weight: 400;
         color:white;
+        cursor: pointer;
     } 
 
     Table thead tr {
@@ -496,3 +497,57 @@ margin-top: -6px;
 }
 
 /* background: rgba(121, 57, 239, 1); */
+.vendorNameTooltip{
+  /* z-index: 100; */
+  position: absolute;
+  top:33%;
+  /* position: 'absolute';
+  top: '100%';
+  left: '0',
+  zIndex: '1000';
+  padding: '10px',
+  backgroundColor: '#fff',
+  border: '1px solid #ccc',
+  borderRadius: '4px',
+  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.15)';
+  width: '250px'; */
+  width:16%;
+}
+#billNumberAQTool{
+  width:12%
+}
+.vendorNameSearchDiv{
+  padding: 3%;
+  background-color:  rgba(240, 240, 240, 1);
+  box-shadow: 1px rgba(0, 0, 0, 0.4);
+  box-shadow:  6px 6px -6px rgba(0, 0, 0, 0.16);
+  width:100%;
+  border-radius: 10px;
+  border: 1px 
+}
+#vendorNameSearch{
+  font-size: 12px;
+  font-weight: 400;
+  width:100%;
+}
+/* #vendorNameSearch.clicked:hover{
+  border: 2px solid black;
+} */
+.vendorNameTooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%; /* Position the nip at the bottom of the tooltip */
+  left: 10%;
+  margin-left: -4px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: transparent transparent  rgba(240, 240, 240, 1) transparent; 
+  box-shadow: 1px rgba(0, 0, 0, 0.4);
+  box-shadow:  6px 6px -6px rgba(0, 0, 0, 0.16);
+}
+#filterTooltip{
+  color: black;
+font-size: 12px;
+font-weight: 400;
+padding: 3%;
+}
