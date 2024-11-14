@@ -201,7 +201,7 @@ function SignUp() {
                     </Tooltip>
                     }
                   >
-                    <div className="input-group passwordAndEye">
+                    <div className="input-group-signup passwordAndEye">
                       <input type={showPassword ? "text" : "password"} className={`form-control ${passwordError ? 'is-invalid' : ''}`} id="password" required placeholder="Enter the Password" value={values.password} onChange={(e) => setValues({ ...values, password: e.target.value })} />
                         <button type="button" className="btn btn-outline-secondary eyeDiv"  onClick={togglePasswordVisibility}>
                           <i className={showPassword ? "fas fa-eye" : "fas fa-eye-slash"} id="eye" onClick={togglePasswordVisibility}></i>
@@ -220,7 +220,7 @@ function SignUp() {
                     </Tooltip>
                     }
                   >
-                    <div className="input-group passwordAndEye">
+                    <div className="input-group-signup passwordAndEye">
                     <input type={showConfirmPassword ? "text" : "password"} className={`form-control ${passwordError ? 'is-invalid' : ''}`} id="confirmPassword" required placeholder="Enter the Confirmed Password" value={values.confirmPassword} onChange={(e) => setValues({ ...values, confirmPassword: e.target.value })} />
                           <button type="button" className="btn btn-outline-secondary eyeDiv"  onClick={toggleConfirmPasswordVisibility}>
                             <i className={showConfirmPassword ? "fas fa-eye" : "fas fa-eye-slash"} id="eye" onClick={toggleConfirmPasswordVisibility}></i>
@@ -231,7 +231,7 @@ function SignUp() {
               </div>
 
               <div className="col-12">
-                <button type="submit" className=" signupBtn">Sign in</button>
+                <button type="submit" className=" signupBtn">Sign Up</button>
 
               </div>
 
