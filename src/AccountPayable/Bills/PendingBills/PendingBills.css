@@ -1,0 +1,118 @@
+/* 
+.AQNavbarSideButtons{
+    display: flex;
+    gap:9%;
+   }
+   
+   .AQNavbarSideButtons img {
+     width: 0.9em;
+     height: auto;
+     margin-top: 6px; 
+   }
+   
+
+
+   
+.filterBillDiv{
+    display: flex;
+    gap:12%;
+    padding: 8px 19px 8px 16px;
+    border-radius: 12px;
+    font-size: 12px;
+     border: 1px solid rgba(121, 57, 239, 1);
+     color: rgba(121, 57, 239, 1);
+     background-color: white;
+     white-space: nowrap;
+  }
+   */
+
+
+/* ---------------------------drop down with page change------------------ */
+   .BillDropDown {
+    background-color: white; 
+    border: 0 ;
+    font-size: 24px;
+    font-weight: 600;
+    color: black;
+  }
+  
+  .BillDropDown:hover {
+    background-color: white;
+    color: black;
+  }
+  
+
+  .btn-check:checked + .btn, .btn.active,
+    .btn.show,
+   .btn:first-child:active,
+   :not(.btn-check) + .btn:active {
+    color: unset;
+    background-color: unset;
+    border-color: unset;
+ }
+
+
+/* --------------------------------search and uipload----------------------- */
+
+
+.BillNavbarSideButtons{
+    display: flex;
+    gap:12%;
+}
+   
+.BillNavbarSideButtons img {
+    /* width: 0.9em;
+    height: auto; */
+    margin-top: 6px; 
+}
+
+
+
+#BillNameSearch{
+  font-size: 12px;
+  font-weight: 400;
+  width:100%;
+  text-align: center;
+}
+
+
+
+#BillNameSearch{
+    font-size: 12px;
+    font-weight: 400;
+    width:100%;
+  }
+
+
+  
+.BillNavbarExportButton{
+    display: flex;
+    padding-bottom : 6px;
+    padding-top: 6px;
+    padding-right: 16px;
+    white-space: nowrap;
+    height: 71%;
+    gap:12%;
+    width:fit-content;
+    font-size: 12px;
+    border-radius: 12px;
+     border: 1px solid rgba(121, 57, 239, 1);
+     color:white;
+     background-color: rgba(121, 57, 239, 1);
+     margin-right:6px;
+  }
+  
+   /* -----------------------------------------------------filterBillDiv------------------------------- */
+
+   .filterBillDiv{
+       display: flex;
+       width:100%;
+       justify-content: space-between;
+       margin-top: 1.6%;
+       padding: 3px 12px 8px 16px;
+       background-color:  rgba(240, 240, 240, 1);
+       border-radius: 12px;
+
+   }
+
+

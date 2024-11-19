@@ -1,5 +1,6 @@
 import React,{ useState, useCallback }  from 'react'
-import { Button, Modal, ProgressBar } from "react-bootstrap";import  "./AQ.css";
+import { Button, Modal, ProgressBar } from "react-bootstrap";
+import  "./AQ.css";
 import update from '../../assets/update.svg';
 import upload from '../../assets/upload.svg';
 import filter from '../../assets/filter.svg';

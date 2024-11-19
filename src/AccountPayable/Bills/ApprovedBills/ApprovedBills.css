@@ -1,0 +1,182 @@
+.approvedTableWithAcitivityLog{
+  display: flex;
+  gap:0%;
+  background-color:  rgba(240, 240, 240, 1);
+  border-radius: 20px;
+  margin-top: 1.9%;
+}
+
+
+#acityLogTable{
+    width:74%
+}
+
+.acitityLog{
+    /* background-color: rgb(128, 45, 45); */
+    width:26%;
+    margin-top: 1.5rem;
+    border-radius: 20px;
+    margin-right: 1.6%;
+    /* padding: 16px 0px 0px 0px; */
+}
+
+/* .outerTableDiv{
+    background-color: rgba(240, 240, 240, 1);
+    padding: 16px 0px 0px 0px;
+    gap: 12px;
+    border-radius: 20px ;
+    height: 69%;
+} */
+
+.acitivityNavbar{
+     display:flex;
+     background-color:  rgba(121, 57, 239, 1);
+     padding :6px;
+     margin-top: 0%;
+     border-radius: 12px;
+     color: white;
+     justify-content: space-between;
+
+}
+
+#activitylog{
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    /* padding-right: 6%; */
+ }
+
+
+ .activitylogBAutton{
+      display: flex;
+      gap:6%;
+      align-items: first baseline;
+      padding-right: 6%;
+      cursor:pointer;
+ }
+
+
+ /* ------------------------activitylogContent---------------------- */
+
+
+ .activitylogContent{
+    background-color: white;
+    width:100%;
+    margin-top: 3.6%;
+    border-radius: 12px;
+    display:flex;
+    flex-direction: column; 
+    gap: 20px;
+ }
+ 
+ 
+.activitylogSectionDiv{
+    display:flex;
+     gap: 19px;
+    background-color:  rgba(240, 240, 240, 1);
+    margin: 3%;
+    padding-right: 3%;
+    border-radius: 12px;
+    padding-bottom: 3%;
+}
+
+
+.activitylogPoint{
+    padding-left: 3%;
+    font-size: 19px;
+    padding-top: 1.6%;
+    width:3%;
+}
+
+
+.activitylogInformation{
+    width:97%;
+
+}
+
+.activityNameAndDrop{
+   display: flex;
+   justify-content: space-between;
+   gap:3%;
+    font-size: 14px;
+    font-weight: 500;
+   color:rgba(121, 57, 239, 1);
+   padding: 3%;
+   cursor:pointer
+}
+
+
+.acitivityDetails{
+    margin-top: -3%;
+    padding-left: 3%;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(140, 140, 140, 1);
+}
+
+.acitivityDateAndTime{
+    display: flex;
+    justify-content: space-between;
+}
+
+#acitivityDateAndTime{
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.acitivityinvoiceState{
+    font-size: 9px;
+    font-weight: 400;
+    color: black;
+    background: rgba(64, 64, 64, 0.1);
+    border-radius: 12px;
+    padding-right: 2%;
+     padding-left: 2%;
+}
+
+
+
+/* -------------------------activityLogExport-------------- */
+
+.activityLogExport{
+    padding: 3px 16px 6px 16px;
+    color: rgba(121, 57, 239, 1);
+    border-radius: 12px ;
+    border: 1px solid rgba(121, 57, 239, 1);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3%;
+}
+
+
+
+
+
+ /* -------------------------------------DetailedInfo , opening----------------- */
+ .acitivityDetailedInfo{
+  display:  flex;
+  justify-content: space-between;
+ }
+
+
+ .acitivityDetailLabel{
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(20, 20, 20, 1);
+    ;
+ }
+
+ 
+ .acitivityDetailInput{
+    font-size: 10px;
+    font-weight: 400;
+ }
+
+
+  .modal-dialog {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    margin: 0;
+    max-width: 300px;}
