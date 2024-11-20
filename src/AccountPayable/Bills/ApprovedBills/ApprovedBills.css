@@ -1,3 +1,7 @@
+.BillNavbarExportButton{
+    
+}
+
 .approvedTableWithAcitivityLog{
   display: flex;
   gap:0%;
@@ -34,6 +38,7 @@
      padding :6px;
      margin-top: 0%;
      border-radius: 12px;
+     height:9%;
      color: white;
      justify-content: space-between;
 
@@ -43,7 +48,7 @@
     font-size: 12px;
     font-weight: 500;
     color: white;
-    /* padding-right: 6%; */
+    padding-right: 6%;
  }
 
 
@@ -173,10 +178,10 @@
     font-weight: 400;
  }
 
-
+/* 
   .modal-dialog {
     position: fixed;
     top: 90px;
     right: 20px;
     margin: 0;
-    max-width: 300px;}
+    max-width: 300px;} */

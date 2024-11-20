@@ -20,6 +20,7 @@ import  "./ApprovedBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
 
@@ -113,6 +114,59 @@ function ApprovedBills() {
    }
 
 
+
+
+
+
+   
+
+   //---------------------filter data based on selected filters------------------------------
+    
+   useEffect(() => {
+    let tempData = [...invoices];
+
+    // Filter by date range
+    if (filters.dateRange && filters.dateRange.from && filters.dateRange.to) {
+      tempData = tempData.filter((invoice) =>
+        new Date(invoice.receivingDate) >= new Date(filters.dateRange.from) &&
+        new Date(invoice.receivingDate) <= new Date(filters.dateRange.to)
+      );
+    }
+
+    // Filter by keyword
+    if (filters.keyword) {
+      tempData = tempData.filter((invoice) =>
+        invoice.vendorName.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+      invoice.billId.toLowerCase().includes(filters.keyword.toLowerCase())
+      );
+    }
+    if (filters.amount) {
+      if (filters.amount.equalTo) {
+        tempData = tempData.filter((invoice) => invoice.amount === filters.amount.equalTo);
+      }
+      if (filters.amount.greaterThan) {
+        tempData = tempData.filter((invoice) => invoice.amount >= filters.amount.greaterThan);
+      }
+      if (filters.amount.lessThan) {
+        tempData = tempData.filter((invoice) => invoice.amount <= filters.amount.lessThan);
+      }
+    }
+
+    // Filter by options
+    if (filters.selectedMethods.length) {
+      tempData = tempData.filter((invoice) => filters.selectedMethods.includes(invoice.inboxMethod));
+    }
+
+    if (filters.selectedDepartments.length) {
+      tempData = tempData.filter((invoice) => filters.selectedDepartments.includes(invoice.department));
+    }
+    setFilteredData(tempData);
+  }, [filters, invoices]);
+
+
+
+
+
   // -----------------------------Calculate pagination-------------------
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -141,13 +195,13 @@ function ApprovedBills() {
                 
                 <Dropdown onSelect={handleSelect}>
                     <Dropdown.Toggle  id="" className="BillDropDown">
-                      {selectedItem} 
+                     <p>{selectedItem} <ArrowDropDownIcon/></p> 
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
-                      <Dropdown.Item eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
-                      <Dropdown.Item eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>    
+                    <Dropdown.Menu className='billDropdownItem'>
+                      <Dropdown.Item className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      <Dropdown.Item className='billDropdownEachItem'  eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
+                      <Dropdown.Item className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>    
                     </Dropdown.Menu>
                   </Dropdown>
 
@@ -156,13 +210,13 @@ function ApprovedBills() {
                       <SearchIcon style={{ fontSize: '19px', position: 'absolute', top: '33px', left: '83%',color: 'black', }}/>    
                       <input id="BillNameSearch"  type="text"  className="form-control" placeholder="Search"/>
                     </div> 
-                    <button className='BillNavbarExportButton'> <img src={upload}/>Export</button>
+                    <button className='BillNavbarExportButton'>Export</button>
                 </div>
               </div>
 
               <div className='filterBillDiv'>
                   <div className=''>
-                    uibjllknnknknk
+                    {"bill"}
                   </div>
 
                     <FilterDrawer onApplyFilters={setFilters} />
@@ -253,7 +307,7 @@ function ApprovedBills() {
                               <span id="activitylog">Activity Log</span>
                               <div className='activitylogBAutton'>
                                 <img src={leftButton}/>&nbsp;
-                                <img src={rightButton}/>&nbsp;|&nbsp;
+                                <img src={rightButton}/>&nbsp;| &nbsp;
                                 <img src={crossButton} onClick={acitivityLogClose}/>
                               </div>
                           </div>
@@ -352,22 +406,7 @@ function ApprovedBills() {
                               <div className='activityLogExport' onClick={openModal}>
                                  Export  
                               </div>
-                              <Modal show={isModalOpen} onHide={closeModal} left dialogClassName="custom-modal">
-          <Modal.Header closeButton>
-            <Modal.Title>Export Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>Additional export information goes here...</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={closeModal}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
+                              
                           </div>
                       </div>
 

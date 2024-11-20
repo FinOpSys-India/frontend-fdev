@@ -90,6 +90,8 @@ function AQ() {
     useEffect(() => {
       fetchInvoices();
     }, []);
+
+
     useEffect(() => {
       // Filter data based on selected filters
       let tempData = [...invoices];
@@ -131,6 +133,7 @@ function AQ() {
       }
       setFilteredData(tempData);
     }, [filters, invoices]);
+
 
     //tooltip
     const handleMouseEnter = () => {

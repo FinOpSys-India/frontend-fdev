@@ -13,6 +13,9 @@ import { ToastContainer, toast } from "react-toastify";
 import  "./DeclineBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+
 
 
 
@@ -76,6 +79,96 @@ function DeclineBills() {
     }
 
 
+    
+
+   //---------------------filter data based on selected filters------------------------------
+    
+    useEffect(() => {
+      let tempData = [...invoices];
+  
+      // Filter by date range
+      if (filters.dateRange && filters.dateRange.from && filters.dateRange.to) {
+        tempData = tempData.filter((invoice) =>
+          new Date(invoice.receivingDate) >= new Date(filters.dateRange.from) &&
+          new Date(invoice.receivingDate) <= new Date(filters.dateRange.to)
+        );
+      }
+  
+      // Filter by keyword
+      if (filters.keyword) {
+        tempData = tempData.filter((invoice) =>
+          invoice.vendorName.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+        invoice.billId.toLowerCase().includes(filters.keyword.toLowerCase())
+        );
+      }
+      if (filters.amount) {
+        if (filters.amount.equalTo) {
+          tempData = tempData.filter((invoice) => invoice.amount === filters.amount.equalTo);
+        }
+        if (filters.amount.greaterThan) {
+          tempData = tempData.filter((invoice) => invoice.amount >= filters.amount.greaterThan);
+        }
+        if (filters.amount.lessThan) {
+          tempData = tempData.filter((invoice) => invoice.amount <= filters.amount.lessThan);
+        }
+      }
+  
+      // Filter by options
+      if (filters.selectedMethods.length) {
+        tempData = tempData.filter((invoice) => filters.selectedMethods.includes(invoice.inboxMethod));
+      }
+
+      if (filters.selectedDepartments.length) {
+        tempData = tempData.filter((invoice) => filters.selectedDepartments.includes(invoice.department));
+      }
+      setFilteredData(tempData);
+    }, [filters, invoices]);
+
+
+   //---------------------filter data based on selected filters------------------------------
+    
+   useEffect(() => {
+    let tempData = [...invoices];
+
+    // Filter by date range
+    if (filters.dateRange && filters.dateRange.from && filters.dateRange.to) {
+      tempData = tempData.filter((invoice) =>
+        new Date(invoice.receivingDate) >= new Date(filters.dateRange.from) &&
+        new Date(invoice.receivingDate) <= new Date(filters.dateRange.to)
+      );
+    }
+
+    // Filter by keyword
+    if (filters.keyword) {
+      tempData = tempData.filter((invoice) =>
+        invoice.vendorName.toLowerCase().includes(filters.keyword.toLowerCase()) ||
+      invoice.billId.toLowerCase().includes(filters.keyword.toLowerCase())
+      );
+    }
+    if (filters.amount) {
+      if (filters.amount.equalTo) {
+        tempData = tempData.filter((invoice) => invoice.amount === filters.amount.equalTo);
+      }
+      if (filters.amount.greaterThan) {
+        tempData = tempData.filter((invoice) => invoice.amount >= filters.amount.greaterThan);
+      }
+      if (filters.amount.lessThan) {
+        tempData = tempData.filter((invoice) => invoice.amount <= filters.amount.lessThan);
+      }
+    }
+
+    // Filter by options
+    if (filters.selectedMethods.length) {
+      tempData = tempData.filter((invoice) => filters.selectedMethods.includes(invoice.inboxMethod));
+    }
+
+    if (filters.selectedDepartments.length) {
+      tempData = tempData.filter((invoice) => filters.selectedDepartments.includes(invoice.department));
+    }
+    setFilteredData(tempData);
+  }, [filters, invoices]);
+
+
 
 
   // -----------------------------Calculate pagination-------------------
@@ -106,13 +199,13 @@ function DeclineBills() {
                 
                 <Dropdown onSelect={handleSelect}>
                     <Dropdown.Toggle  id="" className="BillDropDown">
-                      {selectedItem} 
+                       <p>{selectedItem} <ArrowDropDownIcon/></p> 
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
-                      <Dropdown.Item eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>
-                      <Dropdown.Item eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
+                    <Dropdown.Menu className='billDropdownItem'>
+                      <Dropdown.Item  className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      <Dropdown.Item  className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>
+                      <Dropdown.Item  className='billDropdownEachItem'  eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
 

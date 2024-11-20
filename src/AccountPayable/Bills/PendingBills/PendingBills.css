@@ -52,6 +52,27 @@
  }
 
 
+ .billDropdownItem, .billDropdownEachItem{
+  font-size: 12px;
+  font-weight: 400;
+  border-radius:  8px !important
+ }
+
+
+ .billDropdownItem .billDropdownEachItem:hover,
+ .billDropdownItem .billDropdownEachItem:focus {
+   background-color: rgba(121, 57, 239, 0.09) !important;
+   border-radius: 8px !important;
+ }
+ 
+
+ .billDropdownEachItem:active {
+  background-color: rgba(121, 57, 239, 0.09) !important;
+  border-radius:  8px !important;
+  color:black
+}
+
+
 /* --------------------------------search and uipload----------------------- */
 
 
@@ -87,11 +108,11 @@
   
 .BillNavbarExportButton{
     display: flex;
-    padding-bottom : 6px;
-    padding-top: 6px;
+    /* padding-bottom : 6px; */
+    padding-top: 3px;
     padding-right: 16px;
     white-space: nowrap;
-    height: 71%;
+    height: 49%;
     gap:12%;
     width:fit-content;
     font-size: 12px;
@@ -116,3 +137,282 @@
    }
 
 
+
+
+
+
+   /* ----------------------------------------------------------------- */
+
+
+   
+.tableWithPendiingBillChat{
+  display: flex;
+  gap:0%;
+  background-color:  rgba(240, 240, 240, 1);
+  border-radius: 20px;
+  margin-top: 1.9%;
+}
+
+.chatContent{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.PendiingBillChat{
+  width:26%;
+  margin-top: 1.5rem;
+  border-radius: 20px;
+  margin-right: 1.6%;
+  padding-top: 0%;
+}
+
+
+#PendiingBillChatTable{
+  width:74%;
+  margin-top: 0%;
+  padding-top: 0%;
+}
+
+
+
+
+.PendiingBillChatNavbar{
+ 
+   display:flex;
+     background-color:  rgba(121, 57, 239, 1);
+     padding :6px;
+     margin-top: 3%;
+     border-radius: 12px;
+     height:9%;
+     color: white;
+     /* justify-content: space-between; */
+     text-align: center;
+     gap:63%;
+     /* padding-top: 3%; */
+}
+
+
+
+.billNumberAndpeople{
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 500;
+  padding-bottom: 3.9%;
+  padding-left: 1.9%;
+}
+
+
+#billNoBill{
+  margin-top: -16%;
+}
+
+#billParticipant{
+  font-size: 10px;
+  font-weight: 400;
+  color:rgba(211, 211, 211, 1);
+}
+
+.pendingBillCall{
+  background-color: rgba(240, 240, 240, 1);
+  display: flex;
+  height:70%;
+  border-radius: 5.3px;
+  text-align:center; 
+  align-items: center;
+  padding-top: 12%;
+  margin-top: 3%;
+}
+
+
+.chatIcon{
+  display:flex;
+  justify-content: space-between;
+  gap:9%;
+}
+
+
+.messageAndCross{
+  padding-top: 3.6%;
+}
+
+
+
+/* --------------------------chatContent----------------------------------------------------- */
+
+.chatContent{
+  height: 100%;
+  background-color: white;
+  border-radius: 16px;
+  margin-top: 3.9%;
+}
+
+
+
+.AllChatIcon{
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(245, 245, 245, 1);
+  position:relative ;
+  gap:6%;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 0.6%;
+  border-radius: 12px;
+  width:94%;
+  color: rgba(140, 140, 140, 1);
+   text-align: center;
+   align-items:center;
+   margin-left: 3.3%;
+   height:7.9%;
+   padding-top: 1%;
+   margin-bottom: 3%;
+}
+
+
+
+.typingChatIconAndSend{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  bottom: 0%;
+  gap:9%;
+  width:100%;
+  padding-right: 3%;
+  padding-top: 3%;
+  padding-bottom: 0%;
+}
+
+
+#plusChat{
+   padding-left: 3%;
+    width:9.9%;
+}
+
+
+
+.micChatIconAndSend{
+  padding-top: 1%;
+}
+
+
+
+/* ---------------------------------------chatDay------------------------- */
+
+
+.chatDay{
+    text-align: center;
+  font-size: 10px;
+  font-weight: 500;
+  background-color: rgba(140, 140, 140, 0.2);
+  width:fit-content;
+  align-items: center;
+  padding:1%;
+  border-radius: 6px;
+  margin-left: 43%;
+  margin-top: 3%;
+}
+
+
+.personChatDetail{
+  display:flex;
+  flex-direction: column;
+  gap:0%
+}
+
+.chatNameAndPic{
+   padding-right: 1%;
+    float: right;
+}
+
+
+.messageAndTime{
+  display: flex;
+  flex-direction: column;
+  float: right;
+}
+
+.personName{
+  float: right;
+  padding-left: 61%;
+  margin-top: -9%;
+font-size: 10px;
+font-weight: 500;
+
+}
+
+
+.personMessageAndTime{
+  display: flex;
+  flex-direction: column;
+  background-color:rgba(236, 232, 245, 1);
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 12px;
+  padding: 3%;
+  margin-right: 3%;
+
+}
+.personMessage{
+  float: right;
+  padding-right:0.3%;
+}
+
+.messageTime{
+  float: right;
+  padding-left: 69%;
+font-size: 8px;
+font-weight: 300;
+
+}
+
+
+
+
+/* -----------------------------reciver-------------- */
+
+
+.reciverPersonChatDetail{
+  display:flex;
+  flex-direction: column;
+  gap:0%;
+  padding-left: 2.1%;
+}
+
+
+.reciverMessageAndTime{
+  display: flex;
+  flex-direction: column;
+}
+
+.reciverPersonName{
+  /* float: right; */
+  padding-left:6%;
+  margin-top: -1.3rem;
+font-size: 10px;
+font-weight: 500;
+
+}
+
+
+.reciverPersonMessageAndTime{
+  display: flex;
+  flex-direction: column;
+  background-color:rgba(236, 232, 245, 1);
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 12px;
+  padding: 3%;
+  margin-right: 3%;
+  margin-top: 1%;
+  width:fit-content;
+}
+
+.reciverMessageTime{
+  float: right;
+  padding-left: 6.9rem;
+font-size: 8px;
+font-weight: 300;
+
+}
