@@ -28,7 +28,8 @@ function SignUp() {
       companyType :'',
       phoneNumber:'',
       password: '',
-      confirmPassword:''
+      confirmPassword:'',
+      role:'Admin'
   });
 
 

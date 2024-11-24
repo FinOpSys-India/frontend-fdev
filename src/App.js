@@ -18,6 +18,10 @@ import MemberRedirectIfAuthenticated from './MemberComponent/MemberProtectedRout
 import MemberProtectedRoute from './MemberComponent/MemberProtectedRoute/MemberProtectedRoute.js';
 import MemberCodeVerification from './MemberComponent/CodeVerification/MemberCodeVerification.js';
 import AQ from './AccountPayable/AQ/AQ.js';
+import PendingBills from './AccountPayable/Bills/PendingBills/PendingBills.js';
+import ApprovedBills from './AccountPayable/Bills/ApprovedBills/ApprovedBills.js';
+import DeclineBills from './AccountPayable/Bills/DeclineBills/DeclineBills.js';
+import AllBills from './AccountPayable/Bills/AllBills/AllBills.js';
 
 const App = () => {
 
@@ -31,7 +35,10 @@ const App = () => {
         <Route path="/update" element={ <RedirectIfAuthenticated><UpdateSuccessfully/> </RedirectIfAuthenticated> } />
         <Route path="/codeVerification" element={ <RedirectIfAuthenticated><CodeVerification/> </RedirectIfAuthenticated> } />
         <Route path='/invoiceQueue' element={ <ProtectedRoute><AQ /></ProtectedRoute>} />
-       
+        <Route path='/billAQButton' element={ <ProtectedRoute><PendingBills /></ProtectedRoute>} />
+        <Route path='/approved-Bills' element={ <ProtectedRoute><ApprovedBills /></ProtectedRoute>} />
+        <Route path='/decline-Bills' element={ <ProtectedRoute><DeclineBills /></ProtectedRoute>} />
+        <Route path='/all-Bills' element={ <ProtectedRoute><AllBills /></ProtectedRoute>} />
         <Route path="/"  element={ <ProtectedRoute>  <Home /> </ProtectedRoute> }/>
         {/* -----not needed---------- */}
         <Route path="/demo"  element={ <ProtectedRoute><Demo/> </ProtectedRoute> }/>
