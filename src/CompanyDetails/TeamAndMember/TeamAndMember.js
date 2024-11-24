@@ -11,7 +11,47 @@ const[companyMember, setCompanyMember] = useState();
 const [searchTerm, setSearchTerm] = useState("");
 const [filteredCompanyMember, setFilteredCompanyMember] = useState([]);
 
+const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName:'',
+    workEmail: '',
+    companyName:'',
+    companyType :'',
+    phoneNumber:'',
+    password: '',
+    role: "Admin",
+  });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post(`${apiEndPointUrl}/signup`, formData)
+            .then(res => {
+              console.log(res.data.Status);
+                if (res.data.Status === 'Successful') { 
+                  alert("Team member added successfully!");
+                } else {
+                    console.log(res.data.Status);
+                }
+            })
+            .catch(err => {
+                console.error('Signup error:', err);
+            });
+    // Reset form data
+    setFormData({ firstName: '',
+      lastName:'',
+      workEmail: '',
+      companyName:'',
+      companyType :'',
+      phoneNumber:'',
+      password: '', role: "Admin" });
+    setShowForm(false);
+  };
 
 // axios.defaults.withCredentials = true;
 
@@ -71,12 +111,85 @@ const [filteredCompanyMember, setFilteredCompanyMember] = useState([]);
             </div>
           </div>
         </div>
-
+</div>
         <div className="memberInvitation">
-          <input  className="button-search" type="search"  id="search" />
-          <button className="send-invite-button">Send Invite</button>
-        </div>
-      </div>
+          {!showForm ? 
+        <button
+          className="send-invite-button"
+          onClick={() => setShowForm(true)}
+        >
+          Add Team Member
+        </button>
+       : 
+        <form className="add-team-member-form" onSubmit={handleSubmit}>
+          
+            <div className="email-password-teamMember">
+            <div className="emailForTeamMemberDiv">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="emailForTeamMember"
+              name="workEmail"
+              value={formData.workEmail}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="emailForTeamMemberDiv">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="passwordForTeamMember"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          </div>
+          <div className="phoneNumber-role-teamMember">
+
+          <div className="phoneNumberForTeamMemberDiv">
+            <label htmlFor="phoneNumber">Phone Number:</label>
+            <input
+              type="tel"
+              id="phoneNumberForTeamMember"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="emailForTeamMemberDiv">
+            <label htmlFor="role">Role Name:</label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="Admin">Admin</option>
+              <option value="Approver1">Approver1</option>
+              <option value="Approver2">Approver2</option>
+              <option value="Department Head">Department Head</option>
+              <option value="ApPerson">ApPerson</option>
+            </select>
+          </div>
+          </div>
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+          <button
+            type="button"
+            className="cancel-button"
+            onClick={() => setShowForm(false)}
+          >
+            Cancel
+          </button>
+        </form>
+      }
+    </div>
 
 
       <div className="tableMembersInfo">

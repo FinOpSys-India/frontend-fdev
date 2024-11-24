@@ -58,9 +58,10 @@ a {
 }
 
 .memberInvitation input {
-    width: 100%;
+    /* width: 100%; */
     border-radius: 16px;
-    margin-top: 8px;
+    /* margin-right: 1%; */
+
 }
   
   .button-search {
@@ -204,4 +205,32 @@ span{
 
 .profileToggle{
   margin-top: 2.9px;
+}
+.email-password-teamMember{
+    display: flex;
+    justify-content: space-evenly;
+}
+.phoneNumber-role-teamMember{
+    display: flex;
+    justify-content: space-evenly;
+
+}
+.emailForTeamMemberDiv{
+    display: flex;
+    margin: 2%;
+    
+}
+.phoneNumberForTeamMemberDiv{
+    display: flex;
+    margin: 2%;
+}
+.phoneNumberForTeamMemberDiv{
+    display: flex;
+    margin: 2%;
+}
+.emailForTeamMemberDiv input{
+    margin-left: 1%;
+}
+.phoneNumberForTeamMemberDiv input{
+    margin-left: 5px;
 }

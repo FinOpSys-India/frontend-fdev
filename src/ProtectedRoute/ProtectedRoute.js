@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Route, Navigate, useLocation } from 'react-router-dom';
 // import { useAuth } from '../AuthContext/AuthContext';
 import axios from "axios"
 import { apiEndPointUrl } from '../utils/apiService';
 
 const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
     const [isAuthenticated, setIsAuthenticated] = useState(null);
   
     
@@ -38,6 +39,10 @@ const ProtectedRoute = ({ children }) => {
 
     if (isAuthenticated === null) {
       return <div>Loading...</div>; // or any loading indicator
+    }
+
+    if (isAuthenticated && location.pathname === '/') {
+      return <Navigate to="/invoiceQueue" replace />;
     }
   
     return isAuthenticated ? children : <Navigate to="/login" />;
