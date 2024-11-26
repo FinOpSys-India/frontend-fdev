@@ -47,6 +47,40 @@ function PendingBills() {
     const [acitivityLogButton, setacitivityLogButton] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [message, setMessage] = useState("");
+    const [showAcceptDecline, setShowAcceptDecline] = useState(false);
+    const [caseId,setCaseId] = useState("");
+    const role=sessionStorage.getItem('role');
+const handleMessageChange = (inputValue) => {
+  setMessage(inputValue);
+  // Show Accept/Decline popup if "/" is entered
+  if (inputValue.includes("/")) {
+    setShowAcceptDecline(true);
+  } else {
+    setShowAcceptDecline(false);
+  }
+};
+const handleAcceptClick = () => {
+  // Call API for Accept action
+  fetch("/api/accept", {
+    method: "POST",
+    body: JSON.stringify({ message }),
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Accepted:", data))
+    .catch((error) => console.error("Error:", error));
+
+  setShowAcceptDecline(false); // Hide popup after Accept
+};
+const handleDeclineClick = () => {
+  console.log("Declined");
+  setShowAcceptDecline(false); // Hide popup after Decline
+};
+const handleSendClick = () => {
+  // Handle send message functionality
+  console.log("Message sent:", message);
+};
 
      let index="";
 
@@ -66,11 +100,10 @@ function PendingBills() {
     const fetchInvoices = async (page) => {
       try {
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
-          params: { page, itemsPerPage }
+          params: { page, itemsPerPage,role },
         });
         setInvoices(response.data);
         setFilteredData(response.data);
-        // console.log(response.data)
       } catch (error) {
         toast.error("Failed to fetch invoices", { autoClose: 1500 });
       }
@@ -95,8 +128,9 @@ function PendingBills() {
 
  // -------------------chatLogSection--------------------------------
  
-   function chatLogSection(){
-    setacitivityLogButton(true)
+   function chatLogSection(index){
+    setacitivityLogButton(true);
+    setCaseId(invoices[index].caseId);
    }
 
 
@@ -210,7 +244,7 @@ function PendingBills() {
 
               <div className='filterBillDiv'>
                   <div className=''>
-                    uibjllknnknknk
+                    Bill No.
                   </div>
 
                     <FilterDrawer onApplyFilters={setFilters} />
@@ -247,10 +281,10 @@ function PendingBills() {
                                     <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.dueDate).toLocaleDateString()} </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}> pending pending</td>
+                                    <td onClick={() => handleShowPreview(invoice, index)}> Pending</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                     <td id="">
-                                        <img src={chat} onClick={chatLogSection} />
+                                        <img src={chat} onClick={() => chatLogSection(index)} />
                                     </td>
                                   </tr>
                                 ))
@@ -289,7 +323,7 @@ function PendingBills() {
                                         <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                         <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                         <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.dueDate).toLocaleDateString()} </td>
-                                        <td onClick={() => handleShowPreview(invoice, index)}> pending pending</td>
+                                        <td onClick={() => handleShowPreview(invoice, index)}> Pending</td>
                                         <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                         <td id="">
                                             <img src={chat} onClick={chatLogSection} />
@@ -305,7 +339,7 @@ function PendingBills() {
                             <div className='PendiingBillChatNavbar'>
                                 <div className='billNumberAndpeople'>
                                   <span id="billNoBill">Bill</span>
-                                  <span id="billParticipant">numbbr</span>
+                                  <span id="billParticipant">Number</span>
                                 </div>
                                 <div className='chatIcon'>
                                   <div className='pendingBillCall'> <img src={callIcon} style={{fontSize:"30px"}}/> </div>
@@ -351,7 +385,17 @@ function PendingBills() {
                                               <span className='reciverPersonMessage'> Hello Robin, How are you?</span>
                                               <span className='reciverMessageTime'> 8:45am</span>
                                           </div>
-                                        </div>
+                                          </div>
+                                          {showAcceptDecline && (
+                                          <div className="acceptDeclinePopup">
+                                            <button className="acceptButton" onClick={handleAcceptClick}>
+                                              Accept
+                                            </button>
+                                            <button className="declineButton" onClick={handleDeclineClick}>
+                                              Decline
+                                            </button>
+                                          </div>
+                                        )}
                                       </div>
                                   </div>
 
@@ -360,17 +404,22 @@ function PendingBills() {
 
                               <div className='AllChatIcon'>
                                  <img  id="plusChat" style={{fontSize:"24px"}} src={plusIcon} />
-                                 <div className='typingChatIconAndSend'>
-                                    <p className='typingChatIcon'> Type a message</p>
-                                    <div className='micChatIconAndSend'>
+                                      <input
+                                        type="text"
+                                        placeholder='Type your message'
+                                        className="chatInputField"
+                                        value={message}
+                                        onChange={(e) => handleMessageChange(e.target.value)}
+                                      />
+                                          
+                                      <div className='micChatIconAndSend'>
                                        <img  style={{fontSize:"27px"}} src={micIcon} />
-                                       <img  style={{fontSize:"26px"}} src={sendIcon} />
+                                       <img  style={{fontSize:"26px"}} src={sendIcon}  onClick={handleSendClick}/>
                                     </div>
-                                 </div>
+                                </div>
                               </div>
                             </div>
                       </div>
-                    </div>  
                 } 
           </div>
     </div>
