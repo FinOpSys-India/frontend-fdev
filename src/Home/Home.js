@@ -49,7 +49,7 @@ function Home(props) {
 
   const logOut = () => {
     localStorage.removeItem("authToken");
-
+    sessionStorage.removeItem('role');
     axios
       .get(`${apiEndPointUrl}/logout`)
       .then((res) => {

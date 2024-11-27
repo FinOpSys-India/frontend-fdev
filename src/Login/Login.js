@@ -29,8 +29,8 @@ function Login() {
     axios
       .post(`${apiEndPointUrl}/codeVerfication`, values, { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
-        if (res.data.message === "OTP sent successfully!") {
+        // if (res.data.message === "OTP sent successfully!") {
+          if (res.data.status == "Login Successfully") {  
           if (rememberMe) {
             Cookies.set("workEmail", values.workEmail, { expires: 7 }); // Expires in 7 days
             Cookies.set("password", values.password, { expires: 7 }); // Expires in 7 days
@@ -40,9 +40,12 @@ function Login() {
             Cookies.remove("password");
           }
 
-
-
-          navigate("/codeVerification",{ state: res.data.phoneNumber} );
+          const token = res.data.token;
+          localStorage.setItem('authToken', token);  // Example: storing in localStorage
+          localStorage.setItem('user', JSON.stringify(values.phoneNumber));
+          sessionStorage.setItem('role',res.data.role);
+          navigate("/");
+          // navigate("/codeVerification",{ state: res.data.phoneNumber} );
         } else {
           console.log("Login failed: ", res.data.Error);
           setError(res.data.Error); // Set error state with the error message
