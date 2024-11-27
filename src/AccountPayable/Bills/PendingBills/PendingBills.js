@@ -22,6 +22,7 @@ import sendIcon from '../../../assets/sendIcon.svg'
 import messageIcon from '../../../assets/messageIcon.svg'
 import callIcon from '../../../assets/callIcon.svg'
 import crossButton from '../../../assets/crossButton.svg'
+import { roles } from '../../../utils/constant';
 
 
 
@@ -54,27 +55,50 @@ function PendingBills() {
 const handleMessageChange = (inputValue) => {
   setMessage(inputValue);
   // Show Accept/Decline popup if "/" is entered
-  if (inputValue.includes("/")) {
+  if (inputValue.includes("/") && (role == (roles.approver1 || roles.approver2))) {
     setShowAcceptDecline(true);
   } else {
     setShowAcceptDecline(false);
   }
 };
-const handleAcceptClick = () => {
+const handleAcceptClick = async () => {
   // Call API for Accept action
-  fetch("/api/accept", {
-    method: "POST",
-    body: JSON.stringify({ message }),
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((response) => response.json())
-    .then((data) => console.log("Accepted:", data))
-    .catch((error) => console.error("Error:", error));
+  try {
+    const response = await axios.post(`${apiEndPointUrl}/accept`, {
+      invoiceId: caseId, // Replace with the actual invoice ID field
+      role:role
+    });
+
+    if(response.data.status===500 || response.data.status===400 ){
+      toast.error('Error in accepting invoice !');
+    }
+    else{
+      toast.success(`${response.data.message}`, { autoClose: 1500 });
+      fetchInvoices();
+    }
+  } catch (error) {
+    console.log('Error in accepting invoice:', error.response.data.message);
+    toast.error(`${error.response.data.message}`)
+  }
 
   setShowAcceptDecline(false); // Hide popup after Accept
 };
-const handleDeclineClick = () => {
-  console.log("Declined");
+const handleDeclineClick = async () => {
+  try {
+    const response = await axios.post(`${apiEndPointUrl}/decline`, {
+      invoiceId: caseId, // Replace with the actual invoice ID field
+      role:role
+    });
+    if(response.data.status===500 || response.data.status===400 ){
+      toast.error('Sttatus is already approved/ declined !');
+    }
+    else{
+      toast.success(`${response.data.message}`,{ autoClose: 500 });
+      fetchInvoices();
+    }
+  } catch (error) {
+    console.log('Error declinedStatus invoice:', error.message);
+  }
   setShowAcceptDecline(false); // Hide popup after Decline
 };
 const handleSendClick = () => {
@@ -99,8 +123,9 @@ const handleSendClick = () => {
     //------------------------- Fetch invoices from the backend-------------------
     const fetchInvoices = async (page) => {
       try {
+        const currentPage="pendingInBills"
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
-          params: { page, itemsPerPage,role },
+          params: { page, itemsPerPage,role,currentPage },
         });
         setInvoices(response.data);
         setFilteredData(response.data);
@@ -227,7 +252,7 @@ const handleSendClick = () => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className='billDropdownItem'>
-                      <Dropdown.Item className='billDropdownEachItem' eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      <Dropdown.Item className='billDropdownEachItem' eventKey="Pending Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem' eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem' eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
                     </Dropdown.Menu>
@@ -261,7 +286,7 @@ const handleSendClick = () => {
                               <th>Vendor Name</th>
                               <th>Bill Date</th>
                               <th>Due date</th>
-                              <th>Current Approver</th>
+                              {role != (roles.approver1 || roles.approver2) ? <th>Current Approver</th>:null}
                               <th>Amount</th>
                               <th>Actions</th>
                             </tr>
@@ -281,7 +306,7 @@ const handleSendClick = () => {
                                     <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.dueDate).toLocaleDateString()} </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}> Pending</td>
+                                    {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                     <td id="">
                                         <img src={chat} onClick={() => chatLogSection(index)} />
@@ -303,7 +328,7 @@ const handleSendClick = () => {
                                   <th>Vendor Name</th>
                                   <th>Bill Date</th>
                                   <th>Due date</th>
-                                  <th>Current Approver</th>
+                                  {role != (roles.approver1 || roles.approver2) ? <th>Current Approver</th>:null}
                                   <th>Amount</th>
                                   <th>Actions</th>
                                 </tr>
@@ -323,7 +348,7 @@ const handleSendClick = () => {
                                         <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                         <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                         <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.dueDate).toLocaleDateString()} </td>
-                                        <td onClick={() => handleShowPreview(invoice, index)}> Pending</td>
+                                        {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                         <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                         <td id="">
                                             <img src={chat} onClick={chatLogSection} />

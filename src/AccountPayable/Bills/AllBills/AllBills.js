@@ -35,8 +35,9 @@ function AllBills() {
     const [selectedInvoice, setSelectedInvoice] = useState(null);
     const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
-    const [selectedItem, setSelectedItem] = useState('Pending Bills');
+    const [selectedItem, setSelectedItem] = useState('All Bills');
     const [activeButton, setActiveButton] = useState(null);
+    const role = sessionStorage.getItem('role');
     const navigate = useNavigate();
 
      let index="";
@@ -55,8 +56,9 @@ function AllBills() {
     //------------------------- Fetch invoices from the backend-------------------
     const fetchInvoices = async (page) => {
       try {
+        const currentPage="all"
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
-          params: { page, itemsPerPage }
+          params: { page, itemsPerPage,role,currentPage}
         });
         setInvoices(response.data);
         setFilteredData(response.data);
@@ -160,7 +162,7 @@ function AllBills() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className='billDropdownItem'>
-                      <Dropdown.Item className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      <Dropdown.Item className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem'  eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem'  eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
                     </Dropdown.Menu>
@@ -177,7 +179,7 @@ function AllBills() {
 
               <div className='filterBillDiv'>
                   <div className=''>
-                    uibjllknnknknk
+                    Bill No.
                   </div>
 
                     <FilterDrawer onApplyFilters={setFilters} />

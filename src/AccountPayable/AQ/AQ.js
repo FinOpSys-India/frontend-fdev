@@ -71,13 +71,14 @@ function AQ() {
     const [selectedVendorBillNumber, setSelectedVendorBillNumber] = useState('');
     const [showCrossBillNumber, setShowCrossBillNumber] = useState(false);
     const [showDropdownBillNumber, setShowDropdownBillNumber] = useState(false);
-  
+   const role = sessionStorage.getItem('role');
   let index="";
     // Fetch invoices from the backend
     const fetchInvoices = async (page) => {
       try {
+        const currentPage="pendingInAp"
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
-          params: { page, itemsPerPage }
+          params: { page, itemsPerPage,role,currentPage}
         });
         setInvoices(response.data);
         setFilteredData(response.data);
@@ -86,15 +87,8 @@ function AQ() {
         toast.error("Failed to fetch invoices", { autoClose: 1500 });
       }
     };
-  
-    // const fetechRole = async =>{
-    //   try{
-    //     const response = await axios.get(`${apiEndPointUrl}/role`)
-    //   }
-    // }
     useEffect(() => {
       fetchInvoices();
-      // fetechRole();
     }, []);
 
 
@@ -255,13 +249,12 @@ const handleClickReason = (index) => {
 
 
   const DeclineButtonWithform = async ()=> {
-    console.log(toBeDeclineCaseId)
       if(selected!==null){
         let declinedStatus = "Decline the invoice"
         try {
           const response = await axios.post(`${apiEndPointUrl}/decline`, {
             invoiceId: toBeDeclineCaseId, // Replace with the actual invoice ID field
-            status: declinedStatus
+            role:role
           });
           if(response.data.status===500 || response.data.status===400 ){
             toast.error('Sttatus is already approved/ declined !');
@@ -290,9 +283,9 @@ const handleAccept = async (index) => {
   setacceptStatus("Accept the invoice")
   setacceptClickIIndex(invoices[index].caseId)
       try {
-        const response = await axios.post(`${apiEndPointUrl}/acceptByAP`, {
+        const response = await axios.post(`${apiEndPointUrl}/accept`, {
           invoiceId: invoices[index].caseId, // Replace with the actual invoice ID field
-          status: "AcceptedByAP"
+          role:role
         });
 
         if(response.data.status===500 || response.data.status===400 ){

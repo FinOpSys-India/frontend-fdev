@@ -55,8 +55,9 @@ function DeclineBills() {
     //------------------------- Fetch invoices from the backend-------------------
     const fetchInvoices = async (page) => {
       try {
+        const currentPage="decline"
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
-          params: { page, itemsPerPage }
+          params: { page, itemsPerPage ,currentPage}
         });
         setInvoices(response.data);
         setFilteredData(response.data);

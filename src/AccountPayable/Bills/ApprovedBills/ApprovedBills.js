@@ -46,7 +46,7 @@ function ApprovedBills() {
     const [acitivityLogButton, setacitivityLogButton] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const role = sessionStorage.getItem('role');
 
      let index="";
 
@@ -64,8 +64,9 @@ function ApprovedBills() {
     //------------------------- Fetch invoices from the backend-------------------
     const fetchInvoices = async (page) => {
       try {
+        const currentPage= "approved"
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
-          params: { page, itemsPerPage }
+          params: { page, itemsPerPage,role, currentPage }
         });
         setInvoices(response.data);
         setFilteredData(response.data);
