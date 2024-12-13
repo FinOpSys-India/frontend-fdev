@@ -23,6 +23,7 @@ import messageIcon from '../../../assets/messageIcon.svg'
 import callIcon from '../../../assets/callIcon.svg'
 import crossButton from '../../../assets/crossButton.svg'
 import { roles } from '../../../utils/constant';
+import Chat from '../../Chat/Chat';
 
 
 
@@ -52,6 +53,8 @@ function PendingBills() {
     const [showAcceptDecline, setShowAcceptDecline] = useState(false);
     const [caseId,setCaseId] = useState("");
     const role=sessionStorage.getItem('role');
+
+
 const handleMessageChange = (inputValue) => {
   setMessage(inputValue);
   // Show Accept/Decline popup if "/" is entered
@@ -61,46 +64,53 @@ const handleMessageChange = (inputValue) => {
     setShowAcceptDecline(false);
   }
 };
-const handleAcceptClick = async () => {
-  // Call API for Accept action
-  try {
-    const response = await axios.post(`${apiEndPointUrl}/accept`, {
-      invoiceId: caseId, // Replace with the actual invoice ID field
-      role:role
-    });
 
-    if(response.data.status===500 || response.data.status===400 ){
-      toast.error('Error in accepting invoice !');
-    }
-    else{
-      toast.success(`${response.data.message}`, { autoClose: 1500 });
-      fetchInvoices();
-    }
-  } catch (error) {
-    console.log('Error in accepting invoice:', error.response.data.message);
-    toast.error(`${error.response.data.message}`)
-  }
 
-  setShowAcceptDecline(false); // Hide popup after Accept
-};
-const handleDeclineClick = async () => {
-  try {
-    const response = await axios.post(`${apiEndPointUrl}/decline`, {
-      invoiceId: caseId, // Replace with the actual invoice ID field
-      role:role
-    });
-    if(response.data.status===500 || response.data.status===400 ){
-      toast.error('Sttatus is already approved/ declined !');
-    }
-    else{
-      toast.success(`${response.data.message}`,{ autoClose: 500 });
-      fetchInvoices();
-    }
-  } catch (error) {
-    console.log('Error declinedStatus invoice:', error.message);
-  }
-  setShowAcceptDecline(false); // Hide popup after Decline
-};
+// const handleAcceptClick = async () => {
+//   // Call API for Accept action
+//   try {
+//     const response = await axios.post(`${apiEndPointUrl}/accept`, {
+//       invoiceId: caseId, // Replace with the actual invoice ID field
+//       role:role
+//     });
+
+//     if(response.data.status===500 || response.data.status===400 ){
+//       toast.error('Error in accepting invoice !');
+//     }
+//     else{
+//       toast.success(`${response.data.message}`, { autoClose: 1500 });
+//       fetchInvoices();
+//     }
+//   } catch (error) {
+//     console.log('Error in accepting invoice:', error.response.data.message);
+//     toast.error(`${error.response.data.message}`)
+//   }
+
+//   setShowAcceptDecline(false); // Hide popup after Accept
+// };
+
+
+
+// const handleDeclineClick = async () => {
+//   try {
+//     const response = await axios.post(`${apiEndPointUrl}/decline`, {
+//       invoiceId: caseId, // Replace with the actual invoice ID field
+//       role:role
+//     });
+//     if(response.data.status===500 || response.data.status===400 ){
+//       toast.error('Sttatus is already approved/ declined !');
+//     }
+//     else{
+//       toast.success(`${response.data.message}`,{ autoClose: 500 });
+//       fetchInvoices();
+//     }
+//   } catch (error) {
+//     console.log('Error declinedStatus invoice:', error.message);
+//   }
+//   setShowAcceptDecline(false); // Hide popup after Decline
+// };
+
+
 const handleSendClick = () => {
   // Handle send message functionality
   console.log("Message sent:", message);
@@ -309,7 +319,7 @@ const handleSendClick = () => {
                                     {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                     <td id="">
-                                        <img src={chat} onClick={() => chatLogSection(index)} />
+                                        <img src={chat} onClick={() =>  !acitivityLogButton ? chatLogSection(index) : ""} />
                                     </td>
                                   </tr>
                                 ))
@@ -359,92 +369,9 @@ const handleSendClick = () => {
                               </tbody>
                             </Table>
                           </div>
-          
-                          <div className='PendiingBillChat'>
-                            <div className='PendiingBillChatNavbar'>
-                                <div className='billNumberAndpeople'>
-                                  <span id="billNoBill">Bill</span>
-                                  <span id="billParticipant">Number</span>
-                                </div>
-                                <div className='chatIcon'>
-                                  <div className='pendingBillCall'> <img src={callIcon} style={{fontSize:"30px"}}/> </div>
-                                  <img className='messageAndCross'  style={{fontSize:"19.9px"}} src={messageIcon}/>
-                                  <img className='messageAndCross'  style={{fontSize:"16px"}} src={crossButton} onClick={acitivityLogClose}/>
-                                </div>
-                            </div>
-
-                            <div className='chatContent'>
-
-                              <div className=''>
-
-                                 <h6 className='chatDay'>Today</h6>
-
-                                {/*  ----------- send----------------- */}
-                                  <div className='personChatDetail'>
-                                    <div className='chatNameAndPic'>
-                                      <img  className='chatNameAndPic' src='	https://img.freepik.com/premium-vector/default-ava…le-silhouette-vector-illustration_561158-3408.jpg'/>
-                                    </div>
-
-                                    <div>
-                                       <div className='messageAndTime'>
-                                          <span className='personName'>  Sara-AI</span>
-                                          <div className='personMessageAndTime'>
-                                              <span className='personMessage'> Hello Robin, How are you?</span>
-                                              <span className='messageTime'> 8:45am</span>
-                                          </div>
-                                        </div>
-                                    </div>
-                                  </div>
-
-
-                                  {/*  --------------- reciver----------------- */}
-                                  <div className='reciverPersonChatDetail'>
-                                      <div className='reciverChatNameAndPic'>
-                                        <img  className='reciverChatNameAndPic' src='	https://img.freepik.com/premium-vector/default-ava…le-silhouette-vector-illustration_561158-3408.jpg'/>
-                                       </div>
-
-                                      <div>
-                                        <div className='reciverMessageAndTime'>
-                                          <span className='reciverPersonName'>  Sara-AI</span>
-                                          <div className='reciverPersonMessageAndTime'>
-                                              <span className='reciverPersonMessage'> Hello Robin, How are you?</span>
-                                              <span className='reciverMessageTime'> 8:45am</span>
-                                          </div>
-                                          </div>
-                                          {showAcceptDecline && (
-                                          <div className="acceptDeclinePopup">
-                                            <button className="acceptButton" onClick={handleAcceptClick}>
-                                              Accept
-                                            </button>
-                                            <button className="declineButton" onClick={handleDeclineClick}>
-                                              Decline
-                                            </button>
-                                          </div>
-                                        )}
-                                      </div>
-                                  </div>
-
-
-                              </div> 
-
-                              <div className='AllChatIcon'>
-                                 <img  id="plusChat" style={{fontSize:"24px"}} src={plusIcon} />
-                                      <input
-                                        type="text"
-                                        placeholder='Type your message'
-                                        className="chatInputField"
-                                        value={message}
-                                        onChange={(e) => handleMessageChange(e.target.value)}
-                                      />
-                                          
-                                      <div className='micChatIconAndSend'>
-                                       <img  style={{fontSize:"27px"}} src={micIcon} />
-                                       <img  style={{fontSize:"26px"}} src={sendIcon}  onClick={handleSendClick}/>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                      </div>
+                          
+                            <Chat caseId={caseId}/>
+                     </div>
                 } 
           </div>
     </div>

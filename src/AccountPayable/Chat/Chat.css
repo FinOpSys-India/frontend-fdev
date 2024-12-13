@@ -1,0 +1,28 @@
+/* .PendiingBillChatNavbar{
+       height:10rem;
+} */
+
+
+
+#chatContainer {
+    /* max-height: 0px !important;  */
+    overflow-y: auto;
+    /* border: 1px solid #ddd;  */
+    overflow-x: hidden; 
+    /* background-color: #f9f9f9; Optional background */
+    scroll-behavior: smooth; 
+}
+
+/* Add styles for scrollbar customization (optional) */
+#chatContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chatContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+#chatContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}

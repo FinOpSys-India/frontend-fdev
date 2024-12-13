@@ -28,6 +28,7 @@ function Home(props) {
   const [activeButton, setActiveButton] = useState(props.currentPage);
   const [showModal, setShowModal] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [workEmail, setWorkEmail] = useState('');
   const handleClose = () => setShowModal(false);
 
   const handleButtonClick = (buttonName) => {
@@ -74,7 +75,10 @@ function Home(props) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
   }, [dropdownRef]);
+
+
   useEffect(() => {
     axios.get(`${apiEndPointUrl}/emails`)  // Replace with your backend URL
       .then(response => {
@@ -83,7 +87,14 @@ function Home(props) {
       .catch(error => {
         console.error('Error fetching emails:', error);
       });
+
+
+      
+      let email = document.cookie.split('; ').find(row => row.startsWith('workEmail='))?.split('=')[1];
+      setWorkEmail(email); 
   }, []);
+
+
   return (
     <div className={`${isCollapsed ? "collapsed" : "sideMenu"}`} style={{ width:isCollapsed ? "5%" : "12.5%" ,backgroundColor:"#f5f1fe", height:"100vh", position: "relative"}} >
         <div className="finopsysLogo" style={{margin: isCollapsed ? "20%" : "10%" , marginTop: isCollapsed ? "30%" : "10%"}}>
@@ -207,7 +218,7 @@ function Home(props) {
               aria-expanded={isOpen ? "true" : "false"}
             ><span>
                 User Name <ArrowForwardIosOutlinedIcon style={{ height: '50%' }} /></span>
-              <span>abc@finopsys.ai</span>            </div>
+              <span>{workEmail}</span>            </div>
             )}
 
 
@@ -219,7 +230,7 @@ function Home(props) {
           >
 
             <li>
-              <h6 style={{ marginTop: "-5%", marginLeft:'-0.5%' }}>abc@finopsys.ai</h6>
+              <h6 style={{ marginTop: "-5%", marginLeft:'-0.5%' }}>{workEmail}</h6>
               <div className="picAndNameInside">
                 <DragIndicatorIcon
                   style={{
@@ -244,7 +255,7 @@ function Home(props) {
                   <span
                     style={{ fontSize: "9.3px", fontWeight: "500" }}
                   >
-                    abc@finopsys.ai
+                    {workEmail}
 
                   </span>
                 </div>

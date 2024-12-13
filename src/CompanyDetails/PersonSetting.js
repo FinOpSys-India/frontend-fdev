@@ -15,6 +15,7 @@ const PersonSetting = () => {
 
   const [activeButton, setActiveButton] = useState(null);
   const[companyUser, setCompanyUser] = useState({});
+  const [role, setRole] = useState(null);
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName === activeButton ? null : buttonName);
@@ -31,6 +32,10 @@ const PersonSetting = () => {
         console.error("Error fetching :", error);
       });
     };
+    
+    
+    const userRole = sessionStorage.getItem("role");
+    setRole(userRole);
 
   fetchingUserDetails()
   }, []);
@@ -42,7 +47,7 @@ const PersonSetting = () => {
                 <img className="avatarLogo" src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"/>
                 <div>
                   <h5 className="name ">{companyUser.FIRSTNAME} {companyUser.LASTNAME}</h5>
-                  <p className="admin ">Admin</p>
+                  <p className="admin ">{role}</p>
                 </div>
             </div>
 
