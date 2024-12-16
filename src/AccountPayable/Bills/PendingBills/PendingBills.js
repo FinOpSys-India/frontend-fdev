@@ -14,14 +14,8 @@ import  "./PendingBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import rightButton from '../../../assets/rightButton.svg'
-import plusIcon from '../../../assets/plusIcon.svg';
-import acitivityPointButton from '../../../assets/acitivityPointButton.svg'
-import micIcon from '../../../assets/micIcon.svg'
-import sendIcon from '../../../assets/sendIcon.svg'
-import messageIcon from '../../../assets/messageIcon.svg'
-import callIcon from '../../../assets/callIcon.svg'
-import crossButton from '../../../assets/crossButton.svg'
+
+
 import { roles } from '../../../utils/constant';
 import Chat from '../../Chat/Chat';
 
@@ -65,7 +59,10 @@ const handleMessageChange = (inputValue) => {
   }
 };
 
-
+const closeChat = () => {
+  setacitivityLogButton(false); // Close the chat
+  setCaseId(null); // Clear the active caseId
+};
 const handleAcceptClick = async () => {
   // Call API for Accept action
   try {
@@ -163,9 +160,13 @@ const handleSendClick = () => {
 
  // -------------------chatLogSection--------------------------------
  
-   function chatLogSection(index){
-    setacitivityLogButton(true);
-    setCaseId(invoices[index].caseId);
+   function chatLogSection(newCaseId){
+    if (caseId !== newCaseId) {
+      setCaseId(newCaseId); // Update the active chat caseId
+      setacitivityLogButton(true); // Open the chat section
+    }
+    // setacitivityLogButton(true);
+    // setCaseId(invoices[index].caseId);
    }
 
 
@@ -319,7 +320,7 @@ const handleSendClick = () => {
                                     {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                     <td id="">
-                                        <img src={chat} onClick={() =>  !acitivityLogButton ? chatLogSection(index) : ""} />
+                                        <img src={chat} onClick={() => chatLogSection(invoice.caseId)} />
                                     </td>
                                   </tr>
                                 ))
@@ -361,7 +362,7 @@ const handleSendClick = () => {
                                         {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                         <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                         <td id="">
-                                            <img src={chat} onClick={chatLogSection} />
+                                            <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
                                         </td>
                                       </tr>
                                     ))
@@ -370,7 +371,7 @@ const handleSendClick = () => {
                             </Table>
                           </div>
                           
-                            <Chat caseId={caseId}/>
+                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat}/>
                      </div>
                 } 
           </div>

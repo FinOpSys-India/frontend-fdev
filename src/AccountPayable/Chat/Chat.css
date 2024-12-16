@@ -26,3 +26,33 @@
 #chatContainer::-webkit-scrollbar-thumb:hover {
     background-color: #555;
 }
+
+.chatdropdownContainer {
+  left: 15px; 
+  width: 40%;
+background-color: #F0F0F0; 
+ color: black;
+ display: flex; /* Use Flexbox */
+  flex-direction: column; /* Arrange items vertically */
+  align-items: center; /* Horizontally center */
+  justify-content: center;
+  border-radius: 12px;
+  font-family: Inter;
+ 
+}  
+.chatDropdownEachItem{
+    font-size: 14px;
+    font-weight: 400;
+    border-radius:  8px !important;
+    margin: 2px 0; /* Add vertical spacing between items */
+  padding: 5px 5px; /* Add padding for click area */
+  text-align: center; /* Center text inside the button */
+  width: 80%;
+    
+
+}
+.chatDropdownEachItem:hover,
+ .chatDropdownEachItem:focus {
+   background-color: white !important;
+   border-radius: 8px !important;
+ }
