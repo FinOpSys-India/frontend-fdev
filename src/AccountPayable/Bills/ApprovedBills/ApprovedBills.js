@@ -19,8 +19,9 @@ import { ToastContainer, toast } from "react-toastify";
 import  "./ApprovedBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+import chat from '../../../assets/chat.svg';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Chat from '../../Chat/Chat';
 
 
 
@@ -43,9 +44,13 @@ function ApprovedBills() {
     const [selectedItem, setSelectedItem] = useState('Approved Bills');
     const [activeButton, setActiveButton] = useState(null);
     const navigate = useNavigate();
-    const [acitivityLogButton, setacitivityLogButton] = useState(false);
+    const [showacitivityLog, setShowAcitivityLog] = useState(false);
+    const [showSideSection, setShowSideSection] = useState(false);
+    const [showChatSection, setShowChatSection] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+     const [caseId,setCaseId] = useState("");
+    
     const role = sessionStorage.getItem('role');
 
      let index="";
@@ -79,7 +84,11 @@ function ApprovedBills() {
     useEffect(() => {
       fetchInvoices();
     }, []);
-    
+    const closeChat = () => {
+      setShowChatSection(false);
+      setShowSideSection(false); // Close the chat
+      setCaseId(null); // Clear the active caseId
+    };  
   
 
 
@@ -98,12 +107,14 @@ function ApprovedBills() {
  // --------------------acitivityLogSection--------------------------------
  
    function acitivityLogSection(){
-    setacitivityLogButton(true)
-   }
+    setShowSideSection(true);
+    setShowAcitivityLog(true)
+  }
 
 
    function acitivityLogClose(){
-    setacitivityLogButton(false)
+    setShowSideSection(false);
+    setShowAcitivityLog(false);
    }
 
    function openDetailButton(){
@@ -117,7 +128,13 @@ function ApprovedBills() {
 
 
 
-
+   function chatLogSection(newCaseId){
+    if (caseId !== newCaseId) {
+      setCaseId(newCaseId); // Update the active chat caseId
+      setShowSideSection(true);
+      setShowChatSection(true); // Open the chat section
+    }
+   }
 
    
 
@@ -224,7 +241,7 @@ function ApprovedBills() {
               </div>
 
               {
-                 acitivityLogButton!== true
+                 showSideSection!== true
                            ?
                   <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
                     <Table className="custom-width">
@@ -256,7 +273,9 @@ function ApprovedBills() {
                                 <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> person abc  </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                <td id="" onClick={acitivityLogSection}> <img src={activityLog}/></td>
+                                <td id="" > <img onClick={acitivityLogSection} src={activityLog}/>
+                                <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
+                                </td>
                               </tr>
                             ))
                           }
@@ -292,10 +311,12 @@ function ApprovedBills() {
                                     </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
+                                    <td onClick={() => handleShowPreview(invoice, index)}> {invoice?.approvedBillDate} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> person abc  </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                    <td id="" onClick={acitivityLogSection}> <img src={activityLog}/></td>
+                                    <td id="" > <img onClick={acitivityLogSection} src={activityLog}/>
+                                    <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
+                                    </td>
                                   </tr>
                                 ))
                               }
@@ -303,7 +324,7 @@ function ApprovedBills() {
                         </Table>
                       </div>
 
-                      <div className='acitityLog'>
+                      {showacitivityLog ? <div className='acitityLog'>
                           <div className='acitivityNavbar'>
                               <span id="activitylog">Activity Log</span>
                               <div className='activitylogBAutton'>
@@ -406,11 +427,14 @@ function ApprovedBills() {
 
                               <div className='activityLogExport' onClick={openModal}>
                                  Export  
-                              </div>
+                              </div> 
+
                               
                           </div>
-                      </div>
-
+                      </div>:null}
+                      {showChatSection?
+                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat}/>
+                      :null}
                   </div>  
               }  
         </div>
