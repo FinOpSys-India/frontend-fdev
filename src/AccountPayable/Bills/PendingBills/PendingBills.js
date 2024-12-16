@@ -58,7 +58,7 @@ function PendingBills() {
 const handleMessageChange = (inputValue) => {
   setMessage(inputValue);
   // Show Accept/Decline popup if "/" is entered
-  if (inputValue.includes("/") && (role == (roles.approver1 || roles.approver2))) {
+  if (inputValue.includes("/") && (role == roles.approver1 || role==roles.approver2 )) {
     setShowAcceptDecline(true);
   } else {
     setShowAcceptDecline(false);
@@ -66,49 +66,49 @@ const handleMessageChange = (inputValue) => {
 };
 
 
-// const handleAcceptClick = async () => {
-//   // Call API for Accept action
-//   try {
-//     const response = await axios.post(`${apiEndPointUrl}/accept`, {
-//       invoiceId: caseId, // Replace with the actual invoice ID field
-//       role:role
-//     });
+const handleAcceptClick = async () => {
+  // Call API for Accept action
+  try {
+    const response = await axios.post(`${apiEndPointUrl}/accept`, {
+      invoiceId: caseId, // Replace with the actual invoice ID field
+      role:role
+    });
 
-//     if(response.data.status===500 || response.data.status===400 ){
-//       toast.error('Error in accepting invoice !');
-//     }
-//     else{
-//       toast.success(`${response.data.message}`, { autoClose: 1500 });
-//       fetchInvoices();
-//     }
-//   } catch (error) {
-//     console.log('Error in accepting invoice:', error.response.data.message);
-//     toast.error(`${error.response.data.message}`)
-//   }
+    if(response.data.status===500 || response.data.status===400 ){
+      toast.error('Error in accepting invoice !');
+    }
+    else{
+      toast.success(`${response.data.message}`, { autoClose: 1500 });
+      fetchInvoices();
+    }
+  } catch (error) {
+    console.log('Error in accepting invoice:', error.response.data.message);
+    toast.error(`${error.response.data.message}`)
+  }
 
-//   setShowAcceptDecline(false); // Hide popup after Accept
-// };
+  setShowAcceptDecline(false); // Hide popup after Accept
+};
 
 
 
-// const handleDeclineClick = async () => {
-//   try {
-//     const response = await axios.post(`${apiEndPointUrl}/decline`, {
-//       invoiceId: caseId, // Replace with the actual invoice ID field
-//       role:role
-//     });
-//     if(response.data.status===500 || response.data.status===400 ){
-//       toast.error('Sttatus is already approved/ declined !');
-//     }
-//     else{
-//       toast.success(`${response.data.message}`,{ autoClose: 500 });
-//       fetchInvoices();
-//     }
-//   } catch (error) {
-//     console.log('Error declinedStatus invoice:', error.message);
-//   }
-//   setShowAcceptDecline(false); // Hide popup after Decline
-// };
+const handleDeclineClick = async () => {
+  try {
+    const response = await axios.post(`${apiEndPointUrl}/decline`, {
+      invoiceId: caseId, // Replace with the actual invoice ID field
+      role:role
+    });
+    if(response.data.status===500 || response.data.status===400 ){
+      toast.error('Status is already approved/ declined !');
+    }
+    else{
+      toast.success(`${response.data.message}`,{ autoClose: 500 });
+      fetchInvoices();
+    }
+  } catch (error) {
+    console.log('Error declinedStatus invoice:', error.message);
+  }
+  setShowAcceptDecline(false); // Hide popup after Decline
+};
 
 
 const handleSendClick = () => {

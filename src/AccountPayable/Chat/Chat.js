@@ -16,8 +16,6 @@ import { apiEndPointUrl } from "../../utils/apiService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import { useDropzone } from 'react-dropzone';
-// import uploadLogo from '../../assets/uploadLogo.jpeg';
-// import billsLogo from '../../assets/bills.svg' 
 
 function Chat({ caseId }) {
 
@@ -25,7 +23,7 @@ function Chat({ caseId }) {
     const [chatCaseId,setchatCaseId] = useState("");
     const [showAcceptDecline, setShowAcceptDecline] = useState(false);
     const role=sessionStorage.getItem('role');
-    const [chats, setChats] = useState([]);
+    const [chats, setChats] = useState();
     const [newMessage, setNewMessage] = useState("");
     const [currentUser, setCurrentUser] = useState("User1"); // Default user
     const [displayChats, setdisplayChats] = useState([]);
@@ -42,7 +40,7 @@ function Chat({ caseId }) {
     const handleMessageChange = (inputValue) => {
       setNewMessage(inputValue);
       // Show Accept/Decline popup if "/" is entered
-      if (inputValue.includes("/") && (role == (roles.approver1 || roles.approver2))) {
+      if (inputValue.includes("/") && (role == roles.approver1 || role==roles.approver2)) {
         setShowAcceptDecline(true);
       } else {
         setShowAcceptDecline(false);
@@ -57,81 +55,60 @@ function Chat({ caseId }) {
 
 
    
-// const handleAcceptClick = async () => {
-//     // Call API for Accept action
-//     try {
-//       const response = await axios.post(`${apiEndPointUrl}/accept`, {
-//         invoiceId: caseId, // Replace with the actual invoice ID field
-//         role:role
-//       });
+const handleAcceptClick = async () => {
+    // Call API for Accept action
+    try {
+      const response = await axios.post(`${apiEndPointUrl}/accept`, {
+        invoiceId: caseId, // Replace with the actual invoice ID field
+        role:role
+      });
   
-//       if(response.data.status===500 || response.data.status===400 ){
-//         toast.error('Error in accepting invoice !');
-//       }
-//       else{
-//         toast.success(`${response.data.message}`, { autoClose: 1500 });
-//         fetchInvoices();
-//       }
-//     } catch (error) {
-//       console.log('Error in accepting invoice:', error.response.data.message);
-//       toast.error(`${error.response.data.message}`)
-//     }
+      if(response.data.status===500 || response.data.status===400 ){
+        toast.error('Error in accepting invoice !');
+      }
+      else{
+        toast.success(`${response.data.message}`, { autoClose: 1500 });
+        // fetchInvoices();
+      }
+    } catch (error) {
+      console.log('Error in accepting invoice:', error.response.data.message);
+      toast.error(`${error.response.data.message}`)
+    }
   
-//     setShowAcceptDecline(false); // Hide popup after Accept
-//   };
+    setShowAcceptDecline(false); // Hide popup after Accept
+  };
   
   
   
-//   const handleDeclineClick = async () => {
-//     try {
-//       const response = await axios.post(`${apiEndPointUrl}/decline`, {
-//         invoiceId: caseId, // Replace with the actual invoice ID field
-//         role:role
-//       });
-//       if(response.data.status===500 || response.data.status===400 ){
-//         toast.error('Sttatus is already approved/ declined !');
-//       }
-//       else{
-//         toast.success(`${response.data.message}`,{ autoClose: 500 });
-//         fetchInvoices();
-//       }
-//     } catch (error) {
-//       console.log('Error declinedStatus invoice:', error.message);
-//     }
-//     setShowAcceptDecline(false); // Hide popup after Decline
-//   };
+  const handleDeclineClick = async () => {
+    try {
+      const response = await axios.post(`${apiEndPointUrl}/decline`, {
+        invoiceId: caseId, // Replace with the actual invoice ID field
+        role:role
+      });
+      if(response.data.status===500 || response.data.status===400 ){
+        toast.error('Sttatus is already approved/ declined !');
+      }
+      else{
+        toast.success(`${response.data.message}`,{ autoClose: 500 });
+        // fetchInvoices();
+      }
+    } catch (error) {
+      console.log('Error declinedStatus invoice:', error.message);
+    }
+    setShowAcceptDecline(false); // Hide popup after Decline
+  };
   
 const fetchChats = async () => {
 
       try {
-
-        const response = await axios.get(`http://localhost:9000/chats/${caseId}`);
-        // const chatData = response.data
-        setdisplayChats(response.data);
+        const response = await axios.get(`${apiEndPointUrl}/chats/${caseId}`);
         console.log(response.data)
-
-        if (Array.isArray(response.data)) {
-            response.data.forEach(chat => {
-              if (chat.CHAT_ID === chatCaseId) {
-                if (Array.isArray(chat.MESSAGES)) {
-                   console.log("ans",chat.MESSAGES)
-                   setChats(chat.MESSAGES)
-                }
-              }
-            });
-          
-          }
-      //   if (Array.isArray(chatData)) {
-      //     chatData.forEach(chat => {
-      //         if (chat.CHAT_ID === chatCaseId && Array.isArray(chat.MESSAGES)) {
-      //             setChats(chat.MESSAGES);
-      //         }
-      //     });
-      // }
-        //   console.log("chat", chats)
+         setChats(response.data);
+        
+        
       } catch (error) {
         console.log("Error fetching chats:", error);
-        // alert("Failed to fetch chats");
       }
  };
 
@@ -168,41 +145,34 @@ const handleDocClick = async (fileToUpload) => {
 
 
 const handleSendClick = async () => {
-  console.log(fileDetails)
-    console.log(workEmail); 
     if (!newMessage.trim() && !fileDetails) {
-        // alert("Message cannot be empty!");
         return;
     }
 
     const newChat = {
-        chat_id: chatCaseId,
-        user: workEmail,
-        message: newMessage,
-        timestamp: new Date().toISOString(),
-        fileData: fileDetails
+          chat_id: chatCaseId,
+          user: workEmail,
+          messages: newMessage,
+          timestamp: new Date().toISOString(),
+          fileData: fileDetails
     };
-    
-    // console.log(newChat.fileData); 
-    let a= chats.push(newChat)
-    setChats(a); 
-    console.log("chats",chats); 
     setNewMessage("");
 
     try { 
-        const response = await axios.post("http://localhost:9000/message", chats, {
+        const response = await axios.post(`${apiEndPointUrl}/message`, newChat, {
             headers: {
                 "Content-Type": "application/json" 
             },
         });
-
-        console.log("res",response.data); 
+        setChats((prevChats) => ({
+          ...prevChats,
+          MESSAGES: [...prevChats.MESSAGES, newChat],
+      }));
     } 
     catch (error) {   
         console.error("Error sending message:", error);
-        // alert("Failed to send message");
     }
-    fetchChats();
+    fetchChats();    
 };
 
 
@@ -230,104 +200,6 @@ const formatTimestamp = (timestamp) => {
     }
 };
 
-//   return (
-//             <div className='PendiingBillChat'>
-//                 <div className='PendiingBillChatNavbar'>
-//                     <div className='billNumberAndpeople'>
-//                         <span id="billNoBill">Bill</span>
-//                         <span id="billParticipant">Number</span>
-//                     </div>
-//                     <div className='chatIcon'>
-//                         <div className='pendingBillCall'> <img src={callIcon} style={{fontSize:"30px"}}/> </div>
-//                         <img className='messageAndCross'  style={{fontSize:"19.9px"}} src={messageIcon}/>
-//                         <img className='messageAndCross'  style={{fontSize:"16px"}} src={crossButton} onClick={acitivityLogClose}/>
-//                     </div>
-//                 </div>
-
-//                 <div className='chatContent'>
-
-//                     <div id='chatContainer' >
-
-//                     {
-//                         chats
-//                             .filter(chat => chat.chat_id === chatCaseId) 
-//                             .map((chat, index) => 
-//                                 chat.user === workEmail 
-//                                         ?
-//                          <>
-                         
-//                          <h6 className='chatDay'>{formatTimestamp(chat.timestamp)}</h6>
-
-
-//                             {/*  ----------- send----------------- */}
-//                                 <div className='personChatDetail'   key={index}>
-//                                     <div className='chatNameAndPic'>
-//                                         <img  className='chatNameAndPic' src='	https://img.freepik.com/premium-vector/default-ava…le-silhouette-vector-illustration_561158-3408.jpg'/>
-//                                     </div>
-
-//                                     <div>
-//                                         <div className='messageAndTime'>
-//                                             <span className='personName'>{chat.user}</span>
-//                                             <div className='personMessageAndTime'>
-//                                                 <span className='personMessage'> {chat.message}</span>
-//                                                 <span className='messageTime'> {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</span>
-//                                             </div>
-//                                         </div>
-//                                     </div>
-//                                 </div>
-//                                  </>           
-//                                       :
-//                               <>
-//                                 {/*  --------------- reciver----------------- */}
-//                                 <div className='reciverPersonChatDetail' key={index}  >
-//                                     <div className='reciverChatNameAndPic'>
-//                                     <img  className='reciverChatNameAndPic' src='	https://img.freepik.com/premium-vector/default-ava…le-silhouette-vector-illustration_561158-3408.jpg'/>
-//                                     </div>
-
-//                                     <div>
-//                                     <div className='reciverMessageAndTime'>
-//                                         <span className='reciverPersonName'> {chat.user}</span>
-//                                         <div className='reciverPersonMessageAndTime'>
-//                                             <span className='reciverPersonMessage'>{chat.message}</span>
-//                                             <span className='reciverMessageTime'> {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</span>
-//                                         </div>
-//                                         </div>
-//                                         {/* {showAcceptDecline && (
-//                                         <div className="acceptDeclinePopup">
-//                                         <button className="acceptButton" onClick={handleAcceptClick}>
-//                                             Accept
-//                                         </button>
-//                                         <button className="declineButton" onClick={handleDeclineClick}>
-//                                             Decline
-//                                         </button>
-//                                         </div>
-//                                     )} */}
-//                                     </div>
-//                                 </div>
-//                                 </>
-//                                  )}
-//                         </div>  
-                    
-//                         <div className='AllChatIcon'>
-//                             <img  id="plusChat" style={{fontSize:"24px"}} src={plusIcon} />
-//                                 <input
-//                                 type="text"
-//                                 placeholder='Type your message'
-//                                 className="chatInputField"
-//                                 value={newMessage}
-//                                 onChange={(e) => handleMessageChange(e.target.value)}
-//                                 />
-                                    
-//                             <div className='micChatIconAndSend'>
-//                                 <img  style={{fontSize:"27px"}} src={micIcon} />
-//                                 <img  style={{fontSize:"26px"}} src={sendIcon}  onClick={handleSendClick}/>
-//                             </div>
-//                         </div>
-//                     </div>
-//                </div>
-
-//   )
-// }
 
 
 return (
@@ -349,9 +221,7 @@ return (
       <div className='chatContent'>
         <div id='chatContainer'>
           {
-            chats
-              .filter(chat => chat.chat_id === chatCaseId)
-              .map((chat, index) => {
+            chats?.MESSAGES.map((chat, index) => {
                 // Compare current chat timestamp with the previous one to show date once per day
                 const showDate =
                   index === 0 ||
@@ -373,7 +243,7 @@ return (
                           <div className='messageAndTime'>
                             <span className='personName'>{chat.user}</span>
                             <div className='personMessageAndTime'>
-                              <span className='personMessage'>{chat.message}</span>
+                              <span className='personMessage'>{chat.messages}</span>
                               <span> {chat.fileData && chat.fileData.path ? (
       <img
       src={`data:image/jpeg;base64,${chat.fileData}`} 
@@ -403,13 +273,13 @@ return (
                           <div className='reciverMessageAndTime'>
                             <span className='reciverPersonName'>{chat.user}</span>
                             <div className='reciverPersonMessageAndTime'>
-                              <span className='reciverPersonMessage'>{chat.message}</span>
+                              <span className='reciverPersonMessage'>{chat.messages}</span>
                               <span className='reciverMessageTime'>
                                 {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
                               </span>
                             </div>
                           </div>
-                          {/* {showAcceptDecline && (
+                           {showAcceptDecline && (
                             <div className="acceptDeclinePopup">
                               <button className="acceptButton" onClick={handleAcceptClick}>
                                 Accept
@@ -418,7 +288,7 @@ return (
                                 Decline
                               </button>
                             </div>
-                          )} */}
+                          )} 
                         </div>
                       </div>
                     )}
