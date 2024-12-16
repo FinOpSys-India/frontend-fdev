@@ -19,6 +19,7 @@ const Profile = () => {
         const email = Cookies.get("workEmail");    
         const res = await axios.get(`${apiEndPointUrl}/get-person-details`, { params: { workEmail: email } });
         setCompanyUser(res.data);
+        console.log("hom", res.data)
       } catch (error) {
         console.error("Error fetching:", error);
       }

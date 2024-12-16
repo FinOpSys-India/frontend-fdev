@@ -23,6 +23,7 @@ import DeclineTable from './DeclineTable/DeclineTable';
 import FilterDrawer from './FilterSection/FilterDrawer';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import { roles } from '../../utils/constant';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -76,13 +77,12 @@ function AQ() {
     // Fetch invoices from the backend
     const fetchInvoices = async (page) => {
       try {
-        const currentPage="pendingInAp"
+        const currentPage="pendingInAp";
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
           params: { page, itemsPerPage,role,currentPage}
         });
         setInvoices(response.data);
         setFilteredData(response.data);
-        // setTotalInvoices(response.headers['x-total-count']); // Assuming your API sends the total count in the header
       } catch (error) {
         toast.error("Failed to fetch invoices", { autoClose: 1500 });
       }
@@ -536,7 +536,7 @@ const handleAccept = async (index) => {
                     <th>Bill Date</th>
                     <th>Inbox Method</th>
                     <th>Amount</th>
-                    <th>Actions</th>
+                    {role === roles.apPerson?  <th>Actions</th>:null}
                   </tr>
                 </thead>
                 <tbody>
@@ -555,7 +555,7 @@ const handleAccept = async (index) => {
                           <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.inboxMethod}</td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                          <td id="actionOfAQ">
+                          {role === roles.apPerson?  <td id="actionOfAQ">
                             <>
                               <span className="actionOfAQ"  id="actionOfAQAccept" onClick={() => handleAccept(index)} onMouseEnter={() => setacceptHoveredIndex(index)}
                                 onMouseLeave={() => setacceptHoveredIndex(null)}>
@@ -566,7 +566,8 @@ const handleAccept = async (index) => {
                                 {declineHoveredIndex === index ? "× Decline" : "✕"}
                               </span>
                             </>
-                          </td>
+                          </td>:null}
+                        
                         </tr>
                       ))
                     }
@@ -658,7 +659,7 @@ const handleAccept = async (index) => {
                     </th>                    <th>Bill Date</th>
                     <th>Inbox Method</th>
                     <th>Amount</th>
-                    <th>Actions</th>
+                    ${role === roles.apPerson ?  <th>Actions</th>:null}
                   </tr>
                 </thead>
                 <tbody>
@@ -677,7 +678,7 @@ const handleAccept = async (index) => {
                         <td>{new Date(invoice.receivingDate).toLocaleDateString()}</td>
                         <td>{invoice.inboxMethod}</td>
                         <td>{invoice.amount}</td>
-                        <td id="actionOfAQWithDeclineform">
+                        {role === roles.approver1? <td id="actionOfAQWithDeclineform">
                           <>
                             <span
                               className="actionOfAQWithDeclineform" id="actionOfAQAcceptWithDeclineform" onClick={() => handleAccept(index)}  onMouseEnter={() => setacceptHoveredIndex(index)}
@@ -691,7 +692,7 @@ const handleAccept = async (index) => {
                               {declineHoveredIndex === index ? "× Decline" : "✕"}
                             </span>
                           </>
-                        </td>
+                        </td>:null}
                       </tr>
                     ))
                   }

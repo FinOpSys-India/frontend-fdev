@@ -184,7 +184,7 @@
      padding :6px;
      margin-top: 3%;
      border-radius: 12px;
-     height:9%;
+     height:7.3%;
      color: white;
      /* justify-content: space-between; */
      text-align: center;
@@ -242,7 +242,7 @@
 /* --------------------------chatContent----------------------------------------------------- */
 
 .chatContent{
-  height: 100%;
+  height: 56rex;
   background-color: white;
   border-radius: 16px;
   margin-top: 3.9%;
@@ -253,7 +253,7 @@
 .AllChatIcon{
   display: flex;
   flex-direction: row;
-  background-color: rgba(245, 245, 245, 1);
+  background-color: rgba(240, 240, 240, 1);
   position:relative ;
   gap:6%;
   font-size: 14px;
@@ -267,10 +267,16 @@
    margin-left: 3.3%;
    height:7.9%;
    padding-top: 1%;
-   margin-bottom: 3%;
+   margin-top: 3%;
+   margin-bottom:  3%;
 }
 
 
+.chatInputField{
+  background-color: rgba(240, 240, 240, 1);
+  border: 0;
+  padding-bottom: 2.1%;
+}
 
 .typingChatIconAndSend{
   display: flex;
@@ -279,9 +285,9 @@
   bottom: 0%;
   gap:9%;
   width:100%;
-  padding-right: 3%;
-  padding-top: 3%;
-  padding-bottom: 0%;
+  /* padding-right: 3%; */
+  /* padding-top: 3%; */
+  padding-bottom: 31%;
 }
 
 
@@ -294,6 +300,9 @@
 
 .micChatIconAndSend{
   padding-top: 1%;
+  padding-left: 9%;
+  padding-top: 3%;
+  padding-bottom: 3%;
 }
 
 
@@ -318,7 +327,8 @@
 .personChatDetail{
   display:flex;
   flex-direction: column;
-  gap:0%
+  gap:0%;
+  padding-right: 3%;
 }
 
 .chatNameAndPic{
@@ -331,12 +341,12 @@
   display: flex;
   flex-direction: column;
   float: right;
+
 }
 
 .personName{
   float: right;
-  padding-left: 61%;
-  margin-top: -9%;
+  /* width:120% ; */
 font-size: 10px;
 font-weight: 500;
 
@@ -346,22 +356,25 @@ font-weight: 500;
 .personMessageAndTime{
   display: flex;
   flex-direction: column;
+  max-height: fit-content;
+  width:100%;
   background-color:rgba(236, 232, 245, 1);
   font-size: 14px;
   font-weight: 400;
   border-radius: 12px;
   padding: 3%;
-  margin-right: 3%;
+  /* margin-right: 3%; */
 
 }
 .personMessage{
   float: right;
-  padding-right:0.3%;
+  padding-left:3%;
 }
 
 .messageTime{
   float: right;
-  padding-left: 69%;
+  padding-left: 61%;
+  width:fit-content;
 font-size: 8px;
 font-weight: 300;
 
@@ -406,15 +419,16 @@ font-weight: 500;
   padding: 3%;
   margin-right: 3%;
   margin-top: 1%;
-  width:fit-content;
+  width:49%;
+  max-height: fit-content;
 }
 
 .reciverMessageTime{
   float: right;
-  padding-left: 6.9rem;
+  padding-left: 71%;
 font-size: 8px;
 font-weight: 300;
-
+width:fit-content;
 }
 
 .typingChatButton {
@@ -424,9 +438,12 @@ font-weight: 300;
   cursor: pointer;
 }
 
-/* .chatInputField {
-  display: none;
-} */
+.chatInputField:focus {
+  border: none; /* Removes border on focus */
+  box-shadow: none; 
+
+  outline: none;
+}
 
 .acceptDeclinePopup {
   display: flex;

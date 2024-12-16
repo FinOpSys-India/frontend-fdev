@@ -38,7 +38,7 @@ function DeclineBills() {
     const [selectedItem, setSelectedItem] = useState('Decline Bills');
     const [activeButton, setActiveButton] = useState(null);
     const navigate = useNavigate();
-
+    const role = sessionStorage.getItem('role');
      let index="";
 
 
@@ -55,13 +55,12 @@ function DeclineBills() {
     //------------------------- Fetch invoices from the backend-------------------
     const fetchInvoices = async (page) => {
       try {
-        const currentPage="decline"
+        const currentPage="declineInBills"
         const response = await axios.get(`${apiEndPointUrl}/get-invoices`, {
-          params: { page, itemsPerPage ,currentPage}
+          params: { page, itemsPerPage ,role,currentPage}
         });
         setInvoices(response.data);
         setFilteredData(response.data);
-        // setTotalInvoices(response.headers['x-total-count']); // Assuming your API sends the total count in the header
       } catch (error) {
         toast.error("Failed to fetch invoices", { autoClose: 1500 });
       }
@@ -221,7 +220,7 @@ function DeclineBills() {
 
               <div className='filterBillDiv'>
                   <div className=''>
-                    uibjllknnknknk
+                    Bills
                   </div>
 
                     <FilterDrawer onApplyFilters={setFilters} />
@@ -255,9 +254,9 @@ function DeclineBills() {
                               </td>
                               <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
                               <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
-                              <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
-                              <td onClick={() => handleShowPreview(invoice, index)}> person abc  </td>
-                              <td onClick={() => handleShowPreview(invoice, index)}> incorrect data </td>
+                              <td onClick={() => handleShowPreview(invoice, index)}> {invoice.declineDate} </td>
+                              <td onClick={() => handleShowPreview(invoice, index)}> {invoice.status=="DeclineByApprover1" ?"Approver 1":"Approver 2"}  </td>
+                              <td onClick={() => handleShowPreview(invoice, index)}> {invoice.declineReason} </td>
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                               <td id="">  <img src={chat}/> </td>
                             </tr>
