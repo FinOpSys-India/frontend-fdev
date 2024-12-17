@@ -29,6 +29,8 @@ function Home(props) {
   const [showModal, setShowModal] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [workEmail, setWorkEmail] = useState('');
+  const role = sessionStorage.getItem('role');
+  
   const handleClose = () => setShowModal(false);
 
   const handleButtonClick = (buttonName) => {
@@ -123,7 +125,7 @@ function Home(props) {
 
               <img src={approvalQueuelogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("invoiceQueue")} />
               <br />
-              <img src={billslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("credits")} />
+              <img src={billslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("billAQButton")} />
               <br />
               <img src={wipcclogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("credits")} />
               <br />
@@ -134,7 +136,7 @@ function Home(props) {
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
               <button
-                className={activeButton === "invoiceQueue" ? "connectButton" : ""}
+                className={activeButton === "invoiceQueue" ? "connectButton" : "AQHover"}
                 onClick={() => handleButtonClick("invoiceQueue")}
               >
                 <img
@@ -145,7 +147,7 @@ function Home(props) {
               </button>
               <br />
               <button
-               className={activeButton === "billAQButton" ? "connectButton" : ""}
+               className={activeButton === "billAQButton" ? "connectButton" : "AQHover"}
                onClick={() => handleButtonClick("billAQButton")}
               >
                 {" "}
@@ -212,12 +214,12 @@ function Home(props) {
               aria-expanded={isOpen ? "true" : "false"}
             ><span> <ArrowForwardIosOutlinedIcon style={{ height: '50%' }} /></span>            </div>
             ) : (<div
-              className="dropdown-toggle"
+              className="dropdown-toggle HomeAP"
               type="button"
               onClick={toggleMenu}
               aria-expanded={isOpen ? "true" : "false"}
             ><span>
-                User Name <ArrowForwardIosOutlinedIcon style={{ height: '50%' }} /></span>
+                &nbsp;&nbsp; &nbsp;&nbsp; User Name &nbsp;&nbsp;<ArrowForwardIosOutlinedIcon style={{ height: '50%' }} /></span>
               <span>{workEmail}</span>            </div>
             )}
 
@@ -230,32 +232,33 @@ function Home(props) {
           >
 
             <li>
-              <h6 style={{ marginTop: "-5%", marginLeft:'-0.5%' }}>{workEmail}</h6>
+              <h6 style={{ marginTop: "-5%", marginLeft:'-0.5%' }} className="HomeUser">{workEmail}</h6>
               <div className="picAndNameInside">
-                <DragIndicatorIcon
+                {/* <DragIndicatorIcon
                   style={{
                     fontSize: 10,
                     marginTop:"10%"
                   }}
-                />
-                  <img
-                    className="profilePic"
-                    id="innerImg"
-                    src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
-                    alt="Profile"
-                    style={{
-                      marginTop:"6%"
-                    }}
-                  />
+                /> */}
 
                 <div className="dropdownNameAndPic">
-                  <span style={{ fontSize: "10.5px", fontWeight: "500" }}>User Name
-                  </span>
-                  <br></br>
-                  <span
-                    style={{ fontSize: "9.3px", fontWeight: "500" }}
-                  >
-                    {workEmail}
+                  <img
+                      className="profilePic"
+                      id="innerImg"
+                      src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
+                      alt="Profile"
+                      style={{
+                        marginTop:"1%"
+                      }}
+                    /> &nbsp;&nbsp; 
+                    <span style={{ fontSize: "10px", fontWeight: "500" }}>{workEmail}
+                    </span>
+                    <br></br>
+                    <span
+                      style={{ fontSize: "10px", marginLeft:"19%", fontWeight: "500" ,color: "rgba(140, 140, 140, 1)"
+                      }}
+                    >
+                      {role}
 
                   </span>
                 </div>
@@ -266,7 +269,8 @@ function Home(props) {
             <li>
               <div className="companiesHeader">
                 <h6 style={{ marginTop: "-10%" , marginLeft:'-0.5%' }}>Companies</h6>
-                <AddCircleOutlineIcon style={{ fontSize: 15, marginTop:'-7%'}} />
+                <AddCircleOutlineIcon style={{ fontSize: 15, marginTop:'-7%',color: "rgba(140, 140, 140, 1)"
+                  }} />
               </div>
               <div className="picAndNameCompany">
               <DragIndicatorIcon
@@ -279,9 +283,12 @@ function Home(props) {
                     id="innerImg"
                     src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
                     alt="Company"
+                    style={{
+                      marginTop:"6%"
+                    }}
                   />
                 <div className="dropdownNameAndPic" type="button">
-                  <span style={{ fontSize: "10.5px", fontWeight: "500" }}>Company Name
+                  <span style={{ fontSize: "12px", fontWeight: "500" }}>Company Name
                   </span>
                 </div>
               </div>
@@ -290,11 +297,13 @@ function Home(props) {
 
             <div style={{marginTop:'-3%'}} className="settingWithLogout">
                 <li>
-                  <button style={{ fontSize: "10.5px", backgroundColor: "white", border:'none' }} onClick={() => handleButtonClick("settings")}>Settings</button>
+                  <button style={{ fontSize: "12px", backgroundColor: "white", border:'none' ,color: "rgba(140, 140, 140, 1)"
+                    }} onClick={() => handleButtonClick("settings")}>Settings</button>
                 </li>
                 <li>
                   <button
-                    style={{ fontSize: "10.5px", backgroundColor: "white" , border:'none'}}
+                    style={{ fontSize: "12px", backgroundColor: "white" , border:'none',color: "rgba(140, 140, 140, 1)"
+                    }}
                     onClick={logOut}
                   >
                     Logout

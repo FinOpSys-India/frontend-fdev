@@ -13,9 +13,14 @@ import { apiEndPointUrl } from "../../utils/apiService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDropzone } from "react-dropzone";
+import io from 'socket.io-client'
+
+
+// Connect to the WebSocket server
+const socket = io('http://localhost:9000');
 
 function Chat({ caseId, fetchInvoices, closeChat}) {
-  console.log(caseId)
+  // console.log(caseId)
   const [acitivityLogButton, setacitivityLogButton] = useState(true);
   const [chatcaseId, setchatcaseId] = useState("");
   const [showAcceptDecline, setShowAcceptDecline] = useState(false);
@@ -24,7 +29,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
   const [chats, setChats] = useState();
   const [newMessage, setNewMessage] = useState("");
   const [workEmail, setWorkEmail] = useState("");
-
+  const [socket, setSocket] = useState(null);
   const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
   const [file, setFile] = useState(null);
@@ -48,6 +53,8 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
     setacitivityLogButton(false);
   }
 
+
+
   const handleAcceptClick = async () => {
     // Call API for Accept action
     try {
@@ -70,6 +77,8 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
 
     setShowAcceptDecline(false); // Hide popup after Accept
   };
+
+
   const handleSecondaryOptionClick = async (option) => {
       try {
       const response = await axios.post(`${apiEndPointUrl}/decline`, {
@@ -89,6 +98,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
     }
     setShowSecondaryDropdown(false);
   };
+
 
   const handleDeclineClick= ()=> {
     setShowSecondaryDropdown(true);
@@ -142,7 +152,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
     }
 
     const newChat = {
-      chat_id: caseId,
+      chat_id: chatcaseId,
       user: workEmail,
       messages: newMessage,
       timestamp: new Date().toISOString(),
@@ -156,6 +166,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
           "Content-Type": "application/json",
         },
       });
+      socket.emit('sendMessage', newChat);  
       setChats((prevChats) => ({
         ...prevChats,
         MESSAGES: [...prevChats.MESSAGES, newChat],
@@ -167,13 +178,43 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
 };    
 
   useEffect(() => {
-    let email = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("workEmail="))
-      ?.split("=")[1];
+    let email = document.cookie.split("; ").find((row) => row.startsWith("workEmail="))?.split("=")[1];
     setWorkEmail(email);
+    setchatcaseId(caseId)
+
     fetchChats();
-  }, [caseId  ]);
+
+
+
+    const newSocket = io('http://localhost:9000');  // Socket connection
+    newSocket.on('connect', () => {
+        console.log('Socket connected with id:', newSocket.id);
+    });
+
+    newSocket.on('newMessage', (message) => {
+        console.log('New message received:', message);
+        setChats((prevChats) => ({
+            ...prevChats,
+            MESSAGES: [...prevChats.MESSAGES, message],
+        }));
+    });
+
+    // Error handling for socket connection
+    newSocket.on('connect_error', (error) => {
+        console.error('Socket connection error:', error);
+    });
+
+    // Set socket in state
+    setSocket(newSocket);  // Save the socket connection in the state
+
+    // Cleanup function to disconnect the socket on component unmount
+    return () => {
+        newSocket.disconnect();
+    };
+
+  }, [chatcaseId]);
+
+
 
   const formatTimestamp = (timestamp) => {
     const messageDate = new Date(timestamp);
@@ -218,10 +259,18 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
         <div id="chatContainer">
           {chats?.MESSAGES.map((chat, index) => {
             // Compare current chat timestamp with the previous one to show date once per day
-            const showDate =
-              index === 0 ||
-              new Date(chat.timestamp).toDateString() !==
-                new Date(chats[index - 1]?.timestamp).toDateString();
+            // const showDate =
+            //   index === 0 ||
+            //   new Date(chat.timestamp).toDateString() !==
+            //     new Date(chats[index - 1]?.timestamp).toDateString();
+
+            const currentDate = new Date(chat.timestamp).toDateString();
+            const previousDate =
+              index > 0 ? new Date(chats.MESSAGES[index - 1]?.timestamp).toDateString() : null;
+          
+            // Show date only if it's the first message or the date changes
+            const showDate = index === 0 || currentDate !== previousDate;
+            console.log( index, currentDate, previousDate, showDate );
 
             return (
               <React.Fragment key={index}>
@@ -309,14 +358,14 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
               onClick={handleAcceptClick}
               className="chatDropdownEachItem"
             >
-              Accept
+             ✓   &nbsp;&nbsp; Accept
             </Dropdown.Item>
             <Dropdown.Item
               eventKey="declineBills"
               onClick={handleDeclineClick}
               className="chatDropdownEachItem"
             >
-              Decline
+              ✕ &nbsp;&nbsp;  Decline
             </Dropdown.Item>
           </Dropdown>
           
@@ -366,7 +415,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
             onChange={(e) => handleMessageChange(e.target.value)}
           />
           <div className="micChatIconAndSend">
-            <img style={{ fontSize: "27px" }} src={micIcon} />
+            {/* <img style={{ fontSize: "27px" }} src={micIcon} /> */}
             <img
               style={{ fontSize: "26px" }}
               src={sendIcon}

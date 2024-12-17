@@ -251,7 +251,6 @@ function ApprovedBills() {
                           <th>Vendor Name</th> 
                           <th>Bill Date</th>
                           <th>Approved Date</th>
-                          <th>Department</th>
                           <th>Amount</th>
                           <th>Actions</th>
                         </tr>
@@ -271,9 +270,8 @@ function ApprovedBills() {
                                 <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
                                 <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
-                                <td onClick={() => handleShowPreview(invoice, index)}> person abc  </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                <td id="" > <img onClick={acitivityLogSection} src={activityLog}/>
+                                <td id="" > <img onClick={acitivityLogSection} src={activityLog}/> &nbsp;
                                 <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
                                 </td>
                               </tr>
@@ -291,7 +289,6 @@ function ApprovedBills() {
                             <th> <input type="checkbox"  />   &nbsp;&nbsp;&nbsp;Bill Number   </th>
                               <th>Vendor Name</th> 
                               <th>Bill Date</th>
-                              <th>Approved Date</th>
                               <th>Department</th>
                               <th>Amount</th>
                               <th>Actions</th>
@@ -312,9 +309,8 @@ function ApprovedBills() {
                                     <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice?.approvedBillDate} </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}> person abc  </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                    <td id="" > <img onClick={acitivityLogSection} src={activityLog}/>
+                                    <td id="" > <img onClick={acitivityLogSection} src={activityLog}/> &nbsp;
                                     <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
                                     </td>
                                   </tr>

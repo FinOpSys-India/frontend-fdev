@@ -518,6 +518,7 @@ margin-top: -6px;
 }
 .vendorNameSearchDiv{
   padding: 3%;
+  margin-top: -9%;
   background-color:  rgba(240, 240, 240, 1);
   box-shadow: 1px rgba(0, 0, 0, 0.4);
   box-shadow:  6px 6px -6px rgba(0, 0, 0, 0.16);
@@ -536,7 +537,7 @@ margin-top: -6px;
 .vendorNameTooltip::after {
   content: "";
   position: absolute;
-  bottom: 100%; /* Position the nip at the bottom of the tooltip */
+  margin-top: 90%;
   left: 10%;
   margin-left: -4px;
   border-width: 7px;

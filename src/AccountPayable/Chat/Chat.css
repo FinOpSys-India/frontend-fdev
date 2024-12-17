@@ -28,9 +28,10 @@
 }
 
 .chatdropdownContainer {
-  left: 15px; 
-  width: 40%;
-background-color: #F0F0F0; 
+  position:fixed;
+  left: 75.6%;
+  width: 10%;
+  background-color: #F0F0F0; 
  color: black;
  display: flex; /* Use Flexbox */
   flex-direction: column; /* Arrange items vertically */
@@ -38,6 +39,9 @@ background-color: #F0F0F0;
   justify-content: center;
   border-radius: 12px;
   font-family: Inter;
+   /* z-index: 1; */
+   
+   top: 74.6%;
  
 }  
 .chatDropdownEachItem{

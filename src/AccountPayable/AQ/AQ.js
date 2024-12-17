@@ -458,7 +458,7 @@ const handleAccept = async (index) => {
               <Table className="custom-width">
                 <thead>
                   <tr>
-                  <th  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ondata-toggle="tooltip" data-placement="bottom" >
+                  <th  onClick={handleMouseEnter} onMouseLeave={handleMouseLeave} ondata-toggle="tooltip" data-placement="bottom" >
                     <input type="checkbox"  />
                       &nbsp;&nbsp;&nbsp;Vendor Name
                       {
@@ -472,10 +472,10 @@ const handleAccept = async (index) => {
                             showCrossIcon 
                                    ? 
                               <CloseIcon
-                                style={{  fontSize: '19px',  position: 'absolute', top: '12px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearSearch}/>
+                                style={{  fontSize: '19px',  position: 'absolute', top: '-6px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearSearch}/>
                                   : 
                               <SearchIcon
-                                style={{ fontSize: '19px', position: 'absolute', top: '12px', left: '79%',color: 'black', }}/>
+                                style={{ fontSize: '19px', position: 'absolute', top: '-6px', left: '79%',color: 'black', }}/>
                             }
                           {
                              showDropdown && searchQueryByName
@@ -496,7 +496,7 @@ const handleAccept = async (index) => {
                       </div>
                     }
                     </th>
-                    <th  onMouseEnter={handleMouseEnterBill} onMouseLeave={handleMouseLeaveBill} ondata-toggle="tooltip" data-placement="bottom" >
+                    <th  onClick={handleMouseEnterBill} onMouseLeave={handleMouseLeaveBill} ondata-toggle="tooltip" data-placement="bottom" >
                       Bill Number
                      {
                                showBillNumberSearch 
@@ -509,10 +509,10 @@ const handleAccept = async (index) => {
                             showCrossBillNumber 
                                    ? 
                               <CloseIcon
-                                style={{  fontSize: '19px',  position: 'absolute', top: '12px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearBillNumber}/>
+                                style={{  fontSize: '19px',  position: 'absolute', top: '-6px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearBillNumber}/>
                                   : 
                               <SearchIcon
-                                style={{ fontSize: '19px', position: 'absolute', top: '12px', left: '79%',color: 'black', }}/>
+                                style={{ fontSize: '19px', position: 'absolute', top: '-6px', left: '79%',color: 'black', }}/>
                             }
                           {
                              showDropdownBillNumber && searchQueryByBillNumber
