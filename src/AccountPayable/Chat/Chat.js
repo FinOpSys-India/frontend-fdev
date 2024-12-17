@@ -142,7 +142,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
     }
 
     const newChat = {
-      chat_id: chatcaseId,
+      chat_id: caseId,
       user: workEmail,
       messages: newMessage,
       timestamp: new Date().toISOString(),
@@ -172,7 +172,6 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
       .find((row) => row.startsWith("workEmail="))
       ?.split("=")[1];
     setWorkEmail(email);
-    // setchatcaseId(caseId);
     fetchChats();
   }, [caseId  ]);
 
