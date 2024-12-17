@@ -14,7 +14,7 @@ import  "./DeclineBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
+import Chat from '../../Chat/Chat';
 
 
 
@@ -37,8 +37,10 @@ function DeclineBills() {
     const [filteredData, setFilteredData] = useState([]);
     const [selectedItem, setSelectedItem] = useState('Decline Bills');
     const [activeButton, setActiveButton] = useState(null);
+    const [showChat, setShowChat] = useState(false);
     const navigate = useNavigate();
     const role = sessionStorage.getItem('role');
+    const [caseId,setCaseId] = useState("");
      let index="";
 
 
@@ -188,7 +190,16 @@ function DeclineBills() {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-
+  function chatLogSection(newCaseId){
+    if (caseId !== newCaseId) {
+      setCaseId(newCaseId); // Update the active chat caseId
+      setShowChat(true); // Open the chat section
+    }
+   }
+   const closeChat = () => {
+    setShowChat(false); // Close the chat
+    setCaseId(null); // Clear the active caseId
+  };
   
   return (
       <div style={{display:"flex"}}>
@@ -225,12 +236,14 @@ function DeclineBills() {
 
                     <FilterDrawer onApplyFilters={setFilters} />
               </div>
-
-                <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+              
+              
+              <div className= {showChat ?"declineTableWithChat":""} >
+                <div className="mt-4 d-flex flex-column align-items-center outerTableDiv" id={showChat ? "declineTableInChat": ""}>
                   <Table className="custom-width">
                     <thead>
                       <tr>
-                        <th> <input type="checkbox"  />   &nbsp;&nbsp;&nbsp;Bill Number   </th>
+                        <th> <input type="checkbox"/>   &nbsp;&nbsp;&nbsp;Bill Number   </th>
                         <th>Vendor Name</th> 
                         <th>Bill Date</th>
                         <th>Decline Date</th>
@@ -258,13 +271,17 @@ function DeclineBills() {
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.status=="DeclineByApprover1" ?"Approver 1":"Approver 2"}  </td>
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.declineReason} </td>
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                              <td id="">  <img src={chat}/> </td>
+                              <td id=""> <img src={chat} onClick={() => chatLogSection(invoice.caseId)}/> </td>
                             </tr>
                           ))
                         }
                     </tbody>
                   </Table>
+              </div> 
+               {showChat ?<Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat}/>:null}
+               
               </div>  
+
           </div>
     </div>
   )

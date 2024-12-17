@@ -1,0 +1,12 @@
+.declineTableWithChat{
+    display: flex;
+    gap:0%;
+    background-color:  rgba(240, 240, 240, 1);
+    border-radius: 20px;
+    margin-top: 1.9%;
+}
+#declineTableInChat{
+    width:74%;
+  margin-top: 0%;
+  padding-top: 0%;
+}

@@ -223,7 +223,7 @@ const closeChat = () => {
               </div>
 
               {
-                 acitivityLogButton!== true
+                 !acitivityLogButton
                            ?
                       <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
                         <Table className="custom-width">

@@ -15,8 +15,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDropzone } from "react-dropzone";
 
 function Chat({ caseId, fetchInvoices, closeChat}) {
+  console.log(caseId)
   const [acitivityLogButton, setacitivityLogButton] = useState(true);
-  const [chatCaseId, setchatCaseId] = useState("");
+  const [chatcaseId, setchatcaseId] = useState("");
   const [showAcceptDecline, setShowAcceptDecline] = useState(false);
   const [showSecondaryDropdown, setShowSecondaryDropdown] = useState(false);
   const role = sessionStorage.getItem("role");
@@ -141,7 +142,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
     }
 
     const newChat = {
-      chat_id: chatCaseId,
+      chat_id: chatcaseId,
       user: workEmail,
       messages: newMessage,
       timestamp: new Date().toISOString(),
@@ -171,7 +172,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
       .find((row) => row.startsWith("workEmail="))
       ?.split("=")[1];
     setWorkEmail(email);
-    // setchatCaseId(caseId);
+    // setchatcaseId(caseId);
     fetchChats();
   }, [caseId  ]);
 
