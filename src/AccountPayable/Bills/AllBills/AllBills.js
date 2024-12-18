@@ -205,7 +205,7 @@ function AllBills() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className='billDropdownItem'>
-                      <Dropdown.Item className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      <Dropdown.Item className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem'  eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem'  eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
                     </Dropdown.Menu>
@@ -258,7 +258,7 @@ function AllBills() {
                               <span
                                   className={`status-badge ${
                                     invoice.status === invoiceStatus.declineByApprover1 ||
-                                    invoice.status === invoiceStatus.declineByApprover2
+                                    invoice.status === invoiceStatus.declineByApprove2
                                       ? "declined"
                                       : invoice.status === invoiceStatus.approvedByApprover1 ||
                                         invoice.status === invoiceStatus.acceptedByAp
@@ -269,7 +269,8 @@ function AllBills() {
                               <span className="status-dot"></span>
                                 {invoice.status== invoiceStatus.declineByApprover1 ||invoice.status== invoiceStatus.declineByApprove2 ? "Decline"
                               :invoice.status== invoiceStatus.approvedByApprover1 ||invoice.status== invoiceStatus.acceptedByAp?"Pending":"Approved"}
-                              </span></td>
+                              </span>
+                              </td>
                               
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                               <td id="">

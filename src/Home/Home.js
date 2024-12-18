@@ -21,6 +21,7 @@ import finopsysSmallLogo from "../assets/finopsysSmall.svg";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import { apiEndPointUrl } from "../utils/apiService";
+import { roles } from "../utils/constant";
 
 function Home(props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -123,7 +124,7 @@ function Home(props) {
           {isCollapsed ? (
             <div className="accountPayableButtonsCollapsed">
 
-              <img src={approvalQueuelogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("invoiceQueue")} />
+{(role !=roles.approver1 && role !=roles.approver2)?<img src={approvalQueuelogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("invoiceQueue")} />:null}
               <br />
               <img src={billslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("billAQButton")} />
               <br />
@@ -135,7 +136,7 @@ function Home(props) {
               <br />
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
-              <button
+              {(role !=roles.approver1 && role !=roles.approver2)?<button
                 className={activeButton === "invoiceQueue" ? "connectButton" : "AQHover"}
                 onClick={() => handleButtonClick("invoiceQueue")}
               >
@@ -144,7 +145,7 @@ function Home(props) {
                   style={{ width: "2em", height: "1em" }}
                 />
                 Approval Queue
-              </button>
+              </button>:null}
               <br />
               <button
                className={activeButton === "billAQButton" ? "connectButton" : "AQHover"}

@@ -233,7 +233,7 @@ const closeChat = () => {
                               <th>Vendor Name</th>
                               <th>Bill Date</th>
                               <th>Due date</th>
-                              {role != (roles.approver1 || roles.approver2) ? <th>Current Approver</th>:null}
+                              {(role != roles.approver1 && role !=roles.approver2) ? <th>Current Approver</th>:null}
                               <th>Amount</th>
                               <th>Actions</th>
                             </tr>
@@ -253,7 +253,7 @@ const closeChat = () => {
                                     <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.dueDate).toLocaleDateString()} </td>
-                                    {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
+                                    {(role != roles.approver1 && role !=roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                     <td id="">
                                         <img src={chat} onClick={() => chatLogSection(invoice.caseId)} />

@@ -46,6 +46,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
       console.log(showAcceptDecline);
     } else {
       setShowAcceptDecline(false);
+      setShowSecondaryDropdown(false);
     }
   };
 
@@ -88,7 +89,8 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
       });
       if (response.status === 500 || response.status === 400) {
         toast.error("Status is already approved/ declined !");
-      } else {
+      } 
+      if(response.status == 200) {
         toast.success(`Bill successfully declined`, { autoClose: 500 });
         fetchInvoices(); 
         closeChat();
@@ -212,7 +214,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
         newSocket.disconnect();
     };
 
-  }, [chatcaseId]);
+  }, [caseId]);
 
 
 
@@ -351,7 +353,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
         </div>
         {showAcceptDecline ? (
           <div>
-          <Dropdown className="chatdropdownContainer">
+          <Dropdown className="chatdropdownContainerApproveDecline">
             
             <Dropdown.Item
               eventKey="acceptBills"
@@ -372,7 +374,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
           </div>
         ) : null}
         {showSecondaryDropdown && (
-        <Dropdown className="chatdropdownContainer">
+        <Dropdown className="chatdropdownContainerDecline">
           <Dropdown.Item
             eventKey="incorrectDetails"
             onClick={() => handleSecondaryOptionClick("Incorrect Details")}
@@ -386,6 +388,13 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
             className="chatDropdownEachItem"
           >
             Missing Values
+          </Dropdown.Item>
+          <Dropdown.Item
+            eventKey="calculationError"
+            onClick={() => handleSecondaryOptionClick("Calculation Error")}
+            className="chatDropdownEachItem"
+          >
+            Calculation Error
           </Dropdown.Item>
           <Dropdown.Item
             eventKey="other"
