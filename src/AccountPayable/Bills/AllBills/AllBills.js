@@ -22,8 +22,9 @@ import leftButton from '../../../assets/leftButton.svg'
 import crossButton from '../../../assets/crossButton.svg'
 import dropButton from '../../../assets/dropButton.svg'
 import rightButton from '../../../assets/rightButton.svg'
-
+import { Button, Modal, ProgressBar } from "react-bootstrap";
 import upButton from '../../../assets/upButton.svg'
+import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
 
 
 
@@ -95,6 +96,26 @@ function AllBills() {
       setSelectedInvoice(invoice); 
       setcurrentInvoiceIndex(index)
     }
+
+    const handleBackPreview = () =>{ 
+      if(currentInvoiceIndex>=0){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex-1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex-1)
+      }
+    }
+
+    const handleRightPreview = () =>{ 
+      if(currentInvoiceIndex< invoices.length){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex+1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex+1)
+      }
+    }
+    
+    const handleClose = () => setShowPreview(false);
+
+  
 
     function acitivityLogSection(){
       setShowSideSection(true);
@@ -396,6 +417,39 @@ function AllBills() {
                       :null} 
                       </div>
           </div>
+
+          
+
+        {/* -----------preview section---------- */}
+        <Modal show={showPreview} onHide={handleClose} centered size="xl" style={{borderRadius:"24px"}}>
+            {/* <Modal.Header closeButton>
+            </Modal.Header> */}
+            <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
+            }}>
+              
+              <PreviewSection invoice={selectedInvoice} />
+            </Modal.Body>
+           
+            <Button
+              className="arrow-btn left-arrow"
+              variant="outline-primary"
+              onClick={handleBackPreview}
+              disabled={currentInvoiceIndex <=0}
+            >
+               <span className="large-arrow">&#8249;</span> {/* Left arrow icon */}
+            </Button>
+
+            {/* Right arrow button */}
+            <Button
+              className="arrow-btn right-arrow"
+              variant="outline-primary"
+              onClick={handleRightPreview}
+              disabled={currentInvoiceIndex >= invoices.length-1}
+            >
+              &#8250; {/* Right arrow icon */}
+            </Button>
+      </Modal>
+   
     </div>
   )
 }

@@ -124,8 +124,8 @@ function Home(props) {
           {isCollapsed ? (
             <div className="accountPayableButtonsCollapsed">
 
-{(role !=roles.approver1 && role !=roles.approver2)?<img src={approvalQueuelogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("invoiceQueue")} />:null}
-              <br />
+{(role !=roles.approver1 && role !=roles.approver2)?<><img src={approvalQueuelogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("invoiceQueue")} /><br /></>:null }
+            
               <img src={billslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("billAQButton")} />
               <br />
               <img src={wipcclogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("credits")} />
@@ -136,7 +136,9 @@ function Home(props) {
               <br />
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
-              {(role !=roles.approver1 && role !=roles.approver2)?<button
+              {(role !=roles.approver1 && role !=roles.approver2)?
+              <>
+              <button
                 className={activeButton === "invoiceQueue" ? "connectButton" : "AQHover"}
                 onClick={() => handleButtonClick("invoiceQueue")}
               >
@@ -145,8 +147,8 @@ function Home(props) {
                   style={{ width: "2em", height: "1em" }}
                 />
                 Approval Queue
-              </button>:null}
-              <br />
+              </button><br /></>:null}
+              
               <button
                className={activeButton === "billAQButton" ? "connectButton" : "AQHover"}
                onClick={() => handleButtonClick("billAQButton")}

@@ -402,12 +402,12 @@ font-weight: 300;
 .reciverPersonName{
   /* float: right; */
   padding-left:6%;
-  margin-top: -1.3rem;
+  margin-top: 0.6rem;
 font-size: 10px;
 font-weight: 500;
+height:min-content ;
 
 }
-
 
 .reciverPersonMessageAndTime{
   display: flex;
@@ -416,12 +416,20 @@ font-weight: 500;
   font-size: 14px;
   font-weight: 400;
   border-radius: 12px;
-  padding: 3%;
+  padding-left: 3%;
+  padding-bottom: 1%;
   margin-right: 3%;
   margin-top: 1%;
   width:49%;
   max-height: fit-content;
 }
+
+
+
+.reciverPersonMessage{
+  font-size: 12px;
+}
+
 
 .reciverMessageTime{
   float: right;

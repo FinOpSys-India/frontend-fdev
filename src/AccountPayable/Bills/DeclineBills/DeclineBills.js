@@ -15,8 +15,8 @@ import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Chat from '../../Chat/Chat';
-
-
+import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
+import { Button, Modal, ProgressBar } from "react-bootstrap";
 
 
 function DeclineBills() {
@@ -80,8 +80,24 @@ function DeclineBills() {
       setcurrentInvoiceIndex(index)
     }
 
+    const handleBackPreview = () =>{ 
+      if(currentInvoiceIndex>=0){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex-1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex-1)
+      }
+    }
 
+    const handleRightPreview = () =>{ 
+      if(currentInvoiceIndex< invoices.length){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex+1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex+1)
+      }
+    }
     
+    const handleClose = () => setShowPreview(false);
+
 
    //---------------------filter data based on selected filters------------------------------
     
@@ -214,9 +230,9 @@ function DeclineBills() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className='billDropdownItem'>
-                      <Dropdown.Item  className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
                       <Dropdown.Item  className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>
                       <Dropdown.Item  className='billDropdownEachItem'  eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
+                      <Dropdown.Item  className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
 
@@ -283,6 +299,39 @@ function DeclineBills() {
               </div>  
 
           </div>
+
+
+          
+
+        {/* -----------preview section---------- */}
+        <Modal show={showPreview} onHide={handleClose} centered size="xl" style={{borderRadius:"24px"}}>
+            {/* <Modal.Header closeButton>
+            </Modal.Header> */}
+            <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
+            }}>
+              
+              <PreviewSection invoice={selectedInvoice} />
+            </Modal.Body>
+           
+            <Button
+              className="arrow-btn left-arrow"
+              variant="outline-primary"
+              onClick={handleBackPreview}
+              disabled={currentInvoiceIndex <=0}
+            >
+               <span className="large-arrow">&#8249;</span> {/* Left arrow icon */}
+            </Button>
+
+            {/* Right arrow button */}
+            <Button
+              className="arrow-btn right-arrow"
+              variant="outline-primary"
+              onClick={handleRightPreview}
+              disabled={currentInvoiceIndex >= invoices.length-1}
+            >
+              &#8250; {/* Right arrow icon */}
+            </Button>
+      </Modal>
     </div>
   )
 }

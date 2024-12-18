@@ -260,12 +260,6 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
       <div className="chatContent">
         <div id="chatContainer">
           {chats?.MESSAGES.map((chat, index) => {
-            // Compare current chat timestamp with the previous one to show date once per day
-            // const showDate =
-            //   index === 0 ||
-            //   new Date(chat.timestamp).toDateString() !==
-            //     new Date(chats[index - 1]?.timestamp).toDateString();
-
             const currentDate = new Date(chat.timestamp).toDateString();
             const previousDate =
               index > 0 ? new Date(chats.MESSAGES[index - 1]?.timestamp).toDateString() : null;
