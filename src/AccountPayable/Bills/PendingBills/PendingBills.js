@@ -215,7 +215,7 @@ const closeChat = () => {
                     <Dropdown.Menu className='billDropdownItem'>
                       <Dropdown.Item className='billDropdownEachItem' eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem' eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
-                      <Dropdown.Item className='billDropdownEachItem' eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      {(role != roles.approver1 && role !==roles.approver2)?<Dropdown.Item className='billDropdownEachItem' eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>:null}
                     </Dropdown.Menu>
                   </Dropdown>
 
@@ -321,7 +321,7 @@ const closeChat = () => {
                             </Table>
                           </div>
                           
-                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat}/>
+                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true"/>
                      </div>
                 } 
           </div>

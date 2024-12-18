@@ -17,6 +17,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Chat from '../../Chat/Chat';
 import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
 import { Button, Modal, ProgressBar } from "react-bootstrap";
+import { roles } from '../../../utils/constant';
 
 
 function DeclineBills() {
@@ -232,7 +233,7 @@ function DeclineBills() {
                     <Dropdown.Menu className='billDropdownItem'>
                       <Dropdown.Item  className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>
                       <Dropdown.Item  className='billDropdownEachItem'  eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
-                      <Dropdown.Item  className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      {(role != roles.approver1 && role !==roles.approver2)?<Dropdown.Item  className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>:null}
                     </Dropdown.Menu>
                   </Dropdown>
 
@@ -294,7 +295,7 @@ function DeclineBills() {
                     </tbody>
                   </Table>
               </div> 
-               {showChat ?<Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat}/>:null}
+               {showChat ?<Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true"/>:null}
                
               </div>  
 

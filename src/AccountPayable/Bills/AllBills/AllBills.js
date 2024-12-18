@@ -413,7 +413,7 @@ function AllBills() {
                           </div>
                       </div>:null}
                       {showChatSection?
-                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat}/>
+                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true"/>
                       :null} 
                       </div>
           </div>

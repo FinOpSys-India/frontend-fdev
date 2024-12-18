@@ -19,8 +19,7 @@ import io from 'socket.io-client'
 // Connect to the WebSocket server
 const socket = io('http://localhost:9000');
 
-function Chat({ caseId, fetchInvoices, closeChat}) {
-  // console.log(caseId)
+function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
   const [acitivityLogButton, setacitivityLogButton] = useState(true);
   const [chatcaseId, setchatcaseId] = useState("");
   const [showAcceptDecline, setShowAcceptDecline] = useState(false);
@@ -43,7 +42,6 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
       (role == roles.approver1 || role == roles.approver2)
     ) {
       setShowAcceptDecline(true);
-      console.log(showAcceptDecline);
     } else {
       setShowAcceptDecline(false);
       setShowSecondaryDropdown(false);
@@ -139,7 +137,6 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
   });
 
   const handleDocClick = async (fileToUpload) => {
-    console.log("fileToUpload :", fileToUpload);
     if (!fileToUpload) {
       toast.error("Please select a file to upload.");
       return;
@@ -190,11 +187,9 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
 
     const newSocket = io('http://localhost:9000');  // Socket connection
     newSocket.on('connect', () => {
-        console.log('Socket connected with id:', newSocket.id);
     });
 
     newSocket.on('newMessage', (message) => {
-        console.log('New message received:', message);
         setChats((prevChats) => ({
             ...prevChats,
             MESSAGES: [...prevChats.MESSAGES, message],
@@ -266,7 +261,6 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
           
             // Show date only if it's the first message or the date changes
             const showDate = index === 0 || currentDate !== previousDate;
-            console.log( index, currentDate, previousDate, showDate );
 
             return (
               <React.Fragment key={index}>
@@ -399,7 +393,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
           </Dropdown.Item>
         </Dropdown>
       )}
-         <div className="AllChatIcon">
+        {notDisabledChat ? <div className="AllChatIcon">
           <div {...getRootProps()}>
             <img 
               id="plusChat"
@@ -425,7 +419,7 @@ function Chat({ caseId, fetchInvoices, closeChat}) {
               onClick={handleSendClick}
             />
           </div>
-        </div>
+        </div>:null}
       </div>
       <ToastContainer />
      </div>

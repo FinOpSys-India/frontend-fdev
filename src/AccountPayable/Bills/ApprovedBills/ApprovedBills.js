@@ -24,6 +24,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Chat from '../../Chat/Chat';
 import { Button, Modal, ProgressBar } from "react-bootstrap";
 import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
+import { roles } from '../../../utils/constant';
 
 
 function ApprovedBills() {
@@ -235,7 +236,7 @@ function ApprovedBills() {
                     <Dropdown.Menu className='billDropdownItem'>
                        <Dropdown.Item className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>  
                       <Dropdown.Item className='billDropdownEachItem'  eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
-                      <Dropdown.Item className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                      {(role != roles.approver1 && role !==roles.approver2)?<Dropdown.Item className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>:null}
                        
                     </Dropdown.Menu>
                   </Dropdown>
@@ -288,7 +289,7 @@ function ApprovedBills() {
                                 <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                <td id="" > <img onClick={acitivityLogSection} src={activityLog}/> &nbsp;
+                                 <td id="" > {role !== roles.approver1 ?<img onClick={acitivityLogSection} src={activityLog}/>:null} &nbsp;
                                 <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
                                 </td>
                               </tr>
@@ -327,7 +328,7 @@ function ApprovedBills() {
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice?.approvedBillDate} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                    <td id="" > <img onClick={acitivityLogSection} src={activityLog}/> &nbsp;
+                                    <td id="" > {role !== roles.approver1 ?<img onClick={acitivityLogSection} src={activityLog}/>:null} &nbsp;
                                     <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
                                     </td>
                                   </tr>
@@ -446,7 +447,7 @@ function ApprovedBills() {
                           </div>
                       </div>:null}
                       {showChatSection?
-                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat}/>
+                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat={role===roles.approver1 ? "true":"false"}/>
                       :null}
                   </div>  
               }  
