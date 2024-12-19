@@ -22,6 +22,8 @@ import PendingBills from './AccountPayable/Bills/PendingBills/PendingBills.js';
 import ApprovedBills from './AccountPayable/Bills/ApprovedBills/ApprovedBills.js';
 import DeclineBills from './AccountPayable/Bills/DeclineBills/DeclineBills.js';
 import AllBills from './AccountPayable/Bills/AllBills/AllBills.js';
+import AllVendorForm from './AccountPayable/VendorForm/AllVendorForm/AllVendorForm.js';
+
 
 const App = () => {
 
@@ -39,6 +41,7 @@ const App = () => {
         <Route path='/approved-Bills' element={ <ProtectedRoute><ApprovedBills /></ProtectedRoute>} />
         <Route path='/decline-Bills' element={ <ProtectedRoute><DeclineBills /></ProtectedRoute>} />
         <Route path='/all-Bills' element={ <ProtectedRoute><AllBills /></ProtectedRoute>} />
+        <Route path='/vendor-form' element={ <ProtectedRoute><AllVendorForm /></ProtectedRoute>} />
         <Route path="/"  element={ <ProtectedRoute>  <Home /> </ProtectedRoute> }/>
         {/* -----not needed---------- */}
         <Route path="/demo"  element={ <ProtectedRoute><Demo/> </ProtectedRoute> }/>

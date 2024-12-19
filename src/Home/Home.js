@@ -132,7 +132,7 @@ function Home(props) {
               <br />
               <img src={wiperlogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("er")} />
               <br />
-              <img src={vendorslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("er")} />
+              <img src={vendorslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("vendor-form")} />
               <br />
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
@@ -176,8 +176,8 @@ function Home(props) {
               </button>
               <br />
               <button
-                className="accountPayableButton"
-                onClick={() => handleButtonClick("er")}
+                className={activeButton === "vendor-form" ? "connectButton" : "AQHover"}
+                onClick={() => handleButtonClick("vendor-form")}
               >
                 <img src={vendorslogo} style={{ width: "2em", height: "1em" }} />
                 Vendors
