@@ -261,7 +261,7 @@ function ApprovedBills() {
               {
                  showSideSection!== true
                            ?
-                  <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+                  <div className="mt-3 d-flex flex-column align-items-center outerTableDiv">
                     <Table className="custom-width">
                       <thead>
                         <tr>
@@ -300,7 +300,7 @@ function ApprovedBills() {
                   </div>
                        :
                   <div className="approvedTableWithAcitivityLog" >
-                     <div className="mt-4 d-flex flex-column align-items-center" id='acityLogTable'>
+                     <div className="mt-3 d-flex flex-column align-items-center" id='acityLogTable'>
                         <Table className="custom-width" style={{marginTop:"-1%"}}>
                           <thead >
                             <tr>

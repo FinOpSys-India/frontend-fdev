@@ -7,18 +7,18 @@
   gap:0%;
   background-color:  rgba(240, 240, 240, 1);
   border-radius: 20px;
-  margin-top: 1.9%;
+  margin-top: 1%;
 }
 
 
 #acityLogTable{
-    width:74%
+    width:75%
 }
 
 .acitityLog{
     /* background-color: rgb(128, 45, 45); */
-    width:26%;
-    margin-top: 1.5rem;
+    width:25%;
+    margin-top: 0.55rem;
     border-radius: 20px;
     margin-right: 1.6%;
     /* padding: 16px 0px 0px 0px; */

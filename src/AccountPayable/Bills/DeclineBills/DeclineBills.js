@@ -256,7 +256,7 @@ function DeclineBills() {
               
               
               <div className= {showChat ?"declineTableWithChat":""} >
-                <div className="mt-4 d-flex flex-column align-items-center outerTableDiv" id={showChat ? "declineTableInChat": ""}>
+                <div className="mt-2 d-flex flex-column align-items-center outerTableDiv" id={showChat ? "declineTableInChat": ""}>
                   <Table className="custom-width">
                     <thead>
                       <tr>

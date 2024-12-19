@@ -8,8 +8,9 @@ import callIcon from "../../assets/callIcon.svg";
 import crossButton from "../../assets/crossButton.svg";
 import { roles } from "../../utils/constant";
 import "./Chat.css";
-import { Dropdown } from "react-bootstrap";
-import { apiEndPointUrl } from "../../utils/apiService";
+import { Dropdown, Modal } from "react-bootstrap";
+import { apiEndPointUrl } from "../../utils/apiService"
+import crop from '../../assets/crop.svg';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDropzone } from "react-dropzone";
@@ -29,6 +30,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
   const [newMessage, setNewMessage] = useState("");
   const [workEmail, setWorkEmail] = useState("");
   const [socket, setSocket] = useState(null);
+  const [showSmallPreview, setShowSmallPreview] = useState(false);
   const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
   const [file, setFile] = useState(null);
@@ -51,7 +53,6 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
   function acitivityLogClose() {
     setacitivityLogButton(false);
   }
-
 
 
   const handleAcceptClick = async () => {
@@ -144,7 +145,9 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
 
     setFileDetails(fileToUpload);
   };
-
+  const hideSmallPreview=()=>{
+    setShowSmallPreview(false)
+  }
   const handleSendClick = async () => {
     if (!newMessage.trim() && !fileDetails) {
       return;
@@ -254,6 +257,46 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
 
       <div className="chatContent">
         <div id="chatContainer">
+        {showSmallPreview ?<div className="chat-modal-overlay">
+            <div className="chat-modal">
+              <div className="cross-expand-button">
+              
+              <button className="close-button" onClick={hideSmallPreview}>
+                <img src={crossButton}/>
+              </button>
+              <button className="close-button" onClick={hideSmallPreview}>
+              <img src={crop} />
+              </button>
+              </div>
+              <h3>Bill #9151</h3>
+              <p>4 participants</p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Details</th>
+                    <th>Rate</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Louis Vuitton</td>
+                    <td>$256</td>
+                    <td>21</td>
+                    <td>$6,584.00</td>
+                  </tr>
+                  {/* Add more rows as needed */}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan="3">Total</td>
+                    <td>$26,583.00</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>:null}
           {chats?.MESSAGES.map((chat, index) => {
             const currentDate = new Date(chat.timestamp).toDateString();
             const previousDate =
@@ -264,6 +307,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
 
             return (
               <React.Fragment key={index}>
+               
                 {/* Render the date once per day */}
                 {showDate && (
                   <h6 className="chatDay">{formatTimestamp(chat.timestamp)}</h6>
@@ -342,7 +386,12 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
         {showAcceptDecline ? (
           <div>
           <Dropdown className="chatdropdownContainerApproveDecline">
-            
+          <Dropdown.Item
+              eventKey="previewBill"
+              onClick={()=>{setShowAcceptDecline(false);setShowSmallPreview(true)}}
+              className="chatDropdownEachItem"
+            >  &nbsp;&nbsp; Preview
+            </Dropdown.Item>
             <Dropdown.Item
               eventKey="acceptBills"
               onClick={handleAcceptClick}

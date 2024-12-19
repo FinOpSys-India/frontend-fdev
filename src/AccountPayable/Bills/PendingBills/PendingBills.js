@@ -239,7 +239,7 @@ const closeChat = () => {
               {
                  !acitivityLogButton
                            ?
-                      <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+                      <div className="mt-3 d-flex flex-column align-items-center outerTableDiv">
                         <Table className="custom-width">
                           <thead>
                             <tr>
@@ -281,7 +281,7 @@ const closeChat = () => {
                                             :
 
                       <div className="tableWithPendiingBillChat" >
-                          <div className="mt-4 d-flex flex-column align-items-center outerTableDiv" id='PendiingBillChatTable'>
+                          <div className="mt-2 d-flex flex-column align-items-center outerTableDiv" id='PendiingBillChatTable'>
                             <Table className="custom-width">
                               <thead>
                                 <tr>
