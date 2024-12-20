@@ -129,7 +129,7 @@ margin-top: -6px;
 
 .AQNavbarSideButtons{
  display: flex;
- gap:9%;
+ gap:2%;
 }
 
 .AQNavbarSideButtons img {
@@ -147,21 +147,21 @@ margin-top: -6px;
    border: 1px solid rgba(121, 57, 239, 1);
    color: rgba(121, 57, 239, 1);
    background-color: white;
-   white-space: nowrap;
+   /* white-space: nowrap; */
 }
 
 .AQNavbarUploadButton{
   display: flex;
   padding: 8px 26px 8px 16px;
   white-space: nowrap;
-  gap:12%;
+  gap:10%;
   width:fit-content;
   font-size: 12px;
   border-radius: 12px;
    border: 1px solid rgba(121, 57, 239, 1);
    color:white;
    background-color: rgba(121, 57, 239, 1);
-   margin-right:20px;
+   /* margin-right:20px; */
 }
 
 .outerTableDiv{

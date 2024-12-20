@@ -100,6 +100,10 @@ function ApprovedBills() {
       setSelectedInvoice(invoice); 
       setcurrentInvoiceIndex(index)
     }
+    const expandInChat = (invoice)=>{
+      setShowPreview(true);
+      setSelectedInvoice(invoice); 
+    }
 
     const handleBackPreview = () =>{ 
       if(currentInvoiceIndex>=0){
@@ -447,7 +451,7 @@ function ApprovedBills() {
                           </div>
                       </div>:null}
                       {showChatSection?
-                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat={role===roles.approver1 ? "true":"false"}/>
+                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat={role===roles.approver1 ? "true":"false"} expandInChat = {expandInChat}/>
                       :null}
                   </div>  
               }  

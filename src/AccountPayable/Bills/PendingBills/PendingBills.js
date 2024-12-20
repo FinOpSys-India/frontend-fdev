@@ -88,6 +88,10 @@ const closeChat = () => {
       setSelectedInvoice(invoice); 
       setcurrentInvoiceIndex(index)
     }
+    const expandInChat = (invoice)=>{
+      setShowPreview(true);
+      setSelectedInvoice(invoice); 
+    }
 
     const handleBackPreview = () =>{ 
       if(currentInvoiceIndex>=0){
@@ -321,7 +325,7 @@ const closeChat = () => {
                             </Table>
                           </div>
                           
-                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true"/>
+                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true" expandInChat = {expandInChat}/>
                      </div>
                 } 
           </div>

@@ -36,6 +36,7 @@ function AQ() {
   const [activePage, setActivePage] = useState(1); // State for active pagination item
   const [itemsPerPage] = useState(7);   
   const [showModal, setShowModal] = useState(false);
+  const [showCreateBillModal,setShowCreateBillModal] = useState(false);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState("");
@@ -308,6 +309,9 @@ const handleAccept = async (index) => {
   const handleUploadClick = () => {
     setShowModal(true);
 }; 
+  const handleCreateBill=()=>{
+    setShowCreateBillModal(true);
+  }
   const handleModalClose = () => {
     setShowModal(false);
     setFile(null);
@@ -418,6 +422,7 @@ const handleAccept = async (index) => {
             <div className='AQNavbarSideButtons'> 
               <button className='AQNavbarUpdateButton'>  <img src={update} /> Update</button>
               <button className='AQNavbarUploadButton' onClick={handleUploadClick}><img src={upload}/>Upload Bill</button>
+              <button className='AQNavbarUploadButton' onClick={handleCreateBill}><img src={upload}/>Create Bill</button>
             </div>
       </div>
 
@@ -807,6 +812,65 @@ const handleAccept = async (index) => {
             )}
           </Modal.Body>
         </Modal>
+        <Modal
+          show={showCreateBillModal}
+          onHide={()=>{setShowCreateBillModal(false)}}
+          size="lg"
+          style={{ marginTop: '2%', width: '70%', marginLeft: '19%' }}
+          scrollable
+          dialogClassName="modal-90w"
+  
+          
+        >
+          <Modal.Header closeButton >
+  
+          </Modal.Header>
+          <Modal.Body>
+          
+            <div
+              {...getRootProps()}
+              style={{
+                border: '1.5px dashed #7939EF',
+                padding: '50px',
+                textAlign: 'center',
+                cursor: 'pointer',
+                backgroundColor: isDragActive ? '#f3f3f3' : 'white',
+                width:"93%",
+                marginLeft:"3%",
+                 borderRadius:'12.23px'
+              }}
+            >
+            <img src={uploadLogo} style={{ height:"100px", width:"100px" }}/>
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the file here...</p>
+              ) : (
+                <p>Drag and drop your file here or <span style={{ color: 'blue', textDecoration: 'underline' }}>Browse file</span></p>
+              )}
+            </div>
+            <div style={{marginTop:"2%",display:"flex", flexDirection:"row", justifyContent:"space-between",width: '94%', marginLeft:"3%"}}>            
+              <p>Supported formats: PDF, DOC, XLSX & JPEG.</p>
+              <p>Max file size: 500MB</p>
+            </div>
+            {file && (
+              <div style={{display:"flex",marginTop: '20px', border: `2px solid ${uploadStatus === 'success' ? '#208348' : '#7939EF'}`, borderRadius:"12.23px",padding:"2%" ,width: '94%', marginLeft:"3%"}}>
+                <img src={billsLogo} style={{height:"24.46px", width:"24.46px", margin:"3% 1.5% 1.5% 1%"}}/>
+                <div>
+                <p style={{ font:"Inter, sans-serif", color:"#141414", fontWeight:"500", fontSize:'14.67px'}} >{file.name} ({(file.size / (1024 * 1024)).toFixed(2)}MB)</p>
+                
+                <ProgressBar
+                  now={progress}
+                  label={`${progress}%`}
+                  variant={uploadStatus === 'error' ? 'danger' : progress === 100 ? 'success' : ''}
+                  style={{ height: '11px', width:"500px", font:"Inter,, sans-serif", color:"#141414", fontWeight:"500"}} 
+                   
+                />
+                                </div>
+              </div>
+            )}
+          </Modal.Body>
+        </Modal>
+      
         <ToastContainer />
         </div>
 

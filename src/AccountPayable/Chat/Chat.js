@@ -6,21 +6,23 @@ import sendIcon from "../../assets/sendIcon.svg";
 import messageIcon from "../../assets/messageIcon.svg";
 import callIcon from "../../assets/callIcon.svg";
 import crossButton from "../../assets/crossButton.svg";
+import bigCross from "../../assets/bigCross.svg"
 import { roles } from "../../utils/constant";
 import "./Chat.css";
-import { Dropdown, Modal } from "react-bootstrap";
+import { Dropdown, Modal, Table } from "react-bootstrap";
 import { apiEndPointUrl } from "../../utils/apiService"
-import crop from '../../assets/crop.svg';
+import crop from '../../assets/expandButton.svg';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDropzone } from "react-dropzone";
 import io from 'socket.io-client'
+import { TextField,Typography,Box, Button} from "@mui/material";
 
 
 // Connect to the WebSocket server
 const socket = io('http://localhost:9000');
 
-function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
+function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}) {
   const [acitivityLogButton, setacitivityLogButton] = useState(true);
   const [chatcaseId, setchatcaseId] = useState("");
   const [showAcceptDecline, setShowAcceptDecline] = useState(false);
@@ -31,6 +33,17 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
   const [workEmail, setWorkEmail] = useState("");
   const [socket, setSocket] = useState(null);
   const [showSmallPreview, setShowSmallPreview] = useState(false);
+  const [showSmallPreviewTable, setShowSmallPreviewTable] = useState(false);
+
+  const [showAcceptTextBox, setShowAcceptTextBox] = useState(false);
+  const [text, setText] = useState("");
+  const maxLimit = 20;
+
+  const handleTextChange = (event) => {
+    if (event.target.value.length <= maxLimit) {
+      setText(event.target.value);
+    }
+  };
   const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
   const [file, setFile] = useState(null);
@@ -53,7 +66,10 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
   function acitivityLogClose() {
     setacitivityLogButton(false);
   }
-
+  const acceptClickOnChat=()=>{
+    showSmallPreview(true);
+    showAcceptTextBox(true);
+  }
 
   const handleAcceptClick = async () => {
     // Call API for Accept action
@@ -146,7 +162,9 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
     setFileDetails(fileToUpload);
   };
   const hideSmallPreview=()=>{
-    setShowSmallPreview(false)
+    setShowSmallPreview(false);
+    setShowSmallPreviewTable(false);
+    setShowAcceptTextBox(false);
   }
   const handleSendClick = async () => {
     if (!newMessage.trim() && !fileDetails) {
@@ -262,40 +280,72 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
               <div className="cross-expand-button">
               
               <button className="close-button" onClick={hideSmallPreview}>
-                <img src={crossButton}/>
+                <img src={bigCross}/>
               </button>
-              <button className="close-button" onClick={hideSmallPreview}>
+              <button className="close-button" onClick={()=>expandInChat(caseId)}>
               <img src={crop} />
               </button>
               </div>
-              <h3>Bill #9151</h3>
-              <p>4 participants</p>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Details</th>
-                    <th>Rate</th>
-                    <th>Qty</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Louis Vuitton</td>
-                    <td>$256</td>
-                    <td>21</td>
-                    <td>$6,584.00</td>
-                  </tr>
-                  {/* Add more rows as needed */}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan="3">Total</td>
-                    <td>$26,583.00</td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
+              {showAcceptTextBox? <div>
+                <Box sx={{ width: '300px', margin: '20px auto' }}>
+      <TextField
+        label="Limit"
+        value={text}
+        onChange={handleTextChange}
+        variant="outlined"
+        fullWidth
+        multiline
+        InputProps={{
+          style: { height: '60px' }, // Adjust height if needed
+        }}
+      />
+      <Typography
+        variant="caption"
+        sx={{
+          display: 'block',
+          textAlign: 'right',
+          marginTop: '4px',
+          color: text.length === maxLimit ? 'red' : 'inherit',
+        }}
+      >
+        {text.length}/{maxLimit}
+      </Typography>
+      <Button onClick={handleAcceptClick}>Accept</Button>
+    </Box>
+              </div>:null}
+              {showSmallPreviewTable ? <div className="mt-1 d-flex flex-column align-items-center">
+                  <Table   className="PreviewdescriptionTableInChat">
+                    <thead>
+                      <tr  className="PreviewdescriptionTheadInChat">
+                        <th>Bill Number</th>
+                        <th>Rate</th>
+                        <th>Qty</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr key=""  className='PreviewdescriptionDataInChat'>
+                          <td>invoice.billId</td>
+                          <td>invoice.Method</td>
+                          <td>invoice.amount</td>
+                          <td>invoice.col6</td>
+                        </tr>
+                        <tr key=""  className='PreviewdescriptionDataInChat'>
+                          <td>invoice.billId</td>
+                          <td>invoice.Method</td>
+                          <td>invoice.amount</td>
+                          <td>invoice.col6</td>
+                        </tr>
+                        <tr key=""  className='PreviewdescriptionDataInChat'>
+                          <td>invoice.billId</td>
+                          <td>invoice.Method</td>
+                          <td>invoice.amount</td>
+                          <td>invoice.col6</td>
+                        </tr>
+                    </tbody>
+                  </Table>
+                </div>:null}
+                </div>
           </div>:null}
           {chats?.MESSAGES.map((chat, index) => {
             const currentDate = new Date(chat.timestamp).toDateString();
@@ -388,13 +438,13 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat}) {
           <Dropdown className="chatdropdownContainerApproveDecline">
           <Dropdown.Item
               eventKey="previewBill"
-              onClick={()=>{setShowAcceptDecline(false);setShowSmallPreview(true)}}
+              onClick={()=>{setShowAcceptDecline(false);setShowSmallPreview(true);setShowSmallPreviewTable(true)}}
               className="chatDropdownEachItem"
             >  &nbsp;&nbsp; Preview
             </Dropdown.Item>
             <Dropdown.Item
               eventKey="acceptBills"
-              onClick={handleAcceptClick}
+              onClick={()=>{setShowAcceptDecline(false);setShowSmallPreview(true);setShowAcceptTextBox(true)}}
               className="chatDropdownEachItem"
             >
              ✓   &nbsp;&nbsp; Accept
