@@ -289,9 +289,9 @@ function ApprovedBills() {
                                     src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
                                     alt="Vendor Avatar"
                                   />
-                                  &nbsp;&nbsp;&nbsp;{invoice.vendorName}
+                                  &nbsp;&nbsp;&nbsp;{invoice.billId}
                                 </td>
-                                <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
+                                <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                 <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
@@ -328,9 +328,9 @@ function ApprovedBills() {
                                         src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
                                         alt="Vendor Avatar"
                                       />
-                                      &nbsp;&nbsp;&nbsp;{invoice.vendorName}
+                                      &nbsp;&nbsp;&nbsp;{invoice.billId}
                                     </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
+                                    <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice?.approvedBillDate} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
@@ -468,7 +468,7 @@ function ApprovedBills() {
             <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
             }}>
               
-              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={true} vendorId={vendorId}/>
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={false} vendorId={vendorId}/>
             </Modal.Body>
            
             <Button

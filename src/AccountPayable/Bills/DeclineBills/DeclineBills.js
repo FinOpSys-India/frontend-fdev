@@ -313,7 +313,7 @@ function DeclineBills() {
             <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
             }}>
               
-              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={true} vendorId={vendorId}/>
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={false} vendorId={vendorId}/>
             </Modal.Body>
            
             <Button

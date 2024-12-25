@@ -41,11 +41,11 @@
   font-family: Inter;
    /* z-index: 1; */
    
-   top: 72.6%; 
+   top: 65.6%; 
 }  
 .chatdropdownContainerDecline {
   position:fixed;
-  left: 75.6%;
+  left: 76.8%;
   width: 10%;
   background-color: #F0F0F0; 
  color: black;
@@ -57,7 +57,7 @@
   font-family: Inter;
    /* z-index: 1; */
    
-   top: 67.6%;
+   top: 60.6%;
  
 }  
 .chatDropdownEachItem{

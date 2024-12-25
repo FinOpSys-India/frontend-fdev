@@ -8,6 +8,8 @@ import uploadLogo from '../../assets/uploadLogo.jpeg';
 import axios from 'axios';
 import { apiEndPointUrl } from '../../utils/apiService';
 import Select from 'react-select'; // Import React-Select
+import "./CreateManualForm.css"
+import { blue } from '@mui/material/colors';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -110,15 +112,15 @@ function CreateManualForm({showCreateBillModal, setShowCreateBillModal, fetchInv
           </Modal.Header>
           <Modal.Body>
           <div className="row">
-            <form className="row" onSubmit={onFinishCreateInvoice}>
+            <form className="row manualInvoice" onSubmit={onFinishCreateInvoice}>
 
-              <div className="col-12">
-              <label htmlFor="vendorName" className="form-label">
+              <div className="col-12 vendorName-div">
+              <label htmlFor="vendorName" className="form-label ">
               Vendor Name <span style={{ color: 'red' }}>*</span>
             </label>
             <Select
             id="vendorName"
-            className="form-control"
+            className="select-vendor"
             options={vendorList.map((vendor) => ({
               value: vendor.vendorId,
               label: vendor.vendorName,
@@ -139,41 +141,47 @@ function CreateManualForm({showCreateBillModal, setShowCreateBillModal, fetchInv
             }
             placeholder="Select a Vendor"
             isSearchable
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                backgroundColor: 'rgba(240, 240, 240, 1)', // Set the desired background color for the dropdown
+              }),
+            }}
           />
               </div>
 
               
-              <div className="col-md-6 firstname">
+              <div className="col-6 invoiceNo-div">
                 <label htmlFor="invoiceNo" className="form-label">Invoice Number <span style={{color:"red"}}>*</span></label>
                 <input type="text" className="form-control formDiv" id="invoiceNo"  required placeholder="Invoice Number" value={createBillDetails.invoiceNo} onChange={(e) => setCreateBillDetails({ ...createBillDetails, invoiceNo: e.target.value })}/>
               </div>
-              <div className="col-md-6 firstname">
+              <div className="col-6 vendorName-div">
                 <label htmlFor="amount" className="form-label">Amount <span style={{color:"red"}}>*</span></label>
                 <input type="text" className="form-control formDiv" id="amount"  required placeholder="Amount" value={createBillDetails.amount} onChange={(e) => setCreateBillDetails({ ...createBillDetails, amount: e.target.value })}/>
               </div>
-              <div className="col-md-6 firstname">
-              <label>Receiving Date</label>
+              <div className="col-6 recievingDate-div">
+              <label>Receiving Date <span style={{color:"red"}}>*</span></label>
                   <DatePicker
                     selected={createBillDetails.recievingDate}
                     onChange={(date)=>handleReceivingDate(date)}
                     dateFormat="MM/dd/yyyy"
-                    className="custom-datepicker-input"
+                    className="custom-datepicker-input datePicker"
                   />
               </div>
-              <div className="col-md-6 firstname">
-              <label>Due Date</label>
+              <div className="col-6 dueDate-div">
+              <label>Due Date <span style={{color:"red"}}>*</span></label>
                   <DatePicker
                     selected={createBillDetails.dueDate}
                     onChange={(date)=>handleDueDate(date)}
                     dateFormat="MM/dd/yyyy"
-                    className="custom-datepicker-input"
+                    className="custom-datepicker-input datePicker"
                   />
               </div>
-              <div className="col-md-6 firstname">
+              <div className="col-6 dept-div">
                 <label htmlFor="dept" className="form-label">Department<span style={{color:"red"}}>*</span></label>
                 <Select
             id="dept"
-            className="form-control formDiv"
+            className="select-dept"
             options={departments.map((dept) => ({
               value: dept,
               label: dept,
@@ -190,9 +198,15 @@ function CreateManualForm({showCreateBillModal, setShowCreateBillModal, fetchInv
             }
             placeholder="Select a Department"
             isSearchable
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                backgroundColor: 'rgba(240, 240, 240, 1)', // Set the desired background color for the dropdown
+              }),
+            }}
           />
               </div>
-              <div className="col-md-6 firstname">
+              <div className="col-6 glCode-div">
                 <label htmlFor="glCode" className="form-label">GL code <span style={{color:"red"}}>*</span></label>
                 <input type="text" className="form-control formDiv" id="glCode"  required placeholder="GL code" value={createBillDetails.glCode} onChange={(e) => setCreateBillDetails({ ...createBillDetails, glCode: e.target.value })}/>
               </div>
