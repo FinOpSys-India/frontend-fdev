@@ -3,7 +3,7 @@ import { Button, Modal, ProgressBar } from "react-bootstrap";
 import  "./AQ.css";
 import update from '../../assets/update.svg';
 import upload from '../../assets/upload.svg';
-import filter from '../../assets/filter.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import crop from '../../assets/crop.svg';
 import { apiEndPointUrl } from "../../utils/apiService";
 import { Table } from 'react-bootstrap';
@@ -24,6 +24,9 @@ import FilterDrawer from './FilterSection/FilterDrawer';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { roles } from '../../utils/constant';
+import "react-datepicker/dist/react-datepicker.css";
+import CreateManualForm from "./CreateManualForm.js"
+
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -55,7 +58,8 @@ function AQ() {
   // invoice---
   const [invoices, setInvoices] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState(0);
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [selectedInvoice, setSelectedInvoice] = useState('');
+  const [vendorId,setVendorId] = useState('');
   const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({ dateRange: { from: null, to: null },
@@ -73,6 +77,15 @@ function AQ() {
     const [selectedVendorBillNumber, setSelectedVendorBillNumber] = useState('');
     const [showCrossBillNumber, setShowCrossBillNumber] = useState(false);
     const [showDropdownBillNumber, setShowDropdownBillNumber] = useState(false);
+    const [createBillDetails, setCreateBillDetails]=useState({
+      vendorName:"",
+      invoiceNo:"",
+      recievingDate:null,
+      dueDate:null,
+      dept:"",
+      glCode:"",
+      fileData:""
+    })
    const role = sessionStorage.getItem('role');
   let index="";
     // Fetch invoices from the backend
@@ -203,7 +216,8 @@ function AQ() {
     // --------------------------------preview-----------------------------------
     const handleShowPreview = (invoice, index) =>{ 
       setShowPreview(true);
-      setSelectedInvoice(invoice); 
+      setSelectedInvoice(invoice.caseId); 
+      setVendorId(invoice.vendorId)
       setcurrentInvoiceIndex(index)
     }
 
@@ -251,7 +265,6 @@ const handleClickReason = (index) => {
 
   const DeclineButtonWithform = async ()=> {
       if(selected!==null){
-        let declinedStatus = "Decline the invoice"
         try {
           const response = await axios.post(`${apiEndPointUrl}/decline`, {
             invoiceId: toBeDeclineCaseId, // Replace with the actual invoice ID field
@@ -388,11 +401,6 @@ const handleAccept = async (index) => {
     setpendingTable(false)
   };
 
-  const data = [
-    { id: 1, col1: 'Data 1', col2: 'Data 2', col3: 'Data 3', col4: 'Data 4', col5: 'Data 5', col6: 'Data 6' },
-    { id: 2, col1: 'Data 1', col2: 'Data 2', col3: 'Data 3', col4: 'Data 4', col5: 'Data 5', col6: 'Data 6' },
-  ];
-
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -406,12 +414,11 @@ const handleAccept = async (index) => {
   const handlePageChange = (event, value) => {
     setPageNumber(value);
     setCurrentPage(value);
-    // Fetch or update your data for the new page here
   };
 
   // Calculate total pages
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
+  
   return (
     <div style={{display:"flex"}}>
     <Home currentPage="invoiceQueue" />
@@ -448,9 +455,6 @@ const handleAccept = async (index) => {
           </button>
         </div>
 
-         {/* <button className='AQfilter'>
-             
-         </button> */}
          <FilterDrawer onApplyFilters={setFilters} />
 
 
@@ -557,7 +561,7 @@ const handleAccept = async (index) => {
                             &nbsp;&nbsp;&nbsp;{invoice.vendorName}
                           </td>
                           <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
-                          <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
+                          <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.date).toLocaleDateString()} </td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.inboxMethod}</td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                           {role === roles.apPerson?  <td id="actionOfAQ">
@@ -680,7 +684,7 @@ const handleAccept = async (index) => {
                           &nbsp;&nbsp;&nbsp;{invoice.vendorName}
                         </td>
                         <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
-                        <td>{new Date(invoice.receivingDate).toLocaleDateString()}</td>
+                        <td>{new Date(invoice.date).toLocaleDateString()}</td>
                         <td>{invoice.inboxMethod}</td>
                         <td>{invoice.amount}</td>
                         {role === roles.approver1? <td id="actionOfAQWithDeclineform">
@@ -812,64 +816,7 @@ const handleAccept = async (index) => {
             )}
           </Modal.Body>
         </Modal>
-        <Modal
-          show={showCreateBillModal}
-          onHide={()=>{setShowCreateBillModal(false)}}
-          size="lg"
-          style={{ marginTop: '2%', width: '70%', marginLeft: '19%' }}
-          scrollable
-          dialogClassName="modal-90w"
-  
-          
-        >
-          <Modal.Header closeButton >
-  
-          </Modal.Header>
-          <Modal.Body>
-          
-            <div
-              {...getRootProps()}
-              style={{
-                border: '1.5px dashed #7939EF',
-                padding: '50px',
-                textAlign: 'center',
-                cursor: 'pointer',
-                backgroundColor: isDragActive ? '#f3f3f3' : 'white',
-                width:"93%",
-                marginLeft:"3%",
-                 borderRadius:'12.23px'
-              }}
-            >
-            <img src={uploadLogo} style={{ height:"100px", width:"100px" }}/>
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <p>Drop the file here...</p>
-              ) : (
-                <p>Drag and drop your file here or <span style={{ color: 'blue', textDecoration: 'underline' }}>Browse file</span></p>
-              )}
-            </div>
-            <div style={{marginTop:"2%",display:"flex", flexDirection:"row", justifyContent:"space-between",width: '94%', marginLeft:"3%"}}>            
-              <p>Supported formats: PDF, DOC, XLSX & JPEG.</p>
-              <p>Max file size: 500MB</p>
-            </div>
-            {file && (
-              <div style={{display:"flex",marginTop: '20px', border: `2px solid ${uploadStatus === 'success' ? '#208348' : '#7939EF'}`, borderRadius:"12.23px",padding:"2%" ,width: '94%', marginLeft:"3%"}}>
-                <img src={billsLogo} style={{height:"24.46px", width:"24.46px", margin:"3% 1.5% 1.5% 1%"}}/>
-                <div>
-                <p style={{ font:"Inter, sans-serif", color:"#141414", fontWeight:"500", fontSize:'14.67px'}} >{file.name} ({(file.size / (1024 * 1024)).toFixed(2)}MB)</p>
-                
-                <ProgressBar
-                  now={progress}
-                  label={`${progress}%`}
-                  variant={uploadStatus === 'error' ? 'danger' : progress === 100 ? 'success' : ''}
-                  style={{ height: '11px', width:"500px", font:"Inter,, sans-serif", color:"#141414", fontWeight:"500"}} 
-                   
-                />
-                                </div>
-              </div>
-            )}
-          </Modal.Body>
-        </Modal>
+        <CreateManualForm showCreateBillModal={showCreateBillModal} setShowCreateBillModal={setShowCreateBillModal} fetchInvoices={fetchInvoices}/>
       
         <ToastContainer />
         </div>
@@ -882,8 +829,7 @@ const handleAccept = async (index) => {
             </Modal.Header> */}
             <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
             }}>
-              
-              <PreviewSection invoice={selectedInvoice} />
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={true} vendorId={vendorId}/>
             </Modal.Body>
            
             <Button

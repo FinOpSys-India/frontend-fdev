@@ -165,3 +165,18 @@ font-weight: 400;
 color: rgba(140, 140, 140, 1);
 
 }
+.acceptButtonOnModel{
+    padding: 5px;
+
+    white-space: nowrap;
+    gap:12%;
+    width:max-content;
+    align-items: end;
+    font-size: 12px;
+    border-radius: 10px;
+     border: 1px solid rgba(121, 57, 239, 1);
+     color:white;
+     background-color: rgba(121, 57, 239, 1);
+     margin-bottom: 5%;
+     margin-top: 2%;
+}

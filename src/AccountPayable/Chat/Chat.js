@@ -17,6 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDropzone } from "react-dropzone";
 import io from 'socket.io-client'
 import { TextField,Typography,Box, Button} from "@mui/material";
+import { spacing } from '@mui/system';
+
 
 
 // Connect to the WebSocket server
@@ -37,7 +39,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
 
   const [showAcceptTextBox, setShowAcceptTextBox] = useState(false);
   const [text, setText] = useState("");
-  const maxLimit = 20;
+  const maxLimit = 100;
 
   const handleTextChange = (event) => {
     if (event.target.value.length <= maxLimit) {
@@ -282,36 +284,47 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
               <button className="close-button" onClick={hideSmallPreview}>
                 <img src={bigCross}/>
               </button>
-              <button className="close-button" onClick={()=>expandInChat(caseId)}>
+              {!showAcceptTextBox?<button className="close-button" onClick={()=>expandInChat(caseId)}>
               <img src={crop} />
-              </button>
+              </button>:null}
               </div>
               {showAcceptTextBox? <div>
-                <Box sx={{ width: '300px', margin: '20px auto' }}>
+                <Typography marginLeft="7%" required style={{
+    fontFamily: "Inter", // Apply Inter font
+  }} >Please add a note*</Typography>
       <TextField
-        label="Limit"
+      id="outlined-textarea"
         value={text}
         onChange={handleTextChange}
-        variant="outlined"
-        fullWidth
         multiline
+          rows={4}
         InputProps={{
-          style: { height: '60px' }, // Adjust height if needed
+          style: { padding: '8px', margin:"0% 8%" }, // Adjust height if needed
         }}
+        style={{
+          width: '100%', // Adjust width here
+          margin: '0 auto', // Center if needed
+        }}
+        required
       />
       <Typography
         variant="caption"
         sx={{
           display: 'block',
           textAlign: 'right',
-          marginTop: '4px',
+          marginRight: '10%',
           color: text.length === maxLimit ? 'red' : 'inherit',
         }}
       >
         {text.length}/{maxLimit}
       </Typography>
-      <Button onClick={handleAcceptClick}>Accept</Button>
-    </Box>
+      {text!=""? <button className = "acceptButtonOnModel" 
+      style={{
+        display: "block", // Ensures it takes up its own line
+        marginLeft: "auto", // Pushes the button to the right
+        marginRight: "10%", // Adds spacing from the right edge
+      }}
+      onClick={handleAcceptClick}>Accept</button>:null}
               </div>:null}
               {showSmallPreviewTable ? <div className="mt-1 d-flex flex-column align-items-center">
                   <Table   className="PreviewdescriptionTableInChat">

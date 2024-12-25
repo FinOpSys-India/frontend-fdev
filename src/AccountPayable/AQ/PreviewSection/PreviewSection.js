@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./PreviewSection.css";
 import invoiceImg from "../.../../../../assets/invoice.png";
 import { Table } from 'react-bootstrap';
@@ -7,31 +7,47 @@ import { apiEndPointUrl } from "../../../utils/apiService";
 import EditIcon from '@mui/icons-material/Edit';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+import { Worker, Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
+import "react-datepicker/dist/react-datepicker.css";
 
+pdfjs.GlobalWorkerOptions.workerSrc ="/pdf.worker.min.js";
 
-function PreviewSection({ invoice }) {
-
-  // const [invoiceId, setInvoiceId] = useState('');
-  const [acceptStatus, setacceptStatus] = useState();
-  const [declinedStatus, setdeclinedStatus] = useState('');
+function PreviewSection({ invoiceId, setShowPreview,fetchInvoices, showAcceptDeclineButtons, vendorId  }) {
   const [declinedform, setdeclinedform] = useState(false);
   const [selected, setSelected] = useState(null);
-
+  const [invoice, setInvoice]=useState({});
+  const [vendor,setVendor]=useState({});
+  const [pdfData,setPdfData]=useState(null)
   const handleClickReason = (index) => {
-    setSelected(index); // Set the clicked item as selected
+    setSelected(index); 
   };
+  const role=sessionStorage.getItem('role');
 
-  
-  const handleAccept = async () => {
-    setacceptStatus("Accept the invoice")
+  const fetchInvoice=async() =>{
     try {
-      console.log(invoice.caseId)
+      const response = await axios.get(`${apiEndPointUrl}/get-invoice/${invoiceId}`);
+      const vendorResponse =  await axios.get(`${apiEndPointUrl}/get-vendor/${vendorId}`);
+      setVendor(vendorResponse.data);
+      setInvoice(response.data);
+      setPdfData(response.data.billData);
+    } catch (error) {
+      console.log("Error fetching chats:", error);
+    }
+  }
+  useEffect(()=>{
+    fetchInvoice();
+  },[invoiceId]);
+  const handleAccept = async () => {
+    try {
       const response = await axios.post(`${apiEndPointUrl}/accept`, {
-        invoiceId: invoice.caseId, // Replace with the actual invoice ID field
-        status: acceptStatus
+        invoiceId: invoiceId,
+        role:role
       });
-      console.log('Invoice accepted:', response.data);
       toast.success(`${response.data.message}`);
+      setShowPreview(false);
+      fetchInvoices();
     } catch (error) {
       console.error('Error accepting invoice:', error);
       // toast.error(`${error.message}`);
@@ -44,15 +60,11 @@ function PreviewSection({ invoice }) {
   };
 
  const DeclineButtonWithform = async ()=> {
-    // setdeclinedStatus("Decline the invoice")
     if(selected!==null){
       try {
-        console.log(invoice.caseId)
-        let declinedStatus = "Decline the invoice"
-        console.log(declinedStatus)
         const response = await axios.post(`${apiEndPointUrl}/decline`, {
-          invoiceId: invoice.caseId, // Replace with the actual invoice ID field
-          status: declinedStatus
+          invoiceId: invoiceId, // Replace with the actual invoice ID field
+          role: role
         });
         console.log('Invoice declinedStatus:', response.data.message);
         toast.success(`${response.data.message}`);
@@ -68,12 +80,16 @@ function PreviewSection({ invoice }) {
 
   return (
     <div style={{borderRadius:"24px"}}>
-      {/* <p>Case ID: {invoice.caseId}</p> */}
-{console.log(invoice)}
 
       <div  className='PreviewSectionEach' style={{ display: 'flex', borderRadius:"24px" }}>
           <div style={{ flex: '1',}} className='PreviewSectionLeft'>
-            <img src={invoiceImg} id='invoiceImg'/>
+            {pdfData ? (
+                      <Worker workerUrl="/pdf.worker.min.js">
+                      <Viewer fileUrl={`data:application/pdf;base64,${pdfData}`} />
+                  </Worker>
+                    ) : (
+                        <p>Loading PDF...</p>
+                    )}
           </div>
 
           
@@ -82,11 +98,11 @@ function PreviewSection({ invoice }) {
                       ?
                 <div style={{ flex: '1',}} className='PreviewSectionRight'>
                 <nav  className='PreviewSectionNavBar'>
-                    <p>Jingle Marketing Agency</p>
+                    <p>{vendor.vendorName}</p>
                     <p className='p'>{invoice.inboxMethod}</p>
                 </nav>
 
-                <p className='PreviewSectionAdress'>4140 Parker Rd. Allentown, New Mexico 31134</p>
+                <p className='PreviewSectionAdress'>{vendor.address}</p>
                 <div  className='Previewdescription'>
                   <div  className='PreviewLabelAndInput'>
                     <span className='PreviewdescriptionLabel'  >Bill Number</span>
@@ -94,15 +110,15 @@ function PreviewSection({ invoice }) {
                   </div>
                   <div  className='PreviewLabelAndInput'>
                     <span className='PreviewdescriptionLabel' id="PreviewdescriptionLabel" >Bill Date </span>
-                    <span className='PreviewdescriptionInput' id="PreviewdescriptionInput">{invoice.receivingDate}</span>
+                    <span className='PreviewdescriptionInput' id="PreviewdescriptionInput">{new Date(invoice.date).toLocaleDateString()}</span>
                   </div>
                   <div  className='PreviewLabelAndInput'>
                     <span className='PreviewdescriptionLabel' id="PreviewdescriptionLabel" >Receiving Date</span>
-                    <span className='PreviewdescriptionInput' id="PreviewdescriptionInput">{invoice.receivingDate}</span>
+                    <span className='PreviewdescriptionInput' id="PreviewdescriptionInput">{new Date(invoice.receivingDate).toLocaleDateString()}</span>
                   </div>
                   <div  className='PreviewLabelAndInput'>
                     <span className='PreviewdescriptionLabel' id="PreviewdescriptionLabel" >Due Date</span>
-                    <span className='PreviewdescriptionInput' id="PreviewdescriptionInput">{invoice.dueDate}</span>
+                    <span className='PreviewdescriptionInput' id="PreviewdescriptionInput">{new Date(invoice.dueDate).toLocaleDateString()}</span>
                   </div>
                   <div  className='PreviewLabelAndInput'>
                     <span className='PreviewdescriptionLabel' id="PreviewdescriptionLabel" >Department *</span>
@@ -125,7 +141,6 @@ function PreviewSection({ invoice }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* {invoices.map((invoice) => ( */}
                         <tr key=""  className='PreviewdescriptionData'>
                           <td>invoice.billId</td>
                           <td>invoice.Method</td>
@@ -151,13 +166,13 @@ function PreviewSection({ invoice }) {
                 
                 <div className='PreviewDataTotalDiv'>
                   <span className='PreviewDataTotal'>Total</span>
-                  <span className='PreviewDataTotalInput'>nbnb</span>
+                  <span className='PreviewDataTotalInput'>{invoice.amount}</span>
                 </div>
 
-                <div className='PreviewDataAcceptAndDeline'>
+                {showAcceptDeclineButtons?<div className='PreviewDataAcceptAndDeline'>
                   <button className='PreviewDataAccept' onClick={handleAccept}>Accept</button>
                   <button className='PreviewDataDeline' onClick={handleDeclineform}>Deline</button>
-                </div>
+                </div>:null}
 
               </div>
                  :

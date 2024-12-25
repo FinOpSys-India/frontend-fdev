@@ -40,7 +40,8 @@ function ApprovedBills() {
     const [currentPage, setCurrentPage] = useState(1);
     const [activePage, setActivePage] = useState(1);
     const [invoices, setInvoices] = useState([]);
-    const [selectedInvoice, setSelectedInvoice] = useState(null);
+    const [selectedInvoice, setSelectedInvoice] = useState('');
+    const [vendorId,setVendorId] = useState('');
     const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
     const [selectedItem, setSelectedItem] = useState('Approved Bills');
@@ -97,8 +98,9 @@ function ApprovedBills() {
     // --------------------------------preview-----------------------------------
     const handleShowPreview = (invoice, index) =>{ 
       setShowPreview(true);
-      setSelectedInvoice(invoice); 
-      setcurrentInvoiceIndex(index)
+      setSelectedInvoice(invoice.caseId);
+      setVendorId(invoice.vendorId); 
+      setcurrentInvoiceIndex(index);
     }
     const expandInChat = (invoice)=>{
       setShowPreview(true);
@@ -466,7 +468,7 @@ function ApprovedBills() {
             <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
             }}>
               
-              <PreviewSection invoice={selectedInvoice} />
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={true} vendorId={vendorId}/>
             </Modal.Body>
            
             <Button
