@@ -11,26 +11,30 @@ import { useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button, Modal, ProgressBar } from "react-bootstrap";
 import { roles } from '../../../utils/constant';
-// import plus from '../../assets/plus.svg';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import BlankVendor from '../BlankVendor/BlankVendor';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Pagination from '@mui/material/Pagination';
+import AddVendorFormButton from '../AddVendorFormButton/AddVendorFormButton';
+import { apiEndPointUrl } from '../../../utils/apiService';
+
+
 
 function AllVendorForm() {
 
     
     const [selectedItem, setSelectedItem] = useState('All Vendors');
     const [activeButton, setActiveButton] = useState(null);
-    const [vendorList, setvendorList] = useState(true);
     const navigate = useNavigate();
-    const [acitivityLogButton, setacitivityLogButton] = useState(false);
-    // const [pageNumber, setPageNumber] = useState(1);
-    // const itemsPerPage1 = 10; // Number of items per page
-    // const totalItems = 99; // Example total number of items (coins)
-    // const [itemsPerPage] = useState(7); 
-    
+    const [showModal, setShowModal] = useState(false);
+     const [vendorData, setVendorData] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [itemsPerPage] = useState(7); 
+    const [currentPage, setCurrentPage] = useState(1);
+
+
+
       //  -------------- dropdown-------------
     const handleSelect = (eventKey) => {
         setSelectedItem(eventKey);
@@ -43,22 +47,52 @@ function AllVendorForm() {
 
 
 
-      
-    // // -----------------------Calculate pagination---------
-    // const indexOfLastItem = currentPage * itemsPerPage;
-    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-    //   const handlePageChange = (event, value) => {
-    //     setPageNumber(value);
-    //     setCurrentPage(value);
-    //     // Fetch or update your data for the new page here
-    //   };
+    //   -------handleAddVendor------------
+      const addVendor = () => {
+        setShowModal(true);
+      };
     
-    //   // Calculate total pages
-    //  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+      const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+        setPageNumber(value);
+      };
+    
+
+  //------------ Calculate pagination----------------
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = vendorData.slice(indexOfFirstItem, indexOfLastItem);
 
 
+      // Calculate total pages
+     const totalPages = Math.ceil(vendorData.length/itemsPerPage);
+
+
+    
+  
+    //------------------------- Fetch invoices from the backend-------------------
+    const fetchVendor = async (page) => {
+        try {
+          console.log("srDta" )
+          const response = await axios.get(`${apiEndPointUrl}/get-vendor`
+            , {
+            params: { page, itemsPerPage ,currentPage}
+          });
+  
+          // console.log("setVendorData",response.data[1].VENDOR_NAME )
+          setVendorData(response.data);} catch (error) {
+          toast.error("Failed to fetchVendor ", { autoClose: 1500 });
+        }
+      };
+
+
+      
+        useEffect(()=>{
+          fetchVendor(currentPage);
+      },[currentPage])
+      
   return (
 
     <div style={{display:"flex"}}>
@@ -84,12 +118,17 @@ function AllVendorForm() {
                             <SearchIcon style={{ fontSize: '19px', position: 'absolute', top: '33px', left: '79%',color: 'grey', }}/>    
                             <input id="vendorNameSearch"  type="text"  className="form-control" placeholder="Search"/>
                         </div> 
-                        <button className='vendorNavbarExportButton'> <AddIcon style={{ fontSize: '19px'}}/>Add Vendor</button>
+                        <button className='vendorNavbarExportButton' onClick={addVendor}> <AddIcon style={{ fontSize: '19px'}} />Add Vendor</button>
+                        <AddVendorFormButton
+                            show={showModal}
+                            onHide={() => setShowModal(false)}
+                            // component={modalComponent}
+                        />
                     </div>
             </div>
 
             {
-                 vendorList===true
+                 vendorData.length >0
                     ?
                     <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
                         <Table className="custom-width">
@@ -105,60 +144,27 @@ function AllVendorForm() {
                             </tr>
                             </thead>
                             <tbody>
-                                {/* {
-                                // currentItems.map((invoice, index) => (
-                                    // <tr key={invoice.billId}>
-                                    <td onClick={() => handleShowPreview(invoice, index)}>
-                                        <input type="checkbox" />{" "}
-                                        <img
+                              
+                            {
+                                currentItems.map((vendor, index) => (
+                                  <tr key={vendor.VENDOR_NAME}>
+                                    <td>
+                                      <input type="checkbox" />{" "}
+                                      <img
                                         src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
                                         alt="Vendor Avatar"
-                                        />
-                                        &nbsp;&nbsp;&nbsp;{invoice.billId}
+                                      />
+                                      &nbsp;&nbsp;&nbsp;{vendor.COMPANY_NAME}
                                     </td>
-                                    <td   {invoice.vendorName}</td>
-                                    <td {new Date(invoice.receivingDate).toLocaleDateString()} </td>
-                                    <td {new Date(invoice.dueDate).toLocaleDateString()} </td>
-                                    {(role != roles.approver1 && role !=roles.approver2) ? <td {invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
-                                    <td  {invoice.amount}</td>
-                                    <td id="">
-                                        <img src={chat} onClick={() => chatLogSection(invoice.caseId)} />
-                                    </td>
-                                    </tr>
+                                    <td>{vendor.VENDOR_NAME}</td>  
+                                    <td>{vendor.EMAIL_ADDRESS}</td> 
+                                    <td>{vendor.PHONE_NUMBER}</td>  
+                                    <td> 555-0120	$1,878.50</td>    
+                                    <td> 555-0120	$1,878.50</td> 
+                                    <td><ChevronRightIcon/> </td>      
+                                  </tr>
                                 ))
-                                } */}
-                                <tr>
-                                <td >
-                                        <input type="checkbox" />{" "}
-                                        <img
-                                        src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
-                                        alt="Vendor Avatar"
-                                        />
-                                        &nbsp;&nbsp;&nbsp;Louis Vuitton
-                                    </td>
-                                    <td> Bessie Cooper</td>
-                                    <td >debra.holt@example.com </td>
-                                    <td >(406) 555-0120</td>
-                                    <td >$1,878.50</td>
-                                    <td >$1,878.50</td>
-                                    <td> <ChevronRightIcon/> </td>
-                                </tr>
-                                <tr>
-                                <td >
-                                        <input type="checkbox" />{" "}
-                                        <img
-                                        src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
-                                        alt="Vendor Avatar"
-                                        />
-                                        &nbsp;&nbsp;&nbsp;Louis Vuitton
-                                    </td>
-                                    <td> Bessie Cooper</td>
-                                    <td >debra.holt@example.com </td>
-                                    <td >(406) 555-0120</td>
-                                    <td >$1,878.50</td>
-                                    <td >$1,878.50</td>
-                                    <td> <ChevronRightIcon/> </td>
-                                </tr>
+                              }
                             </tbody>
                         </Table>
                     </div>
@@ -170,11 +176,11 @@ function AllVendorForm() {
 
          <div className="pagination-div">
             <div className='pagination-insideDiv'>
-                {/* <Pagination
+                <Pagination
                     count={totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
-                /> */}
+                />
             </div>
         </div>
    </div>
