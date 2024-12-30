@@ -31,7 +31,7 @@ function Home(props) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [workEmail, setWorkEmail] = useState('');
   const role = sessionStorage.getItem('role');
-  
+  const respectiveRoles = {ApPerson:"Account Payable",Approver1:"Approver One", Approver2:"Approver Two", DepartMentHead:"DepartMent Head"} 
   const handleClose = () => setShowModal(false);
 
   const handleButtonClick = (buttonName) => {
@@ -120,7 +120,7 @@ function Home(props) {
         </div>
 
         <div className="accountPayableHeading" >
-          {isCollapsed ? (<h6 style={{margin:"30%"}}>AP</h6>) : (<h6>Account Payable</h6>)}
+          {isCollapsed ? (<h6 style={{margin:"30%"}}>AP</h6>) : (<h6>{respectiveRoles[role  ]}</h6>)}
           {isCollapsed ? (
             <div className="accountPayableButtonsCollapsed">
 
@@ -132,7 +132,7 @@ function Home(props) {
               <br />
               <img src={wiperlogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("er")} />
               <br />
-              <img src={vendorslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("er")} />
+              {role===roles.apPerson? <img src={vendorslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("vendor")} />:null}
               <br />
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
@@ -174,14 +174,14 @@ function Home(props) {
                 <img src={wiperlogo} style={{ width: "2em", height: "1em" }} />
                 WIP_ER
               </button>
-              <br />
-              <button
-                className="accountPayableButton"
-                onClick={() => handleButtonClick("er")}
+              {role===roles.apPerson?<br />:null}
+              {role===roles.apPerson? <button
+                className={activeButton === "vendor-form" ? "connectButton" : "AQHover"}
+                onClick={() => handleButtonClick("vendor")}
               >
                 <img src={vendorslogo} style={{ width: "2em", height: "1em" }} />
                 Vendors
-              </button>
+              </button>:null}
               <br />
               <button
                 className="accountPayableButton"
