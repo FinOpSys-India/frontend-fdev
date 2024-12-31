@@ -9,15 +9,12 @@ import axios from "axios";
 
 function AddVendorFormButton({ show, onHide }) {
   const [step, setStep] = useState(1);
-  const [contactPerson, setContactPerson] = useState('');
-  const [numberDetail, setnumberDetail] = useState({
-    code:"",
-    number:""
-
-  });
+  const [showModal, setShowModal] = useState(show);
   const [formData, setFormData] = useState({
     companyName: "",
     contactPerson: "",
+    code:"",
+    number:"",
     phoneNumber: "",
     email: "",
     einNumber: "",
@@ -37,14 +34,6 @@ function AddVendorFormButton({ show, onHide }) {
   });
 
 
-    // Handle input changes
-    const handlNumberDetails = (e) => {
-      const { id, value } = e.target;
-      setnumberDetail((prevData) => ({
-        ...prevData,
-        [id]: value,
-      }));
-    };
   
       // Handle input changes
     const handleChange = (e) => {
@@ -63,7 +52,8 @@ const isStepValid = () => {
         return (
           formData.companyName &&
           formData.contactPerson &&
-          formData.phoneNumber &&
+          formData.code &&
+          formData.number &&
           formData.email &&
           formData.einNumber
         );
@@ -101,23 +91,26 @@ const isStepValid = () => {
     }
 
    }
-   const handleNext = async() => {
+   const handleNext = () => {
 
-    if(step===1){
-      setFormData((prevData) => ({
-       ...prevData,
-       contactPerson: contactPerson,
-       phoneNumber: numberDetail.code + numberDetail.number,
-     }));
+      setFormData((prevData) => {
+        const updatedData = {
+          ...prevData,
+          phoneNumber:  formData.code +  formData.number,
+        };  
+        console.log("Updated Data:", updatedData); // Logs immediately
+        return updatedData;
+      });
+      
 
-     console.log(formData)
-   }
-    if (isStepValid()) {
-        if (step <3 )
-        setStep(step + 1);
-      } 
+
+    if (isStepValid()){
+      if (step <3 ){
+          setStep(step + 1);
+        } 
+    }
       else {
-        alert("Please fill out all required fields before proceeding.");
+      alert("Please fill out all required fields before proceeding.");
       }
   };
 
@@ -150,14 +143,6 @@ const isStepValid = () => {
       confirmAccountNumber:"",
       swiftCode: "",
     })
-
-    setContactPerson("");
-
-    setnumberDetail({
-    code:"",
-    number:""
-    })
-
   }
 
 
@@ -177,6 +162,7 @@ const isStepValid = () => {
             if(response.status == 200) {
               toast.success('vendor added successfully approved', { autoClose: 3000 });
                resetData()
+               setShowModal(false)
             }
         } catch (error) {
             console.log("Error in vendor :", error.response.data.message);
@@ -193,17 +179,11 @@ const isStepValid = () => {
 
   
  
-//   useEffect(()=>{
+  useEffect(()=>{
 
-//     if (step === 1) {
-//         setFormData((prevData) => ({
-//          ...prevData,
-//          contactPerson: contactPerson,
-//          phoneNumber: numberDetail.code + numberDetail.number,
-//        }));
-  
-//   }
-// },[formData])
+    console.log("show", )
+ 
+},[formData])
 
   const renderStepContent = () => {
     switch (step) {
@@ -220,23 +200,23 @@ const isStepValid = () => {
               <Form.Group className="vendorDivs" controlId="contactPerson">
                 <Form.Label  className=" addingVendor vendorName" >Primary Contact Person <span className="red">*</span> </Form.Label>
                   <div className="vendorNameDiv">
-                    <Form.Control  id="contactPerson" className=" addingVendor vendorNameInput"  type="text" placeholder="Contact Person Name" required value={contactPerson}
-                      onChange={(e) => setContactPerson(e.target.value)}/>
+                    <Form.Control  id="contactPerson" className=" addingVendor vendorNameInput"  type="text" placeholder="Contact Person Name" required value={formData.contactPerson}
+                      onChange={handleChange}/>
                   </div>
               </Form.Group>
 
               <Form.Group className="vendorDivs" controlId="phoneNumber">
                 <Form.Label  className=" addingVendor" >Phone Number <span className="red">*</span> </Form.Label>
                   <div className="vendorPhoneNumberDiv">
-                    <Form.Select   id="code" value={numberDetail.code}  required  className="vendorCode addingVendor" onChange={handlNumberDetails} >
+                    <Form.Select   id="code" value={formData.code}  required  className="vendorCode addingVendor" onChange={handleChange} >
                         <option value="+1">+1 </option>
                         <option value="+91">+91 </option>
                         <option value="+44">+44 </option>
                         <option value="+61">+61</option>
                         {/* Add more options as needed */}
                     </Form.Select>
-                    <Form.Control id="number"  type="tel" className="vendorNumber addingVendor"  placeholder="Enter phone number" required   value={numberDetail.number }
-                     onChange={handlNumberDetails}/>
+                    <Form.Control id="number"  type="tel" className="vendorNumber addingVendor"  placeholder="Enter phone number" required   value={formData.number }
+                     onChange={handleChange}/>
                   </div>
               </Form.Group>
 
@@ -303,6 +283,7 @@ const isStepValid = () => {
                     <Form.Label  className=" addingVendor vendorName">Country <span className="red">*</span> </Form.Label>
                     <Form.Select  id="country" value={formData.country}  className=" addingVendor vendorNameInput" onChange={handleChange}>
                             <option value="usa">U.S.A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            <option value="India" > India</option>
                     </Form.Select>
                   </Form.Group>
                </div>
@@ -335,10 +316,7 @@ const isStepValid = () => {
                   <Form.Label  className=" addingVendor vendorName" >Account Type <span className="red">*</span> </Form.Label>
                     <Form.Select  value={formData.accountType}  className=" addingVendor vendorNameInput" onChange={handleChange}>
                           <option value="+1">Saving Account  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</option>
-                          <option value="+91">+91 </option>
-                          <option value="+44">+44 </option>
-                          <option value="+61">+61</option>
-                            {/* Add more options as needed */}
+                          <option value="+91">Normal Account </option>
                     </Form.Select>
                 </Form.Group>
               </div>
@@ -381,12 +359,14 @@ const isStepValid = () => {
   };
 
   return (
+
     <Modal  show={show}
-      onHide={onHide}
+       onHide={onHide}
       centered
       dialogClassName="custom-modal"
-      style={{
-        "--progress-width": `${((step - 1) / 2) *100}%`, 
+      style={{  
+        //  "--progress-width": `${(step - 1) * 21}%`,
+        "--progress-width": `${((step - 1) / 2) *39}%`, 
       }}
     >
       <Modal.Body className="VendorModel">
@@ -411,6 +391,7 @@ const isStepValid = () => {
       </Modal.Body>
        <ToastContainer />
     </Modal>
+
   );
 }
 

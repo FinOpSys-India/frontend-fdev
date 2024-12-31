@@ -18,7 +18,7 @@ import { useDropzone } from "react-dropzone";
 import io from 'socket.io-client'
 import { TextField,Typography,Box, Button} from "@mui/material";
 import { spacing } from '@mui/system';
-
+import { Form } from "react-bootstrap"; // Import Form for Checkboxes
 
 
 // Connect to the WebSocket server
@@ -36,9 +36,12 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [socket, setSocket] = useState(null);
   const [showSmallPreview, setShowSmallPreview] = useState(false);
   const [showSmallPreviewTable, setShowSmallPreviewTable] = useState(false);
-
+  const [chatPersonName, setchatPersonName] = useState([]);
   const [showAcceptTextBox, setShowAcceptTextBox] = useState(false);
   const [text, setText] = useState("");
+  const [selectedPersons, setSelectedPersons] = useState([]);
+
+  const [isOpen, setIsOpen] = useState(false);
   const maxLimit = 100;
 
   const handleTextChange = (event) => {
@@ -249,6 +252,45 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
     }
   };
 
+  const fetchChatPerson = async () => {
+    try {
+        const response = await axios.get(`${apiEndPointUrl}/get-chatPerson`);
+        console.log("Response data:", response);
+        
+        if (response.status === 200 && response.data) {
+            setchatPersonName(response.data); // Ensure `setChatPersonName` is properly defined
+        } else {
+            console.error("Unexpected response structure:", response);
+        }
+    } catch (error) {
+        console.error("Error fetching chat person:", error.message || error);
+    }
+};
+
+
+// ----------handleCheckboxChange--------------------
+const handleCheckboxChange = (role) => {
+  setSelectedPersons((prevSelected) =>
+    prevSelected.includes(role)
+      ? prevSelected.filter((r) => r !== role) // Remove if already selected
+      : [...prevSelected, role] // Add if not selected
+  );
+};
+
+
+const handleItemClick = (e) => {
+  e.stopPropagation(); // Prevent dropdown from closing
+};
+
+const toggleDropdown = () => {
+  setIsOpen((prev) => !prev);
+};
+
+
+  useEffect(()=>{
+    fetchChatPerson()
+  },[selectedPersons])
+
   return (
     <div className="PendiingBillChat">
       <div className="PendiingBillChatNavbar">
@@ -257,9 +299,24 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
           <span id="billParticipant">{caseId}</span>
         </div>
         <div className="chatIcon">
-          <div className="pendingBillCall">
-            <img src={callIcon} style={{ fontSize: "30px" }} />
-          </div>
+            <Dropdown  >
+                <Dropdown.Toggle  id="" className="pendingBillCall">
+                    <img id="callIcon" src={callIcon} style={{fontSize: "26px"}} />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className='chatPersonMenu'>
+                  <Dropdown.Item className='' ><span>Members</span></Dropdown.Item>
+                  
+                  {
+                    chatPersonName.map((person, index) => (
+                    <Dropdown.Item key={index} className="chatPerson"  onClick={handleItemClick}>
+                      {person.ROLE} <Form.Check type="checkbox" onChange={() => handleCheckboxChange(person.ROLE)}  checked={selectedPersons.includes(person.ROLE)}/>
+                    </Dropdown.Item>
+                  ))
+                  }
+                  <Dropdown.Item className='chatPersonItemButton'><button className='chatPersonButton'  onClick={() => console.log("Selected Persons:", selectedPersons)}>Call Group</button></Dropdown.Item>          
+                </Dropdown.Menu>
+            </Dropdown>
           <img
             className="messageAndCross"
             style={{ fontSize: "19.9px" }}
@@ -288,45 +345,41 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
               <img src={crop} />
               </button>:null}
               </div>
-              {showAcceptTextBox? <div>
-                <Typography marginLeft="7%" required style={{
-    fontFamily: "Inter", // Apply Inter font
-  }} >Please add a note*</Typography>
-      <TextField
-      id="outlined-textarea"
-        value={text}
-        onChange={handleTextChange}
-        multiline
-          rows={4}
-        InputProps={{
-          style: { padding: '8px', margin:"0% 8%" }, // Adjust height if needed
-        }}
-        style={{
-          width: '100%', // Adjust width here
-          margin: '0 auto', // Center if needed
-        }}
-        required
-      />
-      <Typography
-        variant="caption"
-        sx={{
-          display: 'block',
-          textAlign: 'right',
-          marginRight: '10%',
-          color: text.length === maxLimit ? 'red' : 'inherit',
-        }}
-      >
-        {text.length}/{maxLimit}
-      </Typography>
-      {text!=""? <button className = "acceptButtonOnModel" 
-      style={{
-        display: "block", // Ensures it takes up its own line
-        marginLeft: "auto", // Pushes the button to the right
-        marginRight: "10%", // Adds spacing from the right edge
-      }}
-      onClick={handleAcceptClick}>Accept</button>:null}
-              </div>:null}
-              {showSmallPreviewTable ? <div className="mt-1 d-flex flex-column align-items-center">
+              {showAcceptTextBox
+                        ?
+               <div>
+                  <Typography marginLeft="7%" required style={{ fontFamily: "Inter" }} >Please add a note*</Typography>
+                      <TextField id="outlined-textarea" value={text} onChange={handleTextChange} multiline rows={4}
+                        InputProps={{   style: { padding: '8px', margin:"0% 8%" }}}
+                        style={{
+                          width: '100%',
+                          margin: '0 auto', 
+                        }}  required
+                      />
+                          <Typography  variant="caption"
+                            sx={{
+                              display: 'block',
+                              textAlign: 'right',
+                              marginRight : '10%',
+                              color: text.length === maxLimit ? 'red' : 'inherit',
+                            }}
+                          >
+                            {text.length}/{maxLimit}
+                          </Typography>
+                      {text!=""? <button className = "acceptButtonOnModel" 
+                        style={{
+                          display: "block", 
+                          marginLeft: "auto", 
+                          marginRight: "10%",
+                        }}
+                      onClick={handleAcceptClick}>Accept</button>:null}
+                </div>
+                      :
+                       null
+              }
+              {showSmallPreviewTable 
+                    ? 
+               <div className="mt-1 d-flex flex-column align-items-center">
                   <Table   className="PreviewdescriptionTableInChat">
                     <thead>
                       <tr  className="PreviewdescriptionTheadInChat">
@@ -358,7 +411,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
                     </tbody>
                   </Table>
                 </div>:null}
-                </div>
+              </div>
           </div>:null}
           {chats?.MESSAGES.map((chat, index) => {
             const currentDate = new Date(chat.timestamp).toDateString();

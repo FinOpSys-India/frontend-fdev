@@ -180,3 +180,86 @@ color: rgba(140, 140, 140, 1);
      margin-bottom: 5%;
      margin-top: 2%;
 }
+
+
+
+
+
+
+/* -----------------callIcon------------------ */
+
+#callIcon{
+  /* z-index: 1; */
+  position: absolute;
+  top: 9px;
+  right: 1.6px;
+  /* height: 16px;
+  top:12p
+  width: 12px; */
+  /* padding-top:-60% */
+}
+
+
+ 
+.pendingBillCall:active {
+  background-color: transparent !important; 
+  
+}
+
+
+.chatPersonMenu{
+  padding: 0%;  
+  width:30px !important; /* Set the width of the dropdown menu to 70px */
+    overflow: hidden;  /* Hide overflowed content */
+    white-space: nowrap;  
+
+}
+.chatPerson{
+  display:flex;
+  justify-content: space-between;
+font-size: 12px;
+font-weight: 400;
+/* white-space: nowrap; */
+}
+
+
+.chatPersonButton{
+   width:100%;
+   background-color: rgba(121, 57, 239, 1);
+   color: white;
+  border-radius: 12px;
+  border: solid rgba(121, 57, 239, 1);;
+  }
+
+  .chatPersonMenu{
+    background: rgba(240, 240, 240, 1);
+
+  }
+
+  .chatPerson.active, .chatPerson.show,.chatPerson-check:checked .chatPerson:first-child:active.chatPerson.show, .chatPerson:first-child:active, :not(.chatPerson-check) + .chatPerson:active {
+    border-radius: 12px;
+    background-color:  rgba(240, 240, 240, 1) !important;
+    border-color: unset;
+  border : solid  rgba(240, 240, 240, 1) !important
+  }
+
+  .pendingBillCall:checked + .pendingBillCall, .pendingBillCall.active, .pendingBillCall.show, .pendingBillCall:first-child:active, :not(.pendingBillCall-check) + .pendingBillCall:active {
+    color: unset;
+    background-color:  rgba(240, 240, 240, 1) !important;
+    border-color: unset;
+  border : solid  rgba(240, 240, 240, 1) !important
+}
+
+
+.pendingBillCall :hover {
+  background-color:  rgba(240, 240, 240, 1) !important;
+  border : solid  rgba(240, 240, 240, 1) !important;
+  border-color:   rgba(240, 240, 240, 1) !important;
+  width:91%;
+  border-radius: 6px;
+margin-top: -26%
+}
+
+
+
+  

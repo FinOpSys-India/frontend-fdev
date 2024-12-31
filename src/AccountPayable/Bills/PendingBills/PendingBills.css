@@ -218,11 +218,13 @@
   background-color: rgba(240, 240, 240, 1);
   display: flex;
   height:70%;
+  width:12%;
   border-radius: 5.3px;
   text-align:center; 
   align-items: center;
   padding-top: 12%;
-  margin-top: 3%;
+  margin-top: 6%;
+  border : solid  rgba(240, 240, 240, 1);;
 }
 
 
