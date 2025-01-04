@@ -118,20 +118,21 @@ const FilterDrawer = ({ onApplyFilters }) => {
           <>
             <div className="date-picker-container">
               <label htmlFor="date" className="date-label">
-                Date
-              </label>{" "}
+                Date 
+              </label>{" "}<hr className="filterHr"/>
               <div className="transaction-range-selector">
-                <label>Show Transction for</label>{" "}
+                <label className="filterDateDropdown">Show Transction for</label>
                 <select className="transaction-period">
-                  <option>Today</option>
-                  <option>This Year</option>
-                  <option>This Month</option>
+                  <option className="filterDateOption">Today</option>
+                  <option className="filterDateOption">This Year</option>
+                  <option className="filterDateOption">This Month</option>
                 </select>
+
               </div>
               <div className="date-range">
                 <div className="date-picker">
-                  <label>From</label>
-                  <DatePicker
+                  <label className="dateFrom">From</label>
+                  <DatePicker 
                     selected={startDate}
                     onChange={(date)=>handleStartChange(date)}
                     dateFormat="MM/dd/yyyy"
@@ -139,7 +140,7 @@ const FilterDrawer = ({ onApplyFilters }) => {
                   />
                 </div>
                 <div className="date-picker">
-                  <label>To</label>
+                  <label className="dateFrom">To</label>
                   <DatePicker
                     selected={endDate}
                     onChange={(date)=>handleEndChange(date)}
@@ -271,7 +272,7 @@ const FilterDrawer = ({ onApplyFilters }) => {
                 <button>
                   <img src={CalendarLogo} />
                   Date
-                </button>
+                </button> 
               </li>
               <li
                 onClick={() => setActiveFilter("Keyword")}

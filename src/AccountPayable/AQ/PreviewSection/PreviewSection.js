@@ -32,6 +32,7 @@ function PreviewSection({ invoiceId, setShowPreview,fetchInvoices, showAcceptDec
       setVendor(vendorResponse.data);
       setInvoice(response.data);
       setPdfData(response.data.billData);
+      console.log(response.data.billData)
     } catch (error) {
       console.log("Error fetching chats:", error);
     }

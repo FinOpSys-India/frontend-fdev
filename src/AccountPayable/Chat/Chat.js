@@ -18,11 +18,14 @@ import { useDropzone } from "react-dropzone";
 import io from 'socket.io-client'
 import { TextField,Typography,Box, Button} from "@mui/material";
 import { spacing } from '@mui/system';
-import { Form } from "react-bootstrap"; // Import Form for Checkboxes
-
-
+import { Form } from "react-bootstrap";
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
+import { Worker, Viewer } from '@react-pdf-viewer/core';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 // Connect to the WebSocket server
 const socket = io('http://localhost:9000');
+
+pdfjs.GlobalWorkerOptions.workerSrc ="/pdf.worker.min.js";
 
 function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}) {
   const [acitivityLogButton, setacitivityLogButton] = useState(true);
@@ -40,6 +43,8 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [showAcceptTextBox, setShowAcceptTextBox] = useState(false);
   const [text, setText] = useState("");
   const [selectedPersons, setSelectedPersons] = useState([]);
+  const [fileData, setFileData] = useState([]);
+  const [base64String, setBase64String] = useState('');
 
   const [isOpen, setIsOpen] = useState(false);
   const maxLimit = 100;
@@ -52,7 +57,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
   const [file, setFile] = useState(null);
-  const [fileDetails, setFileDetails] = useState(new FormData());
+  const [fileDetails, setFileDetails] = useState(null);
 
   const handleMessageChange = (inputValue) => {
     setNewMessage(inputValue);
@@ -132,6 +137,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
     try {
       const response = await axios.get(`${apiEndPointUrl}/chats/${caseId}`);
       setChats(response.data);
+      console.log(response.data)
     } catch (error) {
       console.log("Error fetching chats:", error);
     }
@@ -158,19 +164,27 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
       "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpeg",
   });
 
+
   const handleDocClick = async (fileToUpload) => {
     if (!fileToUpload) {
       toast.error("Please select a file to upload.");
       return;
     }
+    
+     setFileDetails(fileToUpload);
+  
+    }
+  
+  
 
-    setFileDetails(fileToUpload);
-  };
+
   const hideSmallPreview=()=>{
     setShowSmallPreview(false);
     setShowSmallPreviewTable(false);
     setShowAcceptTextBox(false);
   }
+
+
   const handleSendClick = async () => {
     if (!newMessage.trim() && !fileDetails) {
       return;
@@ -181,16 +195,28 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
       user: workEmail,
       messages: newMessage,
       timestamp: new Date().toISOString(),
-      fileData: fileDetails,
     };
+
+    const formData = new FormData();
+    formData.append('file', fileDetails); 
+    formData.append('newChat', JSON.stringify(newChat));
+    
     setNewMessage("");
 
+    
+    console.log("fileData", newChat)
+
     try {
-      const response = await axios.post(`${apiEndPointUrl}/message`, newChat, {
+      const response = await axios.post(`${apiEndPointUrl}/message`, formData, {
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data", // Ensure 'newChat' is properly formatted as FormData if sending file data
         },
+        withCredentials: true, 
       });
+      // setFileDetails(null)
       socket.emit('sendMessage', newChat);  
       setChats((prevChats) => ({
         ...prevChats,
@@ -291,6 +317,39 @@ const toggleDropdown = () => {
     fetchChatPerson()
   },[selectedPersons])
 
+  const downloadFile = (fileData,fileName ) => {
+    // const dataUri = `data:application/octet-stream;base64,${fileData}`;
+    
+    // const link = document.createElement('a');
+    // link.href = dataUri;
+    // link.download = fileName;  // Set the file name
+
+    // // Programmatically click the link to trigger the download
+    // link.click();
+
+    const byteCharacters = atob(fileData); // Decode Base64
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+
+    // Create a Blob with the appropriate type
+    const blob = new Blob([byteArray]);
+
+    // Create a download link and trigger download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+
+    // Clean up the URL object
+    URL.revokeObjectURL(link.href);
+  
+  };
+
+
+
   return (
     <div className="PendiingBillChat">
       <div className="PendiingBillChatNavbar">
@@ -298,10 +357,11 @@ const toggleDropdown = () => {
           <span id="billNoBill">Bill</span>
           <span id="billParticipant">{caseId}</span>
         </div>
+
         <div className="chatIcon">
             <Dropdown  >
                 <Dropdown.Toggle  id="" className="pendingBillCall">
-                    <img id="callIcon" src={callIcon} style={{fontSize: "26px"}} />
+                    <img id="callIcon" src={callIcon} style={{fontSize: "29px"}} />
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className='chatPersonMenu'>
@@ -319,17 +379,18 @@ const toggleDropdown = () => {
             </Dropdown>
           <img
             className="messageAndCross"
-            style={{ fontSize: "19.9px" }}
+            style={{ fontSize: "21px" }}
             src={messageIcon}
           />
           <img
             className="messageAndCross"
-            style={{ fontSize: "16px" }}
+            style={{ fontSize: "19px" }}
             src={crossButton}
             onClick={closeChat}
 
           />
         </div>
+        
       </div>
 
       <div className="chatContent">
@@ -413,7 +474,7 @@ const toggleDropdown = () => {
                 </div>:null}
               </div>
           </div>:null}
-          {chats?.MESSAGES.map((chat, index) => {
+          {chats?.MESSAGES?.length > 0 && chats.MESSAGES.map((chat, index) => {
             const currentDate = new Date(chat.timestamp).toDateString();
             const previousDate =
               index > 0 ? new Date(chats.MESSAGES[index - 1]?.timestamp).toDateString() : null;
@@ -440,21 +501,14 @@ const toggleDropdown = () => {
                       <div className="messageAndTime">
                         <span className="personName">{chat.user}</span>
                         <div className="personMessageAndTime">
-                          <span className="personMessage">{chat.messages}</span>
-                          <span>
-                            {" "}
-                            {chat.fileData && chat.fileData.path ? (
-                              <img
-                                src={`data:image/jpeg;base64,${chat.fileData}`}
-                                alt="file"
-                                onError={() =>
-                                  console.log("Image failed to load")
-                                }
-                                style={{ width: "200px", height: "auto" }}
-                              />
-                            ) : (
+                          <span className="personMessage">{chat.messages}
+                            {chat.fileData  ? 
+                              <button  className="fileData" onClick={ ()=> downloadFile(chat.fileData, chat.fileName)} >
+                                      {chat?.fileName}<br/><FileDownloadIcon style={{fontSize:"21px"}}/>
+                                </button>  
+                               : 
                               ""
-                            )}
+                            }
                           </span>
 
                           <span className="messageTime">
@@ -479,8 +533,14 @@ const toggleDropdown = () => {
                       <div className="reciverMessageAndTime">
                         <span className="reciverPersonName">{chat.user}</span>
                         <div className="reciverPersonMessageAndTime">
-                          <span className="reciverPersonMessage">
-                            {chat.messages}
+                          <span className="reciverPersonMessage">  {chat.messages}
+                            {chat.fileData  ? 
+                              <button  className="fileDataReciver" onClick={ ()=> downloadFile(chat.fileData, chat.fileName)} >
+                                      {chat?.fileName}<br/><FileDownloadIcon style={{fontSize:"21px"}}/>
+                                </button>  
+                               : 
+                              ""
+                            }
                           </span>
                           <span className="reciverMessageTime">
                             {new Date(chat.timestamp).toLocaleTimeString([], {
@@ -562,7 +622,7 @@ const toggleDropdown = () => {
           <div {...getRootProps()}>
             <img 
               id="plusChat"
-              style={{ fontSize: "246px" }}
+              style={{ width: "30px", height:"26px" }} 
               src={plusIcon}
               onClick={() => handleDocClick(file)}
             />
@@ -577,8 +637,7 @@ const toggleDropdown = () => {
             onChange={(e) => handleMessageChange(e.target.value)}
           />
           <div className="micChatIconAndSend">
-            {/* <img style={{ fontSize: "27px" }} src={micIcon} /> */}
-            <img
+            <img 
               style={{ fontSize: "26px" }}
               src={sendIcon}
               onClick={handleSendClick}
