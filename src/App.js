@@ -23,6 +23,7 @@ import ApprovedBills from './AccountPayable/Bills/ApprovedBills/ApprovedBills.js
 import DeclineBills from './AccountPayable/Bills/DeclineBills/DeclineBills.js';
 import AllBills from './AccountPayable/Bills/AllBills/AllBills.js';
 import AllVendorForm from './AccountPayable/VendorForm/AllVendorForm/AllVendorForm.js';
+import InsightMainChat from './AccountPayable/AQ/Insight/InsightMainChat/InsightMainChat.js';
 
 const App = () => {
 
@@ -42,6 +43,7 @@ const App = () => {
         <Route path='/all-Bills' element={ <ProtectedRoute><AllBills /></ProtectedRoute>} />
         <Route path='/vendor' element={ <ProtectedRoute><AllVendorForm /></ProtectedRoute>} />
         <Route path="/"  element={ <ProtectedRoute>  <Home /> </ProtectedRoute> }/>
+        <Route path="/insight"  element={ <ProtectedRoute>  <InsightMainChat /> </ProtectedRoute> }/>
         {/* -----not needed---------- */}
         <Route path="/demo"  element={ <ProtectedRoute><Demo/> </ProtectedRoute> }/>
   

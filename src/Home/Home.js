@@ -130,12 +130,13 @@ function Home(props) {
               <br />
               <img src={wipcclogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("credits")} />
               <br />
-              <img src={wiperlogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("er")} />
+              <img src={wiperlogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("insight")} />
               <br />
               {role===roles.apPerson? <img src={vendorslogo} style={{ width: "2em", height: "2em" }} onClick={() => handleButtonClick("vendor")} />:null}
               <br />
               <img src={insightslogo} style={{ width: "2em", height: "2em" }} />
             </div>) : (<div className="accountPayableButtons">
+              
               {(role !=roles.approver1 && role !=roles.approver2)?
               <>
               <button
@@ -184,8 +185,8 @@ function Home(props) {
               </button>:null}
               <br />
               <button
-                className="accountPayableButton"
-                onClick={() => handleButtonClick("er")}
+                className={activeButton === "insight" ? "connectButton" : "AQHover"}
+                onClick={() => handleButtonClick("insight")}
               >
                 <img src={insightslogo} style={{ width: "2em", height: "1em" }} />
                 Insights
