@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import plusIcon from "../../assets/plusIcon.svg";
 import micIcon from "../../assets/micIcon.svg";
@@ -22,6 +22,7 @@ import { Form } from "react-bootstrap";
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import Peer from 'simple-peer';
 // Connect to the WebSocket server
 const socket = io('http://localhost:9000');
 
@@ -36,7 +37,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [chats, setChats] = useState();
   const [newMessage, setNewMessage] = useState("");
   const [workEmail, setWorkEmail] = useState("");
-  const [socket, setSocket] = useState(null);
+  const socket = useRef(null); 
   const [showSmallPreview, setShowSmallPreview] = useState(false);
   const [showSmallPreviewTable, setShowSmallPreviewTable] = useState(false);
   const [chatPersonName, setchatPersonName] = useState([]);
@@ -45,7 +46,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [selectedPersons, setSelectedPersons] = useState([]);
   const [fileData, setFileData] = useState([]);
   const [base64String, setBase64String] = useState('');
-
+  const [userId,setUserId]= useState("")
   const [isOpen, setIsOpen] = useState(false);
   const maxLimit = 100;
 
@@ -227,44 +228,104 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
     }
     fetchChats();
 };    
-
+const getUser = async (email) => {
+  try {
+    const response = await axios.get(`${apiEndPointUrl}/getUser`, {params:{email:email}} );
+    return response.data
+  } catch (error) {
+    console.log("Error fetching chats:", error);
+  }
+};
   useEffect(() => {
     let email = document.cookie.split("; ").find((row) => row.startsWith("workEmail="))?.split("=")[1];
     setWorkEmail(email);
     setchatcaseId(caseId)
 
     fetchChats();
+    socket.current = io('http://localhost:9000');
 
-
-
-    const newSocket = io('http://localhost:9000');  // Socket connection
-    newSocket.on('connect', () => {
+    // Register user after socket connects
+    socket.current.on('connect', () => {
+        const email = sessionStorage.getItem('workEmail');
+        if (email) {
+            getUser(email).then((userId) => {
+                if (userId) {
+                  setUserId(userId)
+                    socket.current.emit('registerUser', userId);
+                }
+            });
+        }
     });
 
-    newSocket.on('newMessage', (message) => {
-        setChats((prevChats) => ({
-            ...prevChats,
-            MESSAGES: [...prevChats.MESSAGES, message],
-        }));
+    // Handle new messages
+    socket.current.on('newMessage', (message) => {
+        setChats((prevChats) => {
+            const isDuplicate = prevChats?.MESSAGES?.some(
+                (msg) =>
+                    msg.timestamp === message.timestamp &&
+                    msg.user === message.user &&
+                    msg.messages === message.messages
+            );
+
+            if (isDuplicate) {
+                return prevChats; // Skip adding duplicate
+            }
+
+            return {
+                ...prevChats,
+                MESSAGES: [...prevChats.MESSAGES, message],
+            };
+        });
     });
 
-    // Error handling for socket connection
-    newSocket.on('connect_error', (error) => {
+    // Handle connection errors
+    socket.current.on('connect_error', (error) => {
         console.error('Socket connection error:', error);
     });
 
-    // Set socket in state
-    setSocket(newSocket);  // Save the socket connection in the state
-
-    // Cleanup function to disconnect the socket on component unmount
+    // Cleanup on unmount
     return () => {
-        newSocket.disconnect();
+        if (socket.current) {
+            socket.current.disconnect();
+        }
     };
 
   }, [caseId]);
 
 
+  const startCall = () => {
+    if (selectedUsers.length < 1) {
+        alert('Select at least one user to start a call.');
+        return;
+    }
 
+    selectedUsers.forEach((SendUserId) => {
+        const newPeer = new Peer({ initiator: true, trickle: false, stream });
+        newPeer.on('signal', (data) => {
+            socket.emit('callUser', {
+                to: SendUserId, // Backend User ID
+                signalData: data,
+                from: userId, // Your own backend user ID
+            });
+        });
+
+        newPeer.on('stream', (userStream) => {
+            if (userVideo.current) userVideo.current.srcObject = userStream;
+        });
+
+        setPeer(newPeer);
+        setCallStatus('Calling...');
+    });
+};
+const endCall = () => {
+  selectedUsers.forEach((user) => {
+      socket.emit('endCall', { to: user });
+  });
+  setCallStatus('Call Ended');
+  if (peer) peer.destroy();
+  setPeer(null);
+  setCallAccepted(false);
+};
   const formatTimestamp = (timestamp) => {
     const messageDate = new Date(timestamp);
     const today = new Date();
