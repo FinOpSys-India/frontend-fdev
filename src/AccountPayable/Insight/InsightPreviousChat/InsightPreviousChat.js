@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import  "./InsightPreviousChat.css";
-import rightDoubleArrow from '../../../../assets/rightDoubleArrow.svg';
-import editChat from '../../../../assets/editChat.svg'; 
-import leftDoubleArrow from '../../../../assets/leftDoubleArrow.svg'; 
+import rightDoubleArrow from '../../../assets/rightDoubleArrow.svg';
+import editChat from '../../../assets/editChat.svg'; 
+import leftDoubleArrow from '../../../assets/leftDoubleArrow.svg'; 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import share from '../../../../assets/share.svg'; 
-import edit from '../../../../assets/edit.svg'; 
-import deletChat from '../../../../assets/delete.svg'; 
+import share from '../../../assets/share.svg'; 
+import edit from '../../../assets/edit.svg'; 
+import deletChat from '../../../assets/delete.svg'; 
 import { Modal, Button, Nav, Tab } from "react-bootstrap";
 
 

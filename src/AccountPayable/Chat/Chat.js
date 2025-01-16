@@ -45,6 +45,8 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [selectedPersons, setSelectedPersons] = useState([]);
   const [fileData, setFileData] = useState([]);
   const [base64String, setBase64String] = useState('');
+  const [selectedMessage, setSelectedMessage] = useState(null);
+
 
   const [isOpen, setIsOpen] = useState(false);
   const maxLimit = 100;
@@ -82,6 +84,17 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   }
 
   const handleAcceptClick = async () => {
+
+    const newActivity = {
+      chat_id: caseId,
+      accpetedBy: workEmail,
+      status: "Accept the invoice",
+      role: role,
+      timestamp: new Date().toISOString(),
+    };
+
+    
+  console.log("newActivity1", newActivity)
     // Call API for Accept action
     try {
       const response = await axios.post(`${apiEndPointUrl}/accept`, {
@@ -101,7 +114,29 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
       toast.error(`${error.response.data.message}`);
     }
 
-    setShowAcceptDecline(false); // Hide popup after Accept
+    setShowAcceptDecline(false); 
+    
+
+    // --------------------------------- 
+    try {
+      const response = await axios.post(`${apiEndPointUrl}/acitivity-log`,newActivity, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+      });
+
+      if(response.data.status===500 || response.data.status===400 ){
+        toast.error('Error in acitivity log  !');
+      }
+      else{
+        console.log(' acitivity-log', response.data);
+        toast.success(`${response.data}`, { autoClose: 1500 });
+      }
+    } catch (error) {
+      console.log('Error in acitivity-log', error.response.data.message);
+      toast.error(`${error.response.data.message}`)
+    }
   };
 
 
@@ -349,6 +384,37 @@ const toggleDropdown = () => {
   };
 
 
+// -------------------------------------------------------------------------------------------
+  // Function to copy the message to the clipboard
+const handleCopy = (message) => {
+  navigator.clipboard.writeText(message);
+  alert("Message copied to clipboard!");
+};
+
+
+// Function to handle delete
+const handleDelete = (message) => {
+  if (window.confirm("Are you sure you want to delete this message?")) {
+    // Implement message deletion logic here
+    console.log(`Deleting message: ${message.messages}`);
+    // Optionally make an API call to delete it from the server
+  }
+};
+
+
+const handleReply = (message) => {
+   setSelectedMessage(message); // Save the selected message
+   document.querySelector(".chatInputField").focus();
+};
+
+const handleSelect = (message) => {
+   setSelectedMessage(message); // Save the selected message
+};
+
+const handleClearSelectedMessage = () => {
+   setSelectedMessage(null); // Clear the selected message
+};
+
 
   return (
     <div className="PendiingBillChat">
@@ -497,7 +563,9 @@ const toggleDropdown = () => {
                       {/* <img className='chatNameAndPic' src='https://img.freepik.com/premium-vector/default-avatar-profile-silhouette-vector-illustration_561158-3408.jpg' /> */}
                     </div>
 
-                    <div>
+                    <div className="messageWrapper">
+                    {/* <div id={`message-${chat.id}`} className="messageWrapper"> */}
+
                       <div className="messageAndTime">
                         <span className="personName">{chat.user}</span>
                         <div className="personMessageAndTime">
@@ -520,7 +588,30 @@ const toggleDropdown = () => {
                           </span>
                         </div>
                       </div>
+
+                      {/* <div className="optionsMenu">
+                          <input type="checkbox" className="messageCheckbox" />
+                          <div className="optionsList">
+                            <button className="option">Copy</button>
+                            <button className="option">Reply</button>
+                            <button className="option">Select</button>
+                            <button className="option">Delete</button>
+                          </div>
+                      </div> */}
+
+                      <div className="optionsMenu">
+                        <input type="checkbox" className="messageCheckbox" />
+                        <div className="optionsList">
+                          <button className="option" onClick={() => handleCopy(chat.messages)}>Copy</button>
+                          <button className="option" onClick={() => handleReply(chat)}>Reply</button>
+                          <button className="option" onClick={() => handleSelect(chat)}>Select</button>
+                          <button className="option" onClick={() => handleDelete(chat)}>Delete</button>
+                        </div>
+                      </div>
+
                     </div>
+
+                    
                   </div>
                 ) : (
                   // Receiver's chat

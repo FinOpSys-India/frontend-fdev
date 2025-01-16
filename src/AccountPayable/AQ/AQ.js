@@ -46,8 +46,7 @@ function AQ() {
   const [showPreview, setShowPreview] = useState(false);
   const [acceptHoveredIndex, setacceptHoveredIndex] = useState(null);
   const [declineHoveredIndex, setdeclineHoveredIndex] = useState(null);
-
-
+  const [workEmail, setWorkEmail] = useState("");
   const [acceptClickIndex, setacceptClickIIndex] = useState(0);
   const [acceptStatus, setacceptStatus] = useState();
   const [declinedStatus, setdeclinedStatus] = useState('');
@@ -77,6 +76,7 @@ function AQ() {
     const [selectedVendorBillNumber, setSelectedVendorBillNumber] = useState('');
     const [showCrossBillNumber, setShowCrossBillNumber] = useState(false);
     const [showDropdownBillNumber, setShowDropdownBillNumber] = useState(false);
+    
     const [createBillDetails, setCreateBillDetails]=useState({
       vendorName:"",
       invoiceNo:"",
@@ -87,6 +87,7 @@ function AQ() {
       fileData:""
     })
    const role = sessionStorage.getItem('role');
+
   let index="";
     // Fetch invoices from the backend
     const fetchInvoices = async (page) => {
@@ -101,7 +102,11 @@ function AQ() {
         toast.error("Failed to fetch invoices", { autoClose: 1500 });
       }
     };
+
+
     useEffect(() => {
+      let email = document.cookie.split("; ").find((row) => row.startsWith("workEmail="))?.split("=")[1];
+      setWorkEmail(email);
       fetchInvoices();
     }, []);
 
@@ -294,7 +299,18 @@ const handleClickReason = (index) => {
 
 // ------------accept------------
 const handleAccept = async (index) => {
+
   setacceptStatus("Accept the invoice")
+
+  const newActivity = {
+    chat_id: invoices[index].caseId,
+    accpetedBy: workEmail,
+    status: "Accept the invoice",
+    role: role,
+    timestamp: new Date().toISOString(),
+  };
+
+  console.log("newActivity", newActivity)
   setacceptClickIIndex(invoices[index].caseId)
       try {
         const response = await axios.post(`${apiEndPointUrl}/accept`, {
@@ -314,9 +330,82 @@ const handleAccept = async (index) => {
         toast.error(`${error.response.data.message}`)
       }
 
+      // --------------------------------- 
+      try {
+        const response = await axios.post(`${apiEndPointUrl}/acitivity-log`,newActivity, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+        });
+
+        if(response.data.status===500 || response.data.status===400 ){
+          toast.error('Error in acitivity log  !');
+        }
+        else{
+          console.log(' acitivity-log', response.data);
+          toast.success(`${response.data}`, { autoClose: 1500 });
+        }
+      } catch (error) {
+        console.log('Error in acitivity-log', error.response.data.message);
+        toast.error(`${error.response.data.message}`)
+      }
+
     
 };
 
+
+
+// const handleAccept = async (index) => {
+//   setacceptStatus("Accept the invoice");
+
+//   const newActivity = {
+//     chat_id: invoices[index].caseId,
+//     accpetedBy: workEmail,
+//     status: "Accept the invoice",
+//     role: role,
+//     timestamp: new Date().toISOString(),
+//   };
+
+//   console.log("newActivity", newActivity);
+//   setacceptClickIIndex(invoices[index].caseId);
+
+//   try {
+//     // Run both API calls simultaneously
+//     const [acceptResponse, activityLogResponse] = await Promise.all([
+//       axios.post(`${apiEndPointUrl}/accept`, {
+//         invoiceId: invoices[index].caseId, // Replace with the actual invoice ID field
+//         role: role,
+//       }),
+//       axios.post(`${apiEndPointUrl}/acitivity-log`, newActivity, {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       }),
+//     ]);
+
+//     // Handle the response for the first API call
+//     if (acceptResponse.data.status === 500 || acceptResponse.data.status === 400) {
+//       toast.error("Error in accepting invoice!");
+//     } else {
+//       console.log("accepting:", acceptResponse.data);
+//       toast.success(`${acceptResponse.data.message}`, { autoClose: 1500 });
+//       fetchInvoices();
+//     }
+
+//     // Handle the response for the second API call
+//     if (activityLogResponse.data.status === 500 || activityLogResponse.data.status === 400) {
+//       toast.error("Error in activity log!");
+//     } else {
+//       console.log("Activity Log:", activityLogResponse.data);
+//       toast.success(`${activityLogResponse.data.message}`, { autoClose: 1500 });
+//     }
+//   } catch (error) {
+//     // Catch any errors from either API call
+//     console.error("Error occurred:", error.response?.data?.message || error.message);
+//     toast.error(error.response?.data?.message || "An error occurred during processing.");
+//   }
+// };
 
 
   const handleUploadClick = () => {

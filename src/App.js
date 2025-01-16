@@ -23,7 +23,7 @@ import ApprovedBills from './AccountPayable/Bills/ApprovedBills/ApprovedBills.js
 import DeclineBills from './AccountPayable/Bills/DeclineBills/DeclineBills.js';
 import AllBills from './AccountPayable/Bills/AllBills/AllBills.js';
 import AllVendorForm from './AccountPayable/VendorForm/AllVendorForm/AllVendorForm.js';
-import InsightMainChat from './AccountPayable/AQ/Insight/InsightMainChat/InsightMainChat.js';
+import InsightMainChat from './AccountPayable/Insight/InsightMainChat/InsightMainChat.js';
 
 const App = () => {
 

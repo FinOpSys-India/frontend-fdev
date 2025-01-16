@@ -1,0 +1,328 @@
+
+.acitityLog{
+    /* background-color: rgb(128, 45, 45); */
+    width:25%;
+    margin-top: 1.2%;
+    border-radius: 20px;
+    margin-right: 1.6%;
+    /* padding: 16px 0px 0px 0px; */
+}
+
+
+.acitivityNavbar{
+     display:flex;
+     background-color:  rgba(121, 57, 239, 1);
+     padding :6px;
+     margin-top: 0%;
+     border-radius: 12px;
+     height:6.6%;
+     color: white;
+     justify-content: space-between;
+     text-align: center;
+     align-items: center;
+
+}
+
+#activitylog{
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    padding-right: 6%;
+    padding-left: 1%;
+    text-align: center;
+    padding-top: -3%;
+ }
+
+
+ .activitylogBAutton{
+      display: flex;
+      gap:6%;
+      /* align-items: first baseline; */
+      padding-right: 6%;
+      cursor:pointer;
+      text-align: center;
+      text-align: center;
+      padding-top: 7.6%;
+ }
+
+ /* ------------------------activitylogContent---------------------- */
+
+
+ .activitylogContent{
+    /* background-color: red; */
+    width:100%;
+    margin-top: 3.6%;
+    border-radius: 12px;
+    display:flex;
+    flex-direction: column; 
+    gap: 20px;
+    overflow-y: auto;
+    height: 87%;
+    padding-bottom: 16%;
+    scrollbar-width: none; /* For Firefox */
+}
+
+.activitylogContent::-webkit-scrollbar {
+  display: none; 
+}
+
+ .activitylogRight{
+    background-color:  rgba(240, 240, 240, 1);
+    margin: 3%;
+    padding-right: 3%;
+    /* height: 97%; */
+    border-radius: 12px;
+    padding-bottom: 3%;
+ }
+
+
+ .activitylogBar{
+    padding-left: 3%;
+    font-size: 12px;
+    padding-top: 1.9%;
+    font-size: 12.7;
+    font-weight: 500;
+    color: rgba(140, 140, 140, 1);
+ }
+
+
+
+ .activitylogLabelAndInput{
+    display:flex;
+    justify-content: space-between;
+    padding-left: 3%;
+ }
+
+ .activitylogAdress{
+   margin-top: -3.6%;
+ }
+
+
+
+ .activitylogdescription{
+    margin-top: -2%;
+ }
+
+ .activitylogdescriptionLabel{
+    font-size: 10.7px;
+    font-weight: 500;
+ } 
+ 
+ .activitylogdescriptionInput{
+    font-size: 10.7px;
+    font-weight: 400;
+    color:  rgba(140, 140, 140, 1);
+
+ }
+
+
+ /* ----------------table------------ */
+
+.activitylogdescriptionTable {
+ font-size: 10px;
+  max-width: 283px;
+  margin: 0%;
+  margin-left: 3%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  border-spacing: 0; 
+  border-radius: 12px;
+  overflow: hidden; 
+}
+
+.activitylogdescriptionThead {
+  background-color: rgba(121, 57, 239, 1) !important;
+  color: white;border-radius: 12px 12px 0 0; 
+  border-collapse: separate;
+  border-spacing: 0;
+  
+}
+
+.activitylogdescriptionThead th {
+   padding:  3px 9px; 
+  text-align: left;
+  background-color: rgba(121, 57, 239, 1) !important;
+   color: white;
+  text-align: left;
+  font-weight:500;
+  padding: 6px;
+}
+
+/* Remove the bottom border for all rows except the last one */
+.activitylogdescriptionData tr:not(:last-child) td {
+   border-bottom: none;
+ }
+ 
+ /* Keep the bottom border for the last row */
+ .activitylogdescriptionData tr:last-child td {
+   border-bottom: none;
+   /* border-bottom: 1px solid rgba(140, 140, 140, 1); Adjust the color and thickness as needed */
+ }
+
+ 
+.activitylogdescriptionThead th:first-child {
+   border-top-left-radius: 5px;
+   border-bottom-left-radius: 6px;
+ }
+ 
+ .activitylogdescriptionThead th:last-child {
+   border-top-right-radius: 5px;
+   border-bottom-right-radius: 7px;
+ }
+ 
+
+.activitylogdescriptionData td {
+  padding:  3px 9px; 
+  text-align: left;
+  padding: 6px;
+  color: rgba(140, 140, 140, 1);
+}
+
+.activitylogDataTotalDiv {
+  margin-top: 10px;
+  font-size: 12px;
+  text-align: right;
+  max-width: 60px;
+  margin: 0%;
+}
+
+
+
+
+.activitylogDataTotal {
+  font-weight: bold;
+  margin-right: 10px;
+    background-color: rgba(121, 57, 239, 1) !important;
+  
+}
+
+.activitylogDataTotalInput {
+  font-weight: normal;
+}
+
+
+ #activitylogVendorName{
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 28px;
+    color: rgba(121, 57, 239, 1);
+ }
+ 
+ 
+.activitylogSectionDiv{
+    display:flex;
+     gap: 19px;
+    background-color:  rgba(240, 240, 240, 1);
+    margin: 3%;
+    margin-top: -3%;
+    padding-right: 3%;
+    border-radius: 12px;
+    padding-bottom: 3%;
+}
+
+
+.activitylogPoint{
+    padding-left: 3%;
+    font-size: 19px;
+    padding-top: 1.6%;
+    width:3%;
+}
+
+
+.activitylogInformation{
+    width:97%;
+
+}
+
+.activityNameAndDrop{
+   display: flex;
+   justify-content: space-between;
+   gap:3%;
+    font-size: 14px;
+    font-weight: 500;
+   color:rgba(121, 57, 239, 1);
+   padding: 3%;
+   cursor:pointer
+}
+
+
+.acitivityDetails{
+    margin-top: -3%;
+    padding-left: 3%;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(140, 140, 140, 1);
+}
+
+.acitivityDateAndTime{
+    display: flex;
+    justify-content: space-between;
+}
+
+#acitivityDateAndTime{
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.acitivityinvoiceState{
+    font-size: 9px;
+    font-weight: 400;
+    color: black;
+    background: rgba(64, 64, 64, 0.1);
+    border-radius: 12px;
+    padding-right: 2%;
+     padding-left: 2%;
+}
+
+
+
+/* -------------------------activityLogExport-------------- */
+
+.activityLogExport{
+    padding: 3px 16px 6px 16px;
+    color: rgba(121, 57, 239, 1);
+    border-radius: 12px ;
+    border: 1px solid rgba(121, 57, 239, 1);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3%;
+    position:fixed;
+    bottom: 1%;
+    width:19.7%;
+    right: 1%;
+    z-index: 1;
+    background-color: white;
+}
+
+
+
+
+
+ /* -------------------------------------DetailedInfo , opening----------------- */
+ .acitivityDetailedInfo{
+  display:  flex;
+  justify-content: space-between;
+ }
+
+
+ .acitivityDetailLabel{
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(20, 20, 20, 1);
+    ;
+ }
+
+ 
+ .acitivityDetailInput{
+    font-size: 10px;
+    font-weight: 400;
+ }
+
+/* 
+  .modal-dialog {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    margin: 0;
+    max-width: 300px;} */

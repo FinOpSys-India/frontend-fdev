@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import  "./InsightMainChat.css";
-import download from '../../../../assets/download.svg';
-import thumbsDown from '../../../../assets/thumbs-down.svg'; 
-import thumbsup from '../../../../assets/thumbs-up.svg'; 
-import refresh from '../../../../assets/refresh.svg'; 
-import copy from '../../../../assets/copy.svg';
-import editPencil from '../../../../assets/editPencil.svg'; 
-import sendIn from'../../../../assets/sendIn.svg'; 
-import Home from '../../../../Home/Home';
+import download from '../../../assets/download.svg';
+import thumbsDown from '../../../assets/thumbs-down.svg'; 
+import thumbsup from '../../../assets/thumbs-up.svg'; 
+import refresh from '../../../assets/refresh.svg'; 
+import copy from '../../../assets/copy.svg';
+import editPencil from '../../../assets/editPencil.svg'; 
+import sendIn from'../../../assets/sendIn.svg'; 
+import Home from '../../../Home/Home';
 import InsightNewChat from '../InsightNewChat/InsightNewChat';
 import InsightPreviousChat from '../InsightPreviousChat/InsightPreviousChat';
 
@@ -56,7 +56,7 @@ function InsightMainChat() {
                     {
                         true
                           ?
-                        <div className="insightMainDiv" style={{backgroundColor:"red"}}>
+                        <div className="insightMainDiv" >
                             <div className='insightMainQuestionDiv'> 
                                 <div className='insightMainQDiv'> 
                                     <span id='Q'> Q</span> 
@@ -65,12 +65,24 @@ function InsightMainChat() {
                                   
                                     <div className='insightQIconDiv' > 
                                         <input type='checkbox' id='insightQInput'/> 
-                                        <img src={editPencil}/> 
+                                        <img className=' class="edit-icon"' src={editPencil}/> 
                                     </div>
                                 </div>
                            
-                                <div className='insightMainADiv'> 
-                                    <span>A</span> <p>Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.</p> <div> <input type='checkbox' /> <img src={editPencil}/> </div>
+                                <div className=''> 
+                                    <div className='insightMainADiv'>
+                                        <span  id='A'>A</span> 
+                                        <p id='AP'>Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.
+                                            Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.Tell me the total number of invoice we receive in this weeks.
+                                        </p> 
+                                    </div>   
+                                    <div className='insightAIconDiv'> 
+                                         <img  className='insightAIcon' src={copy}/> 
+                                         <img  className='insightAIcon' src={refresh}/>
+                                         <img  className='insightAIcon' src={thumbsup}/>
+                                         <img  className='insightAIcon' src={thumbsDown}/>
+                                         <img  className='insightAIcon' src={download}/>
+                                    </div>
                                 </div>      
                             </div>  
                             

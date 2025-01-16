@@ -185,11 +185,10 @@ cursor: pointer;
 
 /* -----------------------insightMainDiv---------------------------------- */
 .insightMainDiv {
-    background-color: red; /* Use kebab-case */
     height: 71%;
     /* width: 89%; */
     width: 69%;
-    overflow-y: scroll; /* Use kebab-case */
+    overflow-y: scroll; 
     overflow-x: hidden;
     margin: 6%;
     margin-left: 19%;
@@ -216,6 +215,10 @@ cursor: pointer;
     /* text-align: center;
     align-items: center; */
 
+}
+
+
+
     #QP{
         padding-left: 3%;
         padding-top: 0.6%;
@@ -227,19 +230,20 @@ cursor: pointer;
     }
 
         
-        #Q{
-            background-color: white;
-            color: black;
-            border-radius: 3px;
-            width:2.39%;
-            font-size: 16px;
-            font-weight: 700;
-            margin-left: 1%;
-            margin-top: 0.69%;
-            height: max-content;
-            text-align: center;
-        }
-}
+    #Q{
+        background-color: white;
+        color: black;
+        border-radius: 3px;
+        /* width:2.39%; */
+        padding-right: 0.6%;
+        padding-left: 0.6%;
+        font-size: 16px;
+        font-weight: 700;
+        margin-left: 1%;
+        margin-top: 0.69%;
+        height: max-content;
+        text-align: center;
+    }
 
 
 .insightQIconDiv{
@@ -254,6 +258,61 @@ cursor: pointer;
 
 
    #insightQInput {
-      /* position: fixed */
+    cursor: pointer;
    }
+}
+
+
+
+.insightMainADiv{
+    display: flex;
+    width:96%;
+}
+
+#A{
+    background-color : rgba(121, 57, 239, 1);
+    color : white;
+    padding-top: 0.3%;
+    padding-bottom: 0.3%;
+    padding-left: 0.9%;
+    text-align: center;
+    /* padding-right: 0.6%; */
+    padding-right: 0.9%;
+    height: min-content;
+    font-size: 16px; 
+    /* width:%; */
+    font-weight: 600;
+    border-radius: 6px;
+    margin-left: 2.6%;
+}
+
+#AP{
+    font-size: 14px; 
+    font-weight: 600;
+    padding-left: 1%;
+    color: rgba(140, 140, 140, 1);
+
+}
+
+
+.insightAIconDiv{
+    display: flex;
+    margin-left :   7.9%;
+    gap:1.6%;
+    padding-bottom: 1.9%;
+    padding-top: 1.9%;
+}
+
+
+.insightAIcon{
+    /* background-color: rgba(240, 240, 240, 1); */
+    padding: 0.3%;
+    height: 3%;
+    font-size: 21px;
+    border-radius: 16%;
+}
+
+.insightAIcon:hover{
+    background-color: rgba(240, 240, 240, 1);
+    cursor: pointer;
 }

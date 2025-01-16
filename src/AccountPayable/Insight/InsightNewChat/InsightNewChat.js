@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import  "./InsightNewChat.css";
-import rightDoubleArrow from '../../../../assets/rightDoubleArrow.svg';
-import editChat from '../../../../assets/editChat.svg'; 
-import leftDoubleArrow from '../../../../assets/leftDoubleArrow.svg'; 
-import sendIn from'../../../../assets/sendIn.svg'; 
-import Home from '../../../../Home/Home';
+import rightDoubleArrow from '../../../assets/rightDoubleArrow.svg';
+import editChat from '../../../assets/editChat.svg'; 
+import leftDoubleArrow from '../../../assets/leftDoubleArrow.svg'; 
+import sendIn from'../../../assets/sendIn.svg'; 
+import Home from '../../../Home/Home';
 
 
 function InsightNewChat() {
