@@ -21,7 +21,7 @@ import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
 
 
 
-function PendingBills() {
+function PendingBills({ startGroupCall }) {
 
   const [filters, setFilters] = useState({ dateRange: { from: null, to: null },
     keyword: "",
@@ -325,7 +325,7 @@ const closeChat = () => {
                             </Table>
                           </div>
                           
-                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true" expandInChat = {expandInChat}/>
+                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true" expandInChat = {expandInChat} startGroupCall={startGroupCall} />
                      </div>
                 } 
           </div>

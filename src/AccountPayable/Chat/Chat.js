@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import plusIcon from "../../assets/plusIcon.svg";
-import micIcon from "../../assets/micIcon.svg";
 import sendIcon from "../../assets/sendIcon.svg";
 import messageIcon from "../../assets/messageIcon.svg";
 import callIcon from "../../assets/callIcon.svg";
@@ -22,13 +21,16 @@ import { Form } from "react-bootstrap";
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import Peer from 'simple-peer';
+import { ZegoExpressEngine } from 'zego-express-engine-webrtc';
+import Cookies from "js-cookie";
+// import {  engine  } from "../../App";
+import SimplePeer from 'simple-peer';
+
 // Connect to the WebSocket server
-const socket = io('http://localhost:9000');
 
 pdfjs.GlobalWorkerOptions.workerSrc ="/pdf.worker.min.js";
 
-function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}) {
+function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat,startGroupCall}) {
   const [acitivityLogButton, setacitivityLogButton] = useState(true);
   const [chatcaseId, setchatcaseId] = useState("");
   const [showAcceptDecline, setShowAcceptDecline] = useState(false);
@@ -40,16 +42,21 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const socket = useRef(null); 
   const [showSmallPreview, setShowSmallPreview] = useState(false);
   const [showSmallPreviewTable, setShowSmallPreviewTable] = useState(false);
-  const [chatPersonName, setchatPersonName] = useState([]);
+  // const [chatPersonName, setchatPersonName] = useState(['paras@gmail.com',]);
   const [showAcceptTextBox, setShowAcceptTextBox] = useState(false);
   const [text, setText] = useState("");
   const [selectedPersons, setSelectedPersons] = useState([]);
   const [fileData, setFileData] = useState([]);
   const [base64String, setBase64String] = useState('');
-  const [userId,setUserId]= useState("")
+  // const [userId,setUserId]= useState("")
   const [isOpen, setIsOpen] = useState(false);
-  const maxLimit = 100;
+  // const [callerID, setCallerID] = useState(userID);
+  // const localStream = useRef(null);
+  //   const remoteVideos = useRef({});
+  //   const [peers, setPeers] = useState([]);
 
+  const maxLimit = 100;
+  const chatPersonName=['paras@gmail.com','prs89826@gmail.com']
   const handleTextChange = (event) => {
     if (event.target.value.length <= maxLimit) {
       setText(event.target.value);
@@ -73,7 +80,6 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
       setShowSecondaryDropdown(false);
     }
   };
-
   function acitivityLogClose() {
     setacitivityLogButton(false);
   }
@@ -228,14 +234,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
     }
     fetchChats();
 };    
-const getUser = async (email) => {
-  try {
-    const response = await axios.get(`${apiEndPointUrl}/getUser`, {params:{email:email}} );
-    return response.data
-  } catch (error) {
-    console.log("Error fetching chats:", error);
-  }
-};
+
   useEffect(() => {
     let email = document.cookie.split("; ").find((row) => row.startsWith("workEmail="))?.split("=")[1];
     setWorkEmail(email);
@@ -245,17 +244,6 @@ const getUser = async (email) => {
     socket.current = io('http://localhost:9000');
 
     // Register user after socket connects
-    socket.current.on('connect', () => {
-        const email = sessionStorage.getItem('workEmail');
-        if (email) {
-            getUser(email).then((userId) => {
-                if (userId) {
-                  setUserId(userId)
-                    socket.current.emit('registerUser', userId);
-                }
-            });
-        }
-    });
 
     // Handle new messages
     socket.current.on('newMessage', (message) => {
@@ -284,47 +272,49 @@ const getUser = async (email) => {
     });
 
     // Cleanup on unmount
-    return () => {
-        if (socket.current) {
-            socket.current.disconnect();
-        }
-    };
+    // return () => {
+    //     if (socket.current) {
+    //         socket.current.disconnect();
+    //     }
+    // };
 
   }, [caseId]);
+//   useEffect(() => {
+//     // Get user media
+    
+// }, [socket, currentCall, userID]);
 
-
-  const startCall = () => {
-    if (selectedUsers.length < 1) {
-        alert('Select at least one user to start a call.');
-        return;
-    }
-
-    selectedUsers.forEach((SendUserId) => {
-        const newPeer = new Peer({ initiator: true, trickle: false, stream });
-        newPeer.on('signal', (data) => {
-            socket.emit('callUser', {
-                to: SendUserId, // Backend User ID
-                signalData: data,
-                from: userId, // Your own backend user ID
-            });
-        });
-
-        newPeer.on('stream', (userStream) => {
-            if (userVideo.current) userVideo.current.srcObject = userStream;
-        });
-
-        setPeer(newPeer);
-        setCallStatus('Calling...');
-    });
+const startCall = () => {
+  if (selectedPersons.length > 0) {
+    startGroupCall(selectedPersons);
+  } else {
+      alert('Please select at least one user to start the call.');
+  }
 };
+//   const startCall = async() => {
+//     if (!selectedPersons.length) {
+//       alert('Please select at least one user to call.');
+//       return;
+//   }
+//   // Emit group call event to the backend
+//   socket.current.emit('callGroup', {
+//       from: callerID,
+//       groupMembers: selectedPersons,
+//   });
+//   const token = "04AAAAAGeHwtAADCP2OAFrPtSv1k5kEgCvQfWnoOsTtI1iHkihdIdM3fzEXnEWAGI0j6OBAf0I9hbWakgCv4ZCz/x+jaFx1z2ZBXFTFw6Xvh6GUOVBThG9w9q9WPlcPCfa8qRXznj/o98/jelADN3bF8zmTCX0eCIKtCA8W1NDKhfhf8uVw1Q5gDfN8n4xS2r+7+VYJZNsr/FYF/8I6ubCZoVFZwcCpGQvRbSyA61+Vj7gK0USwAJ1QrLJ9f6QyP4zSdSnNU0sHAE="
+//   // Start publishing audio stream
+//   const roomID = "groupRoom";
+//   await engine.loginRoom(roomID,token, {userID:"Fin-3"});
+//   const localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+//   engine.startPublishingStream(callerID, localStream);
+//   alert('Call initiated!');
+
+    
+// };
 const endCall = () => {
-  selectedUsers.forEach((user) => {
+  selectedPersons.forEach((user) => {
       socket.emit('endCall', { to: user });
   });
-  setCallStatus('Call Ended');
-  if (peer) peer.destroy();
-  setPeer(null);
-  setCallAccepted(false);
 };
   const formatTimestamp = (timestamp) => {
     const messageDate = new Date(timestamp);
@@ -339,29 +329,32 @@ const endCall = () => {
     }
   };
 
-  const fetchChatPerson = async () => {
-    try {
-        const response = await axios.get(`${apiEndPointUrl}/get-chatPerson`);
-        console.log("Response data:", response);
+//   const fetchChatPerson = async () => {
+//     try {
+//         const response = await axios.get(`${apiEndPointUrl}/get-chatPerson`);
+//         console.log("Response data:", response);
         
-        if (response.status === 200 && response.data) {
-            setchatPersonName(response.data); // Ensure `setChatPersonName` is properly defined
-        } else {
-            console.error("Unexpected response structure:", response);
-        }
-    } catch (error) {
-        console.error("Error fetching chat person:", error.message || error);
-    }
-};
+//         if (response.status === 200 && response.data) {
+//             setchatPersonName(response.data); // Ensure `setChatPersonName` is properly defined
+//         } else {
+//             console.error("Unexpected response structure:", response);
+//         }
+//     } catch (error) {
+//         console.error("Error fetching chat person:", error.message || error);
+//     }
+// };
 
 
 // ----------handleCheckboxChange--------------------
 const handleCheckboxChange = (role) => {
+  console.log(role)
   setSelectedPersons((prevSelected) =>
     prevSelected.includes(role)
       ? prevSelected.filter((r) => r !== role) // Remove if already selected
       : [...prevSelected, role] // Add if not selected
   );
+  // setSelectedPersons([role]);
+  console.log(selectedPersons)
 };
 
 
@@ -375,7 +368,9 @@ const toggleDropdown = () => {
 
 
   useEffect(()=>{
-    fetchChatPerson()
+    // fetchChatPerson()
+    console.log("Selected Persons:", selectedPersons);
+
   },[selectedPersons])
 
   const downloadFile = (fileData,fileName ) => {
@@ -431,11 +426,11 @@ const toggleDropdown = () => {
                   {
                     chatPersonName.map((person, index) => (
                     <Dropdown.Item key={index} className="chatPerson"  onClick={handleItemClick}>
-                      {person.ROLE} <Form.Check type="checkbox" onChange={() => handleCheckboxChange(person.ROLE)}  checked={selectedPersons.includes(person.ROLE)}/>
+                      {person} <Form.Check type="checkbox" onChange={() =>   handleCheckboxChange(person)}  checked={selectedPersons.includes(person)}/>
                     </Dropdown.Item>
                   ))
                   }
-                  <Dropdown.Item className='chatPersonItemButton'><button className='chatPersonButton'  onClick={() => console.log("Selected Persons:", selectedPersons)}>Call Group</button></Dropdown.Item>          
+                  <Dropdown.Item className='chatPersonItemButton'><button className='chatPersonButton'  onClick={startCall}>Call Group</button></Dropdown.Item>          
                 </Dropdown.Menu>
             </Dropdown>
           <img
@@ -706,6 +701,7 @@ const toggleDropdown = () => {
           </div>
         </div>:null}
       </div>
+      
       <ToastContainer />
      </div>
   );
