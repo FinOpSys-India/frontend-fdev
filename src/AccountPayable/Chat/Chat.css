@@ -15,12 +15,12 @@
 
 /* Add styles for scrollbar customization (optional) */
 #chatContainer::-webkit-scrollbar {
-    width: 6px;
+    display: none;
 }
 
 #chatContainer::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
+    /* background-color: #888;
+    border-radius: 4px; */
 }
 
 #chatContainer::-webkit-scrollbar-thumb:hover {
@@ -299,6 +299,8 @@ padding-right: 3%;
 display: flex;
 flex-direction: column;
 float: right;
+margin-left: 61.7%;
+width: 43% !important;
 
 }
 
@@ -671,10 +673,12 @@ font-weight: 400;
 
 .optionsMenu {
   position: absolute;
-  top: 10px;
+  top: 12px;
   right: 10px;
+  float: left;
   display: none;
-  background-color: #fff;
+  background-color: rgba(240, 240, 240, 1) !important;
+  
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
@@ -712,15 +716,16 @@ font-weight: 400;
 
 .optionsMenu {
   position: absolute;
-  top: 10px; /* Adjust this value to move it vertically */
-  right: 120px; /* Adjust this value to move it closer horizontally */
+  top: 31px;
+  right: 90px; 
   display: none;
-  background-color: #fff;
+  background-color: rgba(240, 240, 240, 1);
+  
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 7px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10; /* Ensure it appears above other elements */
-  padding: 5px;
+  z-index: 10;
+  padding: 2.6px;
 }
 
 .optionsList {
@@ -733,13 +738,14 @@ font-weight: 400;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   padding: 5px 10px;
   text-align: left;
 }
 
 .option:hover {
-  background-color: #f5f5f5;
+  background-color: white;
+  border-radius: 7px;
 }
 
 .messageWrapper:hover .optionsMenu {
@@ -753,3 +759,111 @@ font-weight: 400;
 }
 
 
+
+
+/* ------deleteButtondeleteButton---------------- */
+.chatContainer {
+  position: relative; /* Ensures modal is positioned relative to this container */
+  width: 100%;
+  height: 100%; /* Ensure full height of the container */
+  overflow: auto; /* Handle scrolling if content overflows */
+}
+
+.modalOverlayInsideChat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim the chat container background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Ensure it's above chat content */
+}
+
+.modalContentInsideChat {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.deleteButton {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: #5bc0de;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #c9302c;
+}
+
+.cancelButton:hover {
+  background-color: #31b0d5;
+}
+
+
+
+
+/* ---------------------------------reply------------------- */
+
+
+/* Reply Box Container */
+.replyBox {
+  display: flex;
+  align-items: center;
+  background-color: #f3f3f3; /* Light gray background */
+  border-left: 4px solid #6c63ff; /* Purple border on the left */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px; /* Padding inside the box */
+  margin: 10px 0; /* Spacing around the box */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   
+  width: 93%;
+  margin-left: 3%;
+}
+
+/* Replying to text */
+.replyBox p {
+  font-size: 14px;
+  color: #333; /* Darker text for visibility */
+  margin: 0;
+  flex: 1; /* Allow the text to take available space */
+  line-height: 1.4; /* Improve text readability */
+}
+
+/* Highlighted username */
+.replyBox strong {
+  color: #6c63ff; /* Purple color for the name */
+}
+
+/* Cancel button */
+.replyBox button {
+  background-color: transparent;
+  border: none;
+  color: #6c63ff; /* Purple text color */
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.replyBox button:hover {
+  color: #4d4ac9; /* Darker purple on hover */
+}

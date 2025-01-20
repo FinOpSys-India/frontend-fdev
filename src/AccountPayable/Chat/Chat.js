@@ -8,6 +8,11 @@ import callIcon from "../../assets/callIcon.svg";
 import crossButton from "../../assets/crossButton.svg";
 import bigCross from "../../assets/bigCross.svg"
 import { roles } from "../../utils/constant";
+import copyChat from "../../assets/copyChat.svg";
+import deleteChat from "../../assets/delete.svg";
+import crossClose from "../../assets/crossClose.svg";
+import replyChat from "../../assets/replyChat.svg";
+import reply from "../../assets/reply.svg";
 import "./Chat.css";
 import { Dropdown, Modal, Table } from "react-bootstrap";
 import { apiEndPointUrl } from "../../utils/apiService"
@@ -46,7 +51,10 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [fileData, setFileData] = useState([]);
   const [base64String, setBase64String] = useState('');
   const [selectedMessage, setSelectedMessage] = useState(null);
-
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [replyDetails, setReplyDetails] = useState(null);
+const [replyClicked, setReplyClicked] = useState(false); 
 
   const [isOpen, setIsOpen] = useState(false);
   const maxLimit = 100;
@@ -225,12 +233,31 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
       return;
     }
 
-    const newChat = {
-      chat_id: chatcaseId,
-      user: workEmail,
-      messages: newMessage,
-      timestamp: new Date().toISOString(),
-    };
+    let newChat ={};
+
+    if (replyClicked && replyDetails) {
+        newChat = {
+        chat_id: chatcaseId,
+        user: workEmail,
+        messages: newMessage,
+        replyingUser : replyDetails.user,
+        replyingUserMessage : replyDetails.messageSnippet,
+        timestamp: new Date().toISOString(),
+        replyClicked: true,
+      };
+
+      setReplyClicked(false)
+    }
+     else{
+       newChat = {
+        chat_id: chatcaseId,
+        user: workEmail,
+        messages: newMessage,
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    console.log("new", newChat)
 
     const formData = new FormData();
     formData.append('file', fileDetails); 
@@ -388,25 +415,71 @@ const toggleDropdown = () => {
   // Function to copy the message to the clipboard
 const handleCopy = (message) => {
   navigator.clipboard.writeText(message);
-  alert("Message copied to clipboard!");
 };
 
+function handleDelete(chat) {
+  setSelectedChat(chat); // Store the chat to delete
+  setShowDeleteModal(true); // Show modal
+}
 
-// Function to handle delete
-const handleDelete = (message) => {
-  if (window.confirm("Are you sure you want to delete this message?")) {
-    // Implement message deletion logic here
-    console.log(`Deleting message: ${message.messages}`);
-    // Optionally make an API call to delete it from the server
+ const confirmDelete = async ()=>  {
+  const messageIndex =   chats.MESSAGES.findIndex(
+    (message) => message.timestamp === selectedChat.timestamp
+  );
+
+  
+  console.log("messageIndex",messageIndex)
+
+  if (messageIndex !== -1) {
+    const updatedMessages = [...chats.MESSAGES];
+    updatedMessages.splice(messageIndex, 1);
+
+    // setChats({
+    //   ...chats,
+    //   MESSAGES: updatedMessages,
+    // });
+
+    
+  console.log("updatedMessages",updatedMessages)
   }
+
+  
+
+  try {
+    const response = await axios.post(`${apiEndPointUrl}/delete-message`, { 
+      chat_id: caseId,
+      messageIndex: messageIndex, 
+      timestamp: selectedChat.timestamp },{
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true, 
+    });
+    
+    console.log("response sending message:", response);
+    // setFileDetails(null)
+    // socket.emit('sendMessage', newChat);  
+    // setChats((prevChats) => ({
+    //   ...prevChats,
+    //   MESSAGES: [...prevChats.MESSAGES, newChat],
+    // }));
+  } catch (error) {
+    console.error("Error sending message:", error);
+  }
+  fetchChats();
+    
+
+  setShowDeleteModal(false); // Close modal
+}    
+
+const handleReply = (chat) => {
+  const truncatedMessage = chat.messages.split(" ").slice(0, 3).join(" ");
+  setReplyDetails({
+    user: chat.user,
+    messageSnippet: truncatedMessage,
+  });
+  setReplyClicked(true); // Set replyClicked to true when reply is triggered
 };
-
-
-const handleReply = (message) => {
-   setSelectedMessage(message); // Save the selected message
-   document.querySelector(".chatInputField").focus();
-};
-
 const handleSelect = (message) => {
    setSelectedMessage(message); // Save the selected message
 };
@@ -564,8 +637,6 @@ const handleClearSelectedMessage = () => {
                     </div>
 
                     <div className="messageWrapper">
-                    {/* <div id={`message-${chat.id}`} className="messageWrapper"> */}
-
                       <div className="messageAndTime">
                         <span className="personName">{chat.user}</span>
                         <div className="personMessageAndTime">
@@ -589,29 +660,27 @@ const handleClearSelectedMessage = () => {
                         </div>
                       </div>
 
-                      {/* <div className="optionsMenu">
-                          <input type="checkbox" className="messageCheckbox" />
-                          <div className="optionsList">
-                            <button className="option">Copy</button>
-                            <button className="option">Reply</button>
-                            <button className="option">Select</button>
-                            <button className="option">Delete</button>
-                          </div>
-                      </div> */}
-
                       <div className="optionsMenu">
                         <input type="checkbox" className="messageCheckbox" />
                         <div className="optionsList">
-                          <button className="option" onClick={() => handleCopy(chat.messages)}>Copy</button>
-                          <button className="option" onClick={() => handleReply(chat)}>Reply</button>
-                          <button className="option" onClick={() => handleSelect(chat)}>Select</button>
-                          <button className="option" onClick={() => handleDelete(chat)}>Delete</button>
+                          <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
+                          <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
+                          <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button>
                         </div>
                       </div>
 
                     </div>
-
-                    
+                    {
+                         showDeleteModal && (
+                        <div className="modalOverlayInsideChat">
+                          <div className="modalContentInsideChat">
+                            <p>Are you sure you want to delete this message?</p>
+                            <button onClick={confirmDelete} className="deleteButton">Delete</button>
+                            <button onClick={() => setShowDeleteModal(false)} className="cancelButton">Cancel</button>
+                          </div>
+                        </div>
+                      )
+                    }
                   </div>
                 ) : (
                   // Receiver's chat
@@ -620,7 +689,7 @@ const handleClearSelectedMessage = () => {
                       {/* <img className='reciverChatNameAndPic' src='https://img.freepik.com/premium-vector/default-avatar-profile-silhouette-vector-illustration_561158-3408.jpg' /> */}
                     </div>
 
-                    <div>
+                    <div className="messageWrapper">
                       <div className="reciverMessageAndTime">
                         <span className="reciverPersonName">{chat.user}</span>
                         <div className="reciverPersonMessageAndTime">
@@ -640,6 +709,16 @@ const handleClearSelectedMessage = () => {
                               hour12: true,
                             })}
                           </span>
+                        </div>
+                      </div>
+
+                      <div className="optionsMenu">
+                        <input type="checkbox" className="messageCheckbox" />
+                        <div className="optionsList">
+                          <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"14px"}}/> Copy</button>
+                          <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"14px"}}/> Reply</button>
+                          <button className="option" onClick={() => handleSelect(chat)}> <img src={""} style={{  width:"14px"}}/> Select</button>
+                          <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"14px"}}/> Delete</button>
                         </div>
                       </div>
                     </div>
@@ -709,32 +788,33 @@ const handleClearSelectedMessage = () => {
           </Dropdown.Item>
         </Dropdown>
       )}
-        {notDisabledChat ? <div className="AllChatIcon">
-          <div {...getRootProps()}>
-            <img 
-              id="plusChat"
-              style={{ width: "30px", height:"26px" }} 
-              src={plusIcon}
-              onClick={() => handleDocClick(file)}
-            />
-          </div> 
-          
-          
-          <input
-            type="text"
-            placeholder="Type your message"
-            className="chatInputField"
-            value={newMessage}
-            onChange={(e) => handleMessageChange(e.target.value)}
-          />
-          <div className="micChatIconAndSend">
-            <img 
-              style={{ fontSize: "26px" }}
-              src={sendIcon}
-              onClick={handleSendClick}
-            />
+        {notDisabledChat 
+               ? 
+
+         <>      
+          {replyDetails && replyClicked ===true ? (
+          <div className="replyBox">
+            <p>
+              Replying to <strong>{replyDetails.user}</strong>: "{replyDetails.messageSnippet}..."
+            </p>
+            <button onClick={() => setReplyDetails(null)}>Cancel</button>
           </div>
-        </div>:null}
+        ):""}
+          <div className="AllChatIcon">
+            <div {...getRootProps()}>
+              <img id="plusChat"  style={{ width: "30px", height:"26px" }}  src={plusIcon} onClick={() => handleDocClick(file)} />
+            </div> 
+          
+          
+            <input  type="text" placeholder="Type your message" className="chatInputField" value={newMessage} onChange={(e) => handleMessageChange(e.target.value)} />
+            <div className="micChatIconAndSend">
+              <img style={{ fontSize: "26px" }}src={sendIcon}onClick={handleSendClick}  />
+            </div>
+          </div>
+          </>
+               :
+          null
+        }
       </div>
       <ToastContainer />
      </div>
