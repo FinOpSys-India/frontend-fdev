@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import plusIcon from "../../assets/plusIcon.svg";
 import micIcon from "../../assets/micIcon.svg";
@@ -30,7 +30,6 @@ import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 // Connect to the WebSocket server
-const socket = io('http://localhost:9000');
 
 pdfjs.GlobalWorkerOptions.workerSrc ="/pdf.worker.min.js";
 
@@ -43,7 +42,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [chats, setChats] = useState();
   const [newMessage, setNewMessage] = useState("");
   const [workEmail, setWorkEmail] = useState("");
-  const [socket, setSocket] = useState(null);
+  const socket = useRef (null); 
   const [showSmallPreview, setShowSmallPreview] = useState(false);
   const [showSmallPreviewTable, setShowSmallPreviewTable] = useState(false);
   const [chatPersonName, setchatPersonName] = useState([]);
@@ -59,6 +58,7 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
 const [replyClicked, setReplyClicked] = useState(false); 
 const [showCheckbox, setShowCheckbox] = useState(false);
 const [selectedIndices, setSelectedIndices] = useState([]);
+const [userId,setUserId]= useState("")
   const [isOpen, setIsOpen] = useState(false);
   const maxLimit = 100;
 
@@ -71,7 +71,7 @@ const [selectedIndices, setSelectedIndices] = useState([]);
 
   const [file, setFile] = useState(null);
   const [fileDetails, setFileDetails] = useState(null);
-
+  
   const handleMessageChange = (inputValue) => {
     setNewMessage(inputValue);
     // Show Accept/Decline popup if "/" is entered
@@ -105,7 +105,6 @@ const [selectedIndices, setSelectedIndices] = useState([]);
     };
 
     
-  console.log("newActivity1", newActivity)
     // Call API for Accept action
     try {
       const response = await axios.post(`${apiEndPointUrl}/accept`, {
@@ -292,41 +291,58 @@ const [selectedIndices, setSelectedIndices] = useState([]);
     }
     fetchChats();
 };    
+const getUser = async (email) => {
+  try {
+    const response = await axios.get(`${apiEndPointUrl}/getUser`, {params:{email:email}} );
+    return response.data
+  } catch (error) {
+    console.log("Error fetching chats:", error);
+  }
+};
+useEffect(() => {
+  let email = document.cookie.split("; ").find((row) => row.startsWith("workEmail="))?.split("=")[1];
+  setWorkEmail(email);
+  setchatcaseId(caseId)
 
-  useEffect(() => {
-    let email = document.cookie.split("; ").find((row) => row.startsWith("workEmail="))?.split("=")[1];
-    setWorkEmail(email);
-    setchatcaseId(caseId)
+  fetchChats();
+  socket.current = io('http://localhost:9000');
 
-    fetchChats();
+  // Register user after socket connects
 
+  // Handle new messages
+  socket.current.on('newMessage', (message) => {
+      setChats((prevChats) => {
+          const isDuplicate = prevChats?.MESSAGES?.some(
+              (msg) =>
+                  msg.timestamp === message.timestamp &&
+                  msg.user === message.user &&
+                  msg.messages === message.messages
+          );
 
+          if (isDuplicate) {
+              return prevChats; // Skip adding duplicate
+          }
 
-    const newSocket = io('http://localhost:9000');  // Socket connection
-    newSocket.on('connect', () => {
-    });
+          return {
+              ...prevChats,
+              MESSAGES: [...prevChats.MESSAGES, message],
+          };
+      });
+  });
 
-    newSocket.on('newMessage', (message) => {
-        setChats((prevChats) => ({
-            ...prevChats,
-            MESSAGES: [...prevChats.MESSAGES, message],
-        }));
-    });
+  // Handle connection errors
+  socket.current.on('connect_error', (error) => {
+      console.error('Socket connection error:', error);
+  });
 
-    // Error handling for socket connection
-    newSocket.on('connect_error', (error) => {
-        console.error('Socket connection error:', error);
-    });
+  // Cleanup on unmount
+  // return () => {
+  //     if (socket.current) {
+  //         socket.current.disconnect();
+  //     }
+  // };
 
-    // Set socket in state
-    setSocket(newSocket);  // Save the socket connection in the state
-
-    // Cleanup function to disconnect the socket on component unmount
-    return () => {
-        newSocket.disconnect();
-    };
-
-  }, [caseId]);
+}, [caseId]);
 
 
 
