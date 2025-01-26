@@ -14,7 +14,7 @@ function ManuallForm({ show, onHide }) {
     firstName: "",
     lastName: "",
     workEmail: "",
-    position: "",
+    role: "",
     department: "",
     password: "",
   });
@@ -55,7 +55,7 @@ const handleChange = (e) => {
       firstName: "",
       lastName: "",
       workEmail: "",
-      position: "",
+      role: "",
       department: "",
       password: "",
     });
@@ -99,14 +99,14 @@ const handleChange = (e) => {
           </Form.Control>
         </Form.Group>
     
-        <Form.Group className="vendorDivs" controlId="position">
+        <Form.Group className="vendorDivs" controlId="role">
           <Form.Label className="addingVendor vendorName"> Position<span className="red">*</span></Form.Label>
-          <Form.Control  as="select" className="addingVendor vendorNameInput" required value={formData.position}  onChange={handleChange}>
+          <Form.Control  as="select" className="addingVendor vendorNameInput" required value={formData.role}  onChange={handleChange}>
             <option value="">Select Position</option>
-            <option value="Approver 1">Approver 1</option>
-            <option value="AP Person">AP Person</option>
-            <option value="Department Head">Department Head</option>
-            <option value="Approver 2">Approver 2</option>
+            <option value="Approver1">Approver1</option>
+            <option value="ApPerson">ApPerson</option>
+            <option value="DepartMentHead">DepartMentHead</option>
+            <option value="Approver2">Approver2</option>
           </Form.Control>
         </Form.Group>
     
