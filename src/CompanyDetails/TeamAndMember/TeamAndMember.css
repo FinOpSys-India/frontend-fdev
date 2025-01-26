@@ -7,27 +7,99 @@
     margin-top: 6px;
 }
 
-.topDiv p {
-    color: #000000;
-    font-weight: 600;
-    font-size: 16px;
+.teamP{
+font-size: 19px;
+font-weight: 600;
+
+}
+
+/* ---------------------teamDropDown------------- */
+#teamDropDown{
+    display:flex;
+    flex-direction: row;
+    gap:3%;
+}
+
+.teamSearch{
+    display:flex;
+    flex-direction: row;
 }
 
 
+
   .but-search{
+    border: none;
+    background-color: rgba(240, 240, 240, 1);
+    /* border-radius: 12px; */
+    outline: none;
+  }
+  
+.teamSearch{
     background-color: rgba(240, 240, 240, 1);
     border-radius: 12px;
     border: none;
-    height: 30px;
-    width:160px;
+    height: 33.9px;
+    width:210px;
     font-size: 12px;
-    padding-left:41px;
+    /* padding-left:41px; */
   }
+
+
+
+  .teamDropDown, .teamDropDown::after{
+    width:129px;
+    font-size: 12px;
+    font-weight: 500;
+    height: 69%;
+    /* padding-right: 12%; */
+    background: rgba(121, 57, 239, 1);
+   color:white!important;
+   border-radius: 12px;
+    border-color: rgba(121, 57, 239, 1);;
+    outline: none;
+    border-color: rgba(121, 57, 239, 1);;
+  }
+
+  .teamDropDown:hover{
+    outline: none;
+    /* border: none; */
+  background-color:  rgba(121, 57, 239, 1);
+  }
+
+  .teamDropDown, .teamDropDown.active, .teamDropDown.show, :not(.teamDropDown-check) + .teamDropDown:active {
+    color:white!important;
+    background-color:  rgba(121, 57, 239, 1)!important;
+    outline: none !important;
+    border-color: rgba(121, 57, 239, 1) !important;
+}
+
+
+.teamDropdownItem {
+    width: 127px !important;
+    min-width: unset !important;
+    margin-left: 3%;
+    margin-top: 9%;
+
+    .teamDropdownEachItem{
+        /* font-weight: 500; */
+        font-size: 12px !important;
+        padding-left: 12%;
+        padding-right: 12%;
+        
+    }
+
+    .teamDropdownEachItem:hover{
+        background-color: rgba(240, 240, 240, 1)!important;
+        border-radius: 12px;
+    }
+  }
+  
+
 
 .inviteTeamSection {
     border-radius: 12px;
     background-color: #F5F5F5;
-    margin-top: 30px;
+    margin-top: 16px;
     padding: 20px;
     margin-left: 29px;
 }
@@ -51,17 +123,35 @@
     font-size: 12px;
 }
 
-a {
-    color: #141414;
-    font-weight: 500;
-    font-size: 10px;
+.memberSend{
+   background: rgba(121, 57, 239, 1);
+   font-weight: 600;
+   font-size: 12px;
+   /* height: 16%; */
+   border-radius: 12px ;
+    color:white;
+    outline: none;
+    border: none;
 }
 
-.memberInvitation input {
-    /* width: 100%; */
-    border-radius: 16px;
-    /* margin-right: 1%; */
 
+.memberInput{
+    outline: none;
+    border-radius: none;
+    border: none;
+    padding-left: 6%;
+    width:82%;
+    margin-left: 3%;
+ }
+ 
+.memberInvitation{
+    width:100%;
+    background-color: white;
+    padding: 0.6%;
+    border-radius: 16px ;
+    display:flex;
+    flex-direction: row;
+    gap:3%;
 }
   
   .button-search {
@@ -104,24 +194,22 @@ a {
 .tableMembersInfo {
     background-color: #F5F5F5;
     margin-left: 29px;
-    margin-top: 29px;
+    /* margin-top: 29px; */
     border-radius: 12px;
-    padding-top: 20px;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-top: 9px;
+    padding-left: 14px;
+    padding-right: 14px;
     height: max-content;
-    margin-bottom: 24px;
-    padding-bottom: 12px;
+    /* margin-bottom: 24px;
+    padding-bottom: 12px; */
     font-size: 12px;
 
-    img{
-        height:24px;
-        width:21px; 
-        padding-top: 2px;
-        padding-left: -9px;
-    }
-    
 }
+
+
+
+
+
 
 .head {
     display: flex;
@@ -234,3 +322,66 @@ span{
 .phoneNumberForTeamMemberDiv input{
     margin-left: 5px;
 }
+
+
+
+
+/* ------deleteButtondeleteButton---------------- */
+
+  .modalOverlayInsideTeam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim the Team container background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Ensure it's above Team content */
+  }
+  
+  .modalContentInsideTeam {
+    background-color: rgba(240, 240, 240, 1);
+    padding: 16px;
+    padding-top:4.9%;
+    border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* text-align: center; */
+    width: 630px;
+  }
+  
+  .deleteButton {
+    background-color: rgba(22, 101, 52, 1);
+    color: white;
+    border: none;
+    padding: 6px 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .buttonDeleteAndCancel{
+    text-align: center;
+  
+  }
+  .cancelButton {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .deleteButton:hover {
+    background-color: rgba(22, 101, 52, 1);
+    ;
+  }
+  
+  
+  
+  

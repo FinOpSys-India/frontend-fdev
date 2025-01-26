@@ -13,6 +13,8 @@ import deleteChat from "../../assets/delete.svg";
 import crossClose from "../../assets/crossClose.svg";
 import replyChat from "../../assets/replyChat.svg";
 import reply from "../../assets/reply.svg";
+import square from "../../assets/square.svg";
+import star from "../../assets/star.svg";
 import "./Chat.css";
 import { Dropdown, Modal, Table } from "react-bootstrap";
 import { apiEndPointUrl } from "../../utils/apiService"
@@ -55,7 +57,8 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [selectedChat, setSelectedChat] = useState(null);
   const [replyDetails, setReplyDetails] = useState(null);
 const [replyClicked, setReplyClicked] = useState(false); 
-
+const [showCheckbox, setShowCheckbox] = useState(false);
+const [selectedIndices, setSelectedIndices] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const maxLimit = 100;
 
@@ -480,10 +483,20 @@ const handleReply = (chat) => {
   });
   setReplyClicked(true); // Set replyClicked to true when reply is triggered
 };
+
 const handleSelect = (message) => {
-   setSelectedMessage(message); // Save the selected message
+  setShowCheckbox(!showCheckbox);
 };
 
+
+const handleCheckbox = (index) => {
+  setSelectedIndices((prevSelected) =>
+    prevSelected.includes(index)
+      ? prevSelected.filter((i) => i !== index) // Remove if already selected
+      : [...prevSelected, index] // Add if not selected
+  );
+  console.log("setSelectedIndices", selectedIndices)
+};
 const handleClearSelectedMessage = () => {
    setSelectedMessage(null); // Clear the selected message
 };
@@ -636,16 +649,28 @@ const handleClearSelectedMessage = () => {
                       {/* <img className='chatNameAndPic' src='https://img.freepik.com/premium-vector/default-avatar-profile-silhouette-vector-illustration_561158-3408.jpg' /> */}
                     </div>
 
-                    <div className="messageWrapper">
+                    { chat.replyClicked   === true 
+                             ?
+                      <div className="messageWrapper">
+                         {showCheckbox && <input type="checkbox" checked={selectedIndices.includes(index)} onChange={() => handleCheckbox(index)}/>}
                       <div className="messageAndTime">
                         <span className="personName">{chat.user}</span>
                         <div className="personMessageAndTime">
+                            <div  className="replyBoxDiv">
+                            <div className="replyBox">
+                              <div  className="Box">
+                                <p> <img src={replyChat} style={{  width:"10px", marginTop:"0"}} /> <span>{chat.replyingUser}</span> <br/>  </p>
+                                <button onClick={() => setReplyDetails(null)}></button><br/>
+                              </div>
+                              <span>{chat.replyingUserMessage}...</span>
+                            </div>
+                          </div>
                           <span className="personMessage">{chat.messages}
                             {chat.fileData  ? 
                               <button  className="fileData" onClick={ ()=> downloadFile(chat.fileData, chat.fileName)} >
                                       {chat?.fileName}<br/><FileDownloadIcon style={{fontSize:"21px"}}/>
                                 </button>  
-                               : 
+                              : 
                               ""
                             }
                           </span>
@@ -663,20 +688,62 @@ const handleClearSelectedMessage = () => {
                       <div className="optionsMenu">
                         <input type="checkbox" className="messageCheckbox" />
                         <div className="optionsList">
-                          <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
-                          <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
-                          <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button>
+                            <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
+                            <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
+                            <button className="option" onClick={() => handleSelect(chat)}> <img src={square} style={{  width:"12.9px"}}/> &nbsp; Select</button> 
+                            <button className="option" onClick={() => handleReply(chat)}> <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
+                            <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
                         </div>
                       </div>
-
                     </div>
+                             :
+                      <div className="messageWrapper">
+                            {showCheckbox && <input type="checkbox" checked={selectedIndices.includes(index)} onChange={() => handleCheckbox(index)}/>}
+                        <div className="messageAndTime">
+                          <span className="personName">{chat.user}</span>
+                          <div className="personMessageAndTime">
+                            <span className="personMessage">{chat.messages}
+                              {chat.fileData  ? 
+                                <button  className="fileData" onClick={ ()=> downloadFile(chat.fileData, chat.fileName)} >
+                                        {chat?.fileName}<br/><FileDownloadIcon style={{fontSize:"21px"}}/>
+                                  </button>  
+                                : 
+                                ""
+                              }
+                            </span>
+
+                            <span className="messageTime">
+                              {new Date(chat.timestamp).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              })}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="optionsMenu">
+                          <input type="checkbox" className="messageCheckbox" />
+                          <div className="optionsList">
+                            <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
+                            <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
+                            <button className="option" onClick={() => handleSelect(chat)}> <img src={square} style={{  width:"12.9px"}}/> &nbsp; Select</button> 
+                            <button className="option" onClick={() => handleReply(chat)}> <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
+                            <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
+                        </div>
+                        </div>
+                      </div>
+                    }
                     {
                          showDeleteModal && (
                         <div className="modalOverlayInsideChat">
                           <div className="modalContentInsideChat">
+                            <h6>Delete message?</h6>
                             <p>Are you sure you want to delete this message?</p>
-                            <button onClick={confirmDelete} className="deleteButton">Delete</button>
-                            <button onClick={() => setShowDeleteModal(false)} className="cancelButton">Cancel</button>
+                            <div className="buttonDeleteAndCancel">
+                              <button onClick={confirmDelete} className="deleteButton">Delete</button>
+                              <button onClick={() => setShowDeleteModal(false)} className="cancelButton">Cancel</button>
+                            </div>  
                           </div>
                         </div>
                       )
@@ -715,10 +782,11 @@ const handleClearSelectedMessage = () => {
                       <div className="optionsMenu">
                         <input type="checkbox" className="messageCheckbox" />
                         <div className="optionsList">
-                          <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"14px"}}/> Copy</button>
-                          <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"14px"}}/> Reply</button>
-                          <button className="option" onClick={() => handleSelect(chat)}> <img src={""} style={{  width:"14px"}}/> Select</button>
-                          <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"14px"}}/> Delete</button>
+                            <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
+                            <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
+                            <button className="option" onClick={() => handleSelect(chat)}> <img src={square} style={{  width:"12.9px"}}/> &nbsp; Select</button> 
+                            <button className="option" onClick={() => handleReply(chat)}> <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
+                            <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
                         </div>
                       </div>
                     </div>
@@ -793,11 +861,14 @@ const handleClearSelectedMessage = () => {
 
          <>      
           {replyDetails && replyClicked ===true ? (
-          <div className="replyBox">
-            <p>
-              Replying to <strong>{replyDetails.user}</strong>: "{replyDetails.messageSnippet}..."
-            </p>
-            <button onClick={() => setReplyDetails(null)}>Cancel</button>
+          <div  className="replyBoxDiv">
+            <div className="replyBox">
+              <div  className="Box">
+                <p> <img src={replyChat} style={{  width:"10px", marginTop:"0"}} /> <span>{replyDetails.user}</span> <br/>  </p>
+                <button onClick={() => setReplyDetails(null)}><img src={crossClose} style={{  width:"12px"}} /> </button><br/>
+              </div>
+              <span>{replyDetails.messageSnippet}...</span>
+            </div>
           </div>
         ):""}
           <div className="AllChatIcon">

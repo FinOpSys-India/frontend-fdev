@@ -338,11 +338,10 @@ function Home(props) {
       {/* </div> */}
 
     
-      <Modal
-        show={showModal}
+      <Modal  show={showModal}
         onHide={handleClose}
         size="xl"
-        style={{ marginTop: "2%", width: "70%", marginLeft: "19%" }}
+        style={{ marginTop: "2%", height: "91vh", overflowY: "auto" }}
         scrollable
       >
         <Modal.Body>

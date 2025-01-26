@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import { Button, Modal, ProgressBar } from "react-bootstrap";
 import "./DeclineTable.css";
 import sendHover from "../../../assets/sendHover.svg";
 import send from "../../../assets/send.svg";
@@ -12,6 +11,8 @@ import { DisplaySettings } from "@mui/icons-material";
 import { useEffect } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import { Modal, Button, Form } from 'react-bootstrap';
+import deleteChat from "../../../assets/delete.svg";
 
 function DeclineTable({filters, currentPage, itemsPerPage}) {
   // invoice---
@@ -31,6 +32,12 @@ function DeclineTable({filters, currentPage, itemsPerPage}) {
   const [selectedVendorBillNumber, setSelectedVendorBillNumber] = useState('');
   const [showCrossBillNumber, setShowCrossBillNumber] = useState(false);
   const [showDropdownBillNumber, setShowDropdownBillNumber] = useState(false);
+  const [email, setEmail] = useState("prs89826@gmail.com");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState(""); 
+  const [show, setShow] = useState(false);
+  const [isVendor, setIsVendor] = useState(true);
+
   const fetchOnlyDeclineInvoices = async () => {
     try {
       const response = await axios.get(
@@ -152,7 +159,41 @@ const clearBillNumber = () => {
 const filteredBillNumberInvoices = invoices.filter(invoice =>
   invoice.billId.toLowerCase().includes(searchQueryByBillNumber.toLowerCase())
 );
+ 
+// ----------------------------------------handleSubmit-------------
+ const handleClose = () => setShow(false);
+ const handleShow = () => setShow(true);
 
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  const emailData = {
+    to: email,
+    subject: subject,
+    message: message,
+  };
+
+  console.log("emailData", emailData)
+
+  try {
+    const response = await axios.post(`${apiEndPointUrl}/send-email`, emailData);
+    console.log("Email", response)
+    if (response.data.success) {
+      console.log("Email sent successfully!", response.data)
+      setShow(false)
+      toast.success(`${response.data.message}`, { autoClose: 1500 });
+    }
+  } catch (error) {
+    console.error("Error sending email:", error);
+    alert("Failed to send email.");
+  }
+};
+
+
+const handleDelete= ()=>{
+  setEmail("prs89826@gmail.com");
+ setSubject("");
+  setMessage(""); 
+}
 
   return (
     <div>
@@ -259,18 +300,14 @@ const filteredBillNumberInvoices = invoices.filter(invoice =>
                 <td id="ActionOfdecline">
                   <span
                     className="sendActionOfdecline"
-                    id="sendActionOfdecline"
+                    id="sendActionOfdecline" onClick={handleShow}
                     onMouseEnter={() => setdeclineHoveredIndex(index)}
                     onMouseLeave={() => setdeclineHoveredIndex(null)}
                   >
                     {declineHoveredIndex === index ? (
                       <>
                         {" "}
-                        <img
-                          src={sendHover}
-                          style={{ width: "0.9em", height: "2em" }}
-                        />{" "}
-                        Send
+                        <img src={sendHover}  style={{ width: "0.9em", height: "2em" }}  />{" "}  Send
                       </>
                     ) : (
                       <img
@@ -285,8 +322,59 @@ const filteredBillNumberInvoices = invoices.filter(invoice =>
           </tbody>
         </Table>
       </div>
-    </div>
+
+      <Modal show={show} onHide={handleClose} centered>
+          <Modal.Body>
+            <h6>Email</h6>
+            <div className="toggleEmail">
+              <p>Send an mail to vendor</p>
+              <div className="toggle-switch">
+                <label className="d-inline-flex align-items-center">
+                  <span>Company</span>
+                  <div  className={`ms-2 toggle ${  isVendor ? "vendor" : "company" }`} onClick={() => setIsVendor(!isVendor)} >
+                    <div className="circle"></div>
+                  </div>
+                  <span className="ms-2">Vendor</span>
+                </label>
+              </div>
+            </div>
+
+            <Form onSubmit={handleSubmit} >
+              <Form.Group  className="emailTo" controlId="emailTo">
+                <span className="to">To</span>
+                <Form.Control  className="emailEmail" type="email"  placeholder="Joy@finopsys.ai"
+                  value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <div  className="ccAndBcc"> <span className="cc" >cc</span>  <span className="bcc" >bcc</span></div>
+                 
+              </Form.Group>
+
+              <Form.Group controlId="subject" className="mt-3">
+                <Form.Control type="text" placeholder="Subject"   value={subject} onChange={(e) => setSubject(e.target.value)} />
+              </Form.Group>
+
+              <Form.Group controlId="message" className="mt-3">
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  placeholder="Message" value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </Form.Group>
+
+              <div className="d-flex align-items-center mt-4" style={{gap:"3%" }}>
+                  <button variant="primary" type="submit">
+                     <img src={sendHover}/> {"   "}
+                   Send
+                  </button>
+                  <div className="deleteChatButton"><img src={deleteChat}  onClick={handleDelete}/> </div>
+              </div>
+            </Form>
+          </Modal.Body>
+        </Modal>
+         <ToastContainer />
+      </div>
   );
 }
 
 export default DeclineTable;
+
