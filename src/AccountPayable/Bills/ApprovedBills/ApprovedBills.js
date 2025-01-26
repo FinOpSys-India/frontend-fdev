@@ -11,7 +11,7 @@ import upButton from '../../../assets/upButton.svg'
 import SearchIcon from '@mui/icons-material/Search';
 import FilterDrawer from '../../AQ/FilterSection/FilterDrawer'
 import { apiEndPointUrl } from "../../../utils/apiService";
-import { Table } from 'react-bootstrap';
+import { Pagination, Table } from 'react-bootstrap';
 import "react-toastify/dist/ReactToastify.css";  
 import axios from "axios";
 import { useEffect } from 'react';
@@ -19,9 +19,13 @@ import { ToastContainer, toast } from "react-toastify";
 import  "./ApprovedBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+import chat from '../../../assets/chat.svg';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
+import Chat from '../../Chat/Chat';
+import { Button, Modal, ProgressBar } from "react-bootstrap";
+import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
+import { roles } from '../../../utils/constant';
+import ActvityLog from '../../AQ/ActvityLog/ActvityLog';
 
 
 function ApprovedBills() {
@@ -37,15 +41,22 @@ function ApprovedBills() {
     const [currentPage, setCurrentPage] = useState(1);
     const [activePage, setActivePage] = useState(1);
     const [invoices, setInvoices] = useState([]);
-    const [selectedInvoice, setSelectedInvoice] = useState(null);
+    const [selectedInvoice, setSelectedInvoice] = useState('');
+    const [vendorId,setVendorId] = useState('');
     const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
     const [selectedItem, setSelectedItem] = useState('Approved Bills');
     const [activeButton, setActiveButton] = useState(null);
     const navigate = useNavigate();
-    const [acitivityLogButton, setacitivityLogButton] = useState(false);
+    const [showacitivityLog, setShowAcitivityLog] = useState(false);
+    const [showSideSection, setShowSideSection] = useState(false);
+    const [showChatSection, setShowChatSection] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+     const [caseId,setCaseId] = useState("");
+     const [ActvityLogInvoice,setActvityLogInvoice] = useState("");
+     const [ActvityLogCaseId,setActvityLogCaseId] = useState("");
+      const [pageNumber, setPageNumber] = useState(1);
     const role = sessionStorage.getItem('role');
 
      let index="";
@@ -79,32 +90,67 @@ function ApprovedBills() {
     useEffect(() => {
       fetchInvoices();
     }, []);
-    
+
+    const closeChat = () => {
+      setShowChatSection(false);
+      setShowSideSection(false); // Close the chat
+      setCaseId(null); // Clear the active caseId
+    };  
   
 
 
     // --------------------------------preview-----------------------------------
     const handleShowPreview = (invoice, index) =>{ 
       setShowPreview(true);
+      setSelectedInvoice(invoice.caseId);
+      setVendorId(invoice.vendorId); 
+      setcurrentInvoiceIndex(index);
+    }
+    const expandInChat = (invoice)=>{
+      setShowPreview(true);
       setSelectedInvoice(invoice); 
-      setcurrentInvoiceIndex(index)
     }
 
+    const handleBackPreview = () =>{ 
+      if(currentInvoiceIndex>=0){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex-1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex-1)
+      }
+    }
 
+    const handleRightPreview = () =>{ 
+      if(currentInvoiceIndex< invoices.length){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex+1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex+1)
+      }
+    }
     
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    const handleClose = () => setShowPreview(false);
 
  // --------------------acitivityLogSection--------------------------------
+ const openModal = () => setIsModalOpen(true);
+
  
-   function acitivityLogSection(){
-    setacitivityLogButton(true)
-   }
+   function acitivityLogSection(newIvoice){
+    console.log("cha",newIvoice )
+    console.log("cha",newIvoice.caseId )
+    setActvityLogCaseId(newIvoice.caseId)
+    // if (caseId !== newIvoice.caseId) {
+     setActvityLogInvoice(newIvoice);
+      setShowSideSection(true);
+      setShowAcitivityLog(true)
+    // }
+  }
 
 
-   function acitivityLogClose(){
-    setacitivityLogButton(false)
-   }
+  function acitivityLogClose(){
+    console.log("Closing activity log...");
+    setShowSideSection(false);
+    setShowAcitivityLog(false);
+    setActvityLogInvoice(null);
+}
 
    function openDetailButton(){
     setOpenDetail(true);
@@ -117,7 +163,13 @@ function ApprovedBills() {
 
 
 
-
+   function chatLogSection(newCaseId){
+    if (caseId !== newCaseId) {
+      setActiveButton(newCaseId); // Update the active chat caseId
+      setShowSideSection(true);
+      setShowChatSection(true); // Open the chat section
+    }
+   }
 
    
 
@@ -167,23 +219,25 @@ function ApprovedBills() {
 
 
 
-
-  // -----------------------------Calculate pagination-------------------
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-
-  const [pageNumber, setPageNumber] = useState(1);
-  const itemsPerPage1 = 10; 
-  const totalItems = 99;
-
   const handlePageChange = (event, value) => {
-    setPageNumber(value);
     setCurrentPage(value);
+    setPageNumber(value);
   };
 
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+//------------ Calculate pagination----------------
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = invoices.slice(indexOfFirstItem, indexOfLastItem);
+  console.log(currentItems)
+
+  // Calculate total pages
+ const totalPages = Math.ceil(invoices.length/itemsPerPage);
+
+
+
+
+
 
 
   
@@ -200,9 +254,10 @@ function ApprovedBills() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className='billDropdownItem'>
-                      <Dropdown.Item className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
+                       <Dropdown.Item className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>  
                       <Dropdown.Item className='billDropdownEachItem'  eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
-                      <Dropdown.Item className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>    
+                      {(role != roles.approver1 && role !==roles.approver2)?<Dropdown.Item className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>:null}
+                       
                     </Dropdown.Menu>
                   </Dropdown>
 
@@ -224,9 +279,9 @@ function ApprovedBills() {
               </div>
 
               {
-                 acitivityLogButton!== true
+                 showSideSection!== true
                            ?
-                  <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+                  <div className="mt-3 d-flex flex-column align-items-center outerTableDiv approvedBillTable">
                     <Table className="custom-width">
                       <thead>
                         <tr>
@@ -234,7 +289,6 @@ function ApprovedBills() {
                           <th>Vendor Name</th> 
                           <th>Bill Date</th>
                           <th>Approved Date</th>
-                          <th>Department</th>
                           <th>Amount</th>
                           <th>Actions</th>
                         </tr>
@@ -249,14 +303,15 @@ function ApprovedBills() {
                                     src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
                                     alt="Vendor Avatar"
                                   />
-                                  &nbsp;&nbsp;&nbsp;{invoice.vendorName}
+                                  &nbsp;&nbsp;&nbsp;{invoice.billId}
                                 </td>
-                                <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
+                                <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                 <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
-                                <td onClick={() => handleShowPreview(invoice, index)}> person abc  </td>
                                 <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                <td id="" onClick={acitivityLogSection}> <img src={activityLog}/></td>
+                                 <td id="" > {role !== roles.approver1 ?<img  onClick={() => acitivityLogSection(invoice)} src={activityLog}/>:null} &nbsp;
+                                <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
+                                </td>
                               </tr>
                             ))
                           }
@@ -265,14 +320,13 @@ function ApprovedBills() {
                   </div>
                        :
                   <div className="approvedTableWithAcitivityLog" >
-                     <div className="mt-4 d-flex flex-column align-items-center" id='acityLogTable'>
+                     <div className="mt-3 d-flex flex-column align-items-center" id='acityLogTable'>
                         <Table className="custom-width" style={{marginTop:"-1%"}}>
                           <thead >
                             <tr>
                             <th> <input type="checkbox"  />   &nbsp;&nbsp;&nbsp;Bill Number   </th>
                               <th>Vendor Name</th> 
                               <th>Bill Date</th>
-                              <th>Approved Date</th>
                               <th>Department</th>
                               <th>Amount</th>
                               <th>Actions</th>
@@ -288,14 +342,15 @@ function ApprovedBills() {
                                         src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3408.jpg"
                                         alt="Vendor Avatar"
                                       />
-                                      &nbsp;&nbsp;&nbsp;{invoice.vendorName}
+                                      &nbsp;&nbsp;&nbsp;{invoice.billId}
                                     </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
+                                    <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}> 11/09/2024 </td>
-                                    <td onClick={() => handleShowPreview(invoice, index)}> person abc  </td>
+                                    <td onClick={() => handleShowPreview(invoice, index)}> {invoice?.approvedBillDate} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                                    <td id="" onClick={acitivityLogSection}> <img src={activityLog}/></td>
+                                    <td id="" > {role !== roles.approver1 ?<img onClick={() => acitivityLogSection(invoice)} src={activityLog}/>:null} &nbsp;
+                                    <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
+                                    </td>
                                   </tr>
                                 ))
                               }
@@ -303,117 +358,60 @@ function ApprovedBills() {
                         </Table>
                       </div>
 
-                      <div className='acitityLog'>
-                          <div className='acitivityNavbar'>
-                              <span id="activitylog">Activity Log</span>
-                              <div className='activitylogBAutton'>
-                                <img src={leftButton}/>&nbsp;
-                                <img src={rightButton}/>&nbsp;| &nbsp;
-                                <img src={crossButton} onClick={acitivityLogClose}/>
-                              </div>
-                          </div>
-
-                          <div className='activitylogContent'>
-                              <div className='activitylogSectionDiv'>
-                                  <div className='activitylogPoint'><img src={acitivityPointButton}/> </div>
-                                  <div className='activitylogInformation'> 
-                                      <div  className='activityNameAndDrop'>
-                                         <span>James submitted a invoice</span>
-                                         {
-                                            openDetail=== false ?   <img src={dropButton} onClick={openDetailButton}/>
-                                                  :
-                                            <img src={upButton} onClick={closeDetailButton}/>    
-                                         }
-                                      </div>
-
-                                      <div className='acitivityDetails'> 
-                                         {
-                                            openDetail=== true
-                                                ?
-                                            <div className='acitivityDetailedInfoDiv' style={{marginTop:"3%", paddingBottom:"3%"}}>
-                                                <div className='acitivityDetailedInfo'>
-                                                  <span className='acitivityDetailLabel'>Submitted via</span>
-                                                  <span className='acitivityDetailInput'>James</span>
-                                                </div>
-
-                                                <div className='acitivityDetailedInfo'>
-                                                  <span className='acitivityDetailLabel'>Invoice number</span>
-                                                  <span className='acitivityDetailInput'>May-26-2024</span>
-                                                </div>
-
-                                                <div className='acitivityDetailedInfo'>
-                                                  <span className='acitivityDetailLabel'>Vendor</span>
-                                                  <span className='acitivityDetailInput'>Dec-26-2024</span>
-                                                </div>
-
-                                                <div className='acitivityDetailedInfo'>
-                                                  <span className='acitivityDetailLabel'>Due date</span>
-                                                  <span className='acitivityDetailInput'>Dec-26-2024</span>
-                                                </div>
-
-                                                <div className='acitivityDetailedInfo'>
-                                                  <span className='acitivityDetailLabel'>Amount</span>
-                                                  <span className='acitivityDetailInput' >$2548.00</span>
-                                                </div>
-                                            </div>
-                                                :
-                                            <span>Other details</span>
-                                          }
-                                          
-                                         <div className='acitivityDateAndTime'>
-                                            <span id='acitivityDateAndTime'>12 May 24 | 08:00 AM</span>
-                                            <span className='acitivityinvoiceState' >Invoice Submission</span>
-                                         </div>
-                                      </div>
-                                  </div>
-                              </div>
-
-                              <div className='activitylogSectionDiv' style={{marginTop:"-3%"}}>
-                                  <div className='activitylogPoint'><img src={acitivityPointButton}/> </div>
-                                  <div className='activitylogInformation'> 
-                                      <div  className='activityNameAndDrop'>
-                                         <span>James submitted a invoice</span>
-                                          <img src={dropButton} />
-                                      </div>
-
-                                      <div className='acitivityDetails'> 
-                                         <span>Other details</span>
-                                         <div className='acitivityDateAndTime'>
-                                            <span id='acitivityDateAndTime'>12 May 24 | 08:00 AM</span>
-                                            <span className='acitivityinvoiceState' >Invoice Submission</span>
-                                         </div>
-                                      </div>
-                                  </div>
-                              </div>
-
-                              <div className='activitylogSectionDiv'    style={{marginTop:"-3%"}}>
-                                  <div className='activitylogPoint'><img src={acitivityPointButton}/> </div>
-                                  <div className='activitylogInformation'> 
-                                      <div  className='activityNameAndDrop'>
-                                         <span>James submitted a invoice</span>
-                                          <img src={dropButton}/>
-                                      </div>
-
-                                      <div className='acitivityDetails'> 
-                                         <span>Other details</span>
-                                         <div className='acitivityDateAndTime'>
-                                            <span id='acitivityDateAndTime'>12 May 24 | 08:00 AM</span>
-                                            <span className='acitivityinvoiceState' >Invoice Submission</span>
-                                         </div>
-                                      </div>
-                                  </div>
-                              </div>
-
-                              <div className='activityLogExport' onClick={openModal}>
-                                 Export  
-                              </div>
-                              
-                          </div>
-                      </div>
-
+                      {showacitivityLog 
+                              ? 
+                          <ActvityLog  ActvityLogInvoice={ActvityLogInvoice}   ActvityLogCaseId={ActvityLogCaseId} acitivityLogClose={acitivityLogClose}/>
+                          :
+                          null
+                      }
+                      {showChatSection?
+                        <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat={role===roles.approver1 ? "true":"false"} expandInChat = {expandInChat}/>
+                      :null}
                   </div>  
               }  
         </div>
+
+        
+
+        {/* -----------preview section---------- */}
+        <Modal show={showPreview} onHide={handleClose} centered size="xl" style={{borderRadius:"24px"}}>
+            {/* <Modal.Header closeButton>
+            </Modal.Header> */}
+            <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
+            }}>
+              
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={false} vendorId={vendorId}/>
+            </Modal.Body>
+           
+            <Button
+              className="arrow-btn left-arrow"
+              variant="outline-primary"
+              onClick={handleBackPreview}
+              disabled={currentInvoiceIndex <=0}
+            >
+               <span className="large-arrow">&#8249;</span> {/* Left arrow icon */}
+            </Button>
+
+            {/* Right arrow button */}
+            <Button
+              className="arrow-btn right-arrow"
+              variant="outline-primary"
+              onClick={handleRightPreview}
+              disabled={currentInvoiceIndex >= invoices.length-1}
+            >
+              &#8250; {/* Right arrow icon */}
+            </Button>
+      </Modal>
+    
+      {/* <div className="pagination-div">
+          <div className='pagination-insideDiv'>
+              <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+              />
+          </div>
+      </div> */}
     </div>
   )
 }

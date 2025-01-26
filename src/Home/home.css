@@ -10,7 +10,7 @@
   padding: 3%;
   background-color: white;
   border-radius: 5%;
-}
+}connectButton
 
 .dropdown-toggle {
   font-size: 6px;
@@ -132,5 +132,49 @@
   background-color: #7939ef !important;
   color: white;
   border-radius: 14px;
+  width: 90%;
   white-space: wrap;
+  text-align: start;
+  /* height: 90% !important; */
+  padding:3%;
+}
+
+
+.accountPayableButtonsCollapsed :hover {
+   background-color: #7939ef;
+   border-radius: 14px;
+}
+
+
+
+.AQHover:hover{
+  background-color: white;
+  border-radius: 14px;
+  padding:3%;
+  width: 90%;
+  text-align: start;
+}
+
+
+
+/* =----------------------lower--------------- */
+
+.HomeAP{
+   display: flex;
+   flex-direction: column ;
+   gap: 0;
+    border-radius: 21px;
+} 
+
+
+.HomeUser{
+font-size: 12px;
+font-weight: 500;
+color: rgba(140, 140, 140, 1);
+}
+
+.picAndNameCompany{
+  display: flex;
+  /* flex-direction: column ; */
+  gap: 1%;
 }

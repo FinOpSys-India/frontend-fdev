@@ -129,7 +129,8 @@ margin-top: -6px;
 
 .AQNavbarSideButtons{
  display: flex;
- gap:9%;
+margin-right: 1.1%;
+ gap:2%;
 }
 
 .AQNavbarSideButtons img {
@@ -147,21 +148,21 @@ margin-top: -6px;
    border: 1px solid rgba(121, 57, 239, 1);
    color: rgba(121, 57, 239, 1);
    background-color: white;
-   white-space: nowrap;
+   /* white-space: nowrap; */
 }
 
 .AQNavbarUploadButton{
   display: flex;
   padding: 8px 26px 8px 16px;
   white-space: nowrap;
-  gap:12%;
+  gap:10%;
   width:fit-content;
   font-size: 12px;
   border-radius: 12px;
    border: 1px solid rgba(121, 57, 239, 1);
    color:white;
    background-color: rgba(121, 57, 239, 1);
-   margin-right:20px;
+   /* margin-right:20px; */
 }
 
 .outerTableDiv{
@@ -169,11 +170,11 @@ margin-top: -6px;
     padding: 16px 0px 0px 0px;
     gap: 12px;
     border-radius: 20px ;
-    /* height: 69%; */
+    height: 66%;
 }
 
 .custom-width{
-   width:96%;
+   width:98%;
    border-collapse: separate;
    border-spacing: 0 10px;
  
@@ -251,19 +252,46 @@ margin-top: -6px;
   bottom: 0; 
   width: 85.3%;
   margin-right: 10%;
-  margin-bottom: 0.5%;
+  margin-bottom: 1.6% !important;
   display: flex;
   justify-content: center;
   border-radius:15px;
-  /* background-color: rgba(240, 240, 240, 1); */
+  background-color: rgba(240, 240, 240, 1);
   padding: 0.3%;
 
 }
 .pagination-insideDiv{
-  margin-right: 10%;
-  /* background-color: rgba(240, 240, 240, 1);  */
+  margin-right: 7.9% !important;
 }
 
+
+
+.MuiPaginationItem-page {
+  color: black!important;
+}
+
+.MuiPaginationItem-page:hover {
+  background-color: rgba(121, 57, 239, 1) !important; /* Purple background on hover */
+  color: white !important; 
+  border-radius:10px!important; 
+}
+
+.MuiPaginationItem-icon {
+    background-color: white;
+    border: solid 1px grey;
+    color: black;
+    height: 100%!important;
+    width:100%!important; 
+    border-radius: 12px;
+    margin: 2.1px 2.1px!important; 
+}
+
+
+.Mui-selected {
+  background-color: rgba(121, 57, 239, 1)!important; 
+  color: white!important; 
+  border-radius:10px!important; 
+}
 
 
 #actionOfAQ{
@@ -518,6 +546,7 @@ margin-top: -6px;
 }
 .vendorNameSearchDiv{
   padding: 3%;
+  margin-top: -9%;
   background-color:  rgba(240, 240, 240, 1);
   box-shadow: 1px rgba(0, 0, 0, 0.4);
   box-shadow:  6px 6px -6px rgba(0, 0, 0, 0.16);
@@ -536,7 +565,7 @@ margin-top: -6px;
 .vendorNameTooltip::after {
   content: "";
   position: absolute;
-  bottom: 100%; /* Position the nip at the bottom of the tooltip */
+  margin-top: 90%;
   left: 10%;
   margin-left: -4px;
   border-width: 7px;

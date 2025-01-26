@@ -1,0 +1,258 @@
+.insightSection{
+    background: rgba(240, 240, 240, 1);;
+    height: 87%;
+    border-radius: 20px;
+    background: rgba(240, 240, 240, 1);
+
+}
+
+
+
+/* .-----------------------------------------right------------------------- */
+.insightPreviousChatSection{
+  width:20%
+}
+
+
+#leftDoubleArrow{
+    background-color: rgba(121, 57, 239, 1);
+    border-radius: 9px;
+    border: 0;
+    width:12%;
+    cursor: pointer;
+    float: right;
+    margin: 6%;
+}
+
+
+
+/* -----------------------------onclickPreviousChatSection--------------------- */
+.onclickPreviousChat{
+    display: flex;
+    flex-direction: column;
+    width:21%;
+    margin-top: 1.6%;
+    border-radius: 16px;
+      margin-bottom: 1.6%;
+   margin-left: -3%;
+    background-color: white;
+}
+
+
+.onclickPreviousChatSection{
+    width:90%;
+    margin-top: 2.6%;
+    /* padding-top:12%; */
+   /* padding-right: 6%; */
+   margin-left: 2.6%;
+   /* background-color: white; */
+   /* height: 100%; */
+}
+
+#onclickleftDoubleArrow{
+    background-color: rgba(121, 57, 239, 1);
+    border-radius: 12px;
+    border: 0;
+    width:100%;
+    padding: 2%;
+    margin: 3%;
+    color: white;
+    cursor: pointer;
+    /* font-family: Inter; */
+    font-size: 14px;
+    font-weight: 500;
+
+}
+
+/* -----------------------inside-------------------------------- */
+
+
+.PreviousChatQuestion{
+    display: flex;
+    /* flex-direction: column; */
+    gap:3%;
+    width:91.1%;
+    margin-left: 5.3%;
+    border-radius: 12px;
+    color: rgba(140, 140, 140, 1);
+    padding-top: 2px;
+    padding-left: 9px;
+   padding-right: 2px;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;       
+}
+
+
+.PreviousChatQuestion:hover{
+    background-color: rgba(245, 245, 245, 1);
+   color: black;
+   
+}
+
+.editable-input{
+    width:100%
+}
+
+
+
+
+/* ------------------side 3 option------------------ */
+
+.popoverContainer {
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    z-index: 1111111;
+    left: 12%;
+    width:61%;
+    top:-9%;
+    background-color: rgba(240, 240, 240, 1);
+    border-radius: 5px;
+   padding-top: 1%;
+   height: 100%;
+   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .more-icon {
+    cursor: pointer;
+  }
+  
+  .popover-option {
+    font-family: Inter;
+    font-size: 12.6px;
+    font-weight: 500; 
+    width:90%;
+    margin-left: 6%;
+    padding-left: 12%;
+    /* padding-bottom: -19%; */
+    height:100%;
+    /* padding-top: 7.9%; */
+    background: rgba(240, 240, 240, 1);
+    color: black;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    /* border-radius: 21%; */
+    /* border-bottom: 1px solid #f0f0f0; */
+    /* transition: background 0.2s ease; */
+    text-align: center;
+    align-items: center;
+  }
+  
+  .popover-option:last-child {
+    /* border-bottom: none; */
+  }
+  
+  .popover-option:hover {
+    background: white;
+    border-radius: 6%;
+  }
+  
+
+  #popover-option1{
+    height: 62%;
+    padding: 3%;
+  }
+
+  
+  #popover-option2{
+    height: 62%;
+    padding: 3%;
+    margin-top: -16%;
+    height: 27%;
+    padding-bottom: 30% !important;
+  }
+
+  
+  #popover-option3{
+    height: 62%;
+    padding: 3%;
+    margin-top: -16%;
+    height: 27%;
+    padding-top: 12%;
+    padding-bottom: 19% !important;
+  }
+
+
+
+
+
+  /* --------------------------------------------------------------sharePopUp */
+
+
+  .sharePopUp{
+    background-color: rgba(240, 240, 240, 1);
+    margin: 0%;
+
+  }
+
+
+  .shareLinkDiv{
+    background-color: white;
+    border-radius: 12px;
+    padding: 1%;
+
+    input{
+      outline: none; 
+      padding-left: 3%;
+      border: 0;
+      font-size: 14px;
+      font-weight: 400;
+      color:  rgba(140, 140, 140, 1);
+      width:60%
+    }
+
+    input:focus {
+      outline: none; 
+      border: 0; 
+    }
+
+    button{
+      border: 0;
+      background-color:  rgba(121, 57, 239, 1);
+      border-radius: 9px;
+      color: white;
+      font-size: 12px;
+      font-weight: 400;
+      float: right;
+  }
+
+  }
+
+
+  .sharePopUpP{
+    font-size: 12px;
+    font-weight: 400;
+   }
+
+
+   .deleteDiv{
+
+    display: flex;
+   gap:3%;
+  justify-content: center;
+    button{
+      border: 0;
+      background-color:  rgba(121, 57, 239, 1);
+      border-radius: 9px;
+      color: white;
+      font-size: 14px;
+      padding: 1.9%;
+      width:36%;
+      font-weight: 400
+    }
+   }
+
+
+   #deleteDivDelete{
+      background-color: rgba(22, 101, 52, 1);
+   }
+   
+   
+   
+   #deleteDivCancel{
+          background-color: white;
+          color : black;
+   }

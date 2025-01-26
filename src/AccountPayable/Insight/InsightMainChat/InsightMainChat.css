@@ -1,0 +1,318 @@
+.insightRightSide{
+    width: 100%;
+    margin-left: 2%;
+    margin-right: 2%;
+    
+}
+
+.insightSection{
+    background: rgba(240, 240, 240, 1);;
+    height: 87%;
+    border-radius: 20px;
+    background: rgba(240, 240, 240, 1);
+
+}
+
+
+.insightSection{
+     display: flex;
+}
+
+
+
+
+#insight_Insta{
+   margin-top: 12%;
+   margin-left: 6%;
+}
+
+
+.insightSection{
+    display: flex;
+}
+
+/* /-------------------------------AISuggestion------------------------ */
+
+.AISuggestionDiv{
+    margin-top: 3.9%;
+    position: fixed; 
+    bottom: 16%;
+    left: 41%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+    width:45%;
+    /* padding: 0.36%; */
+}
+
+.AISuggestion{
+ border: 1px rgba(140, 140, 140, 1);
+ color:  rgba(140, 140, 140, 1);
+  padding: 3px 6px; 
+ border-radius: 12px;
+ width: 12px; 
+ box-sizing: border-box; 
+ border: 2px solid rgba(140, 140, 140, 1);
+font-size: 12px;
+font-weight: 500;
+margin-right: 0.3%;
+cursor: pointer;
+}
+
+
+
+.AISuggestionSelected{
+    border: 1px  rgba(121, 57, 239, 1);
+    color:   rgba(121, 57, 239, 1);
+     padding: 3px 6px; 
+    border-radius: 12px;
+    width: 12px; 
+    box-sizing: border-box; 
+    border: 2px solid  rgba(121, 57, 239, 1);
+   font-size: 12px;
+   font-weight: 500;
+   margin-right: 0.3%;
+cursor: pointer;
+   }
+   
+
+
+/* ------------------------------input buttn----------------------- */
+
+.insighInputDiv{
+
+    background-color: white;
+    width:66%;
+    margin-top: 6.6%;
+    margin-left: 21%;
+    border-radius: 12px;
+
+    position: fixed; /* Makes the element stick */
+    bottom: 12%; 
+    /* bottom: 0; */
+    left: 30%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+    width:49%;
+    position: fixed; /* Makes the element stick */
+    bottom: 12%; 
+    /* bottom: 0; */
+    left: 27.9%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+    width:45%;
+    padding: 0.36%;
+     
+    input{
+        border: 0;
+        width:79%;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(140, 140, 140, 1);
+    }
+
+    
+    input:focus {
+        outline: none; /* Ensures no border on focus */
+        border: 0; /* Keeps border disabled on focus */
+    }
+    button{
+        border: 0;
+        background-color:  rgba(121, 57, 239, 1);
+        border-radius: 9px;
+        color: white;
+        float: right;
+    }
+
+    button:hover{
+        border: 0;
+        background-color:  rgba(121, 57, 239, 1);
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 400;
+        /* input{
+            border: 0;
+            width:70%;
+        } */
+        
+    }
+}
+
+
+
+
+/* ------------------------------input buttn click----------------------- */
+
+.insighInputDivclick{
+    background-color: white;
+    margin-top: 1.6%;
+    margin-left: 21%;
+    border-radius: 12px;
+    border-radius: 12px;
+    width:49%;
+    position: fixed; /* Makes the element stick */
+    bottom: 7.9%;
+    left: 28.3%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+    width:45%;
+    padding: 0.36%;
+
+    input{
+        border: 0;
+        width:79%;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(140, 140, 140, 1);
+    }
+
+    
+    input:focus {
+        outline: none; /* Ensures no border on focus */
+        border: 0; /* Keeps border disabled on focus */
+    }
+    button{
+        border: 0;
+        background-color:  rgba(121, 57, 239, 1);
+        border-radius: 9px;
+        color: white;
+        font-size: 14px;
+        font-weight: 400;
+        float: right;
+    }
+}
+
+
+
+/* -----------------------insightMainDiv---------------------------------- */
+.insightMainDiv {
+    height: 71%;
+    /* width: 89%; */
+    width: 69%;
+    overflow-y: scroll; 
+    overflow-x: hidden;
+    margin: 6%;
+    margin-left: 19%;
+}
+
+
+.insightMainQuestionDiv{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    
+}
+
+.insightMainQDiv{
+    display: flex;
+    width:96%;
+    background-color:   rgba(121, 57, 239, 1);;
+     /* padding: 0%; */
+    margin: 1.3%;    
+    border-radius: 12px;
+    color: white;
+   /* height: 3%; */
+    /* text-align: center;
+    align-items: center; */
+
+}
+
+
+
+    #QP{
+        padding-left: 3%;
+        padding-top: 0.6%;
+       margin-bottom: 0.9%;
+        font-size: 16px;
+        font-weight: 400;
+        text-align: start;
+        width:79%;
+    }
+
+        
+    #Q{
+        background-color: white;
+        color: black;
+        border-radius: 3px;
+        /* width:2.39%; */
+        padding-right: 0.6%;
+        padding-left: 0.6%;
+        font-size: 16px;
+        font-weight: 700;
+        margin-left: 1%;
+        margin-top: 0.69%;
+        height: max-content;
+        text-align: center;
+    }
+
+
+.insightQIconDiv{
+ display: flex;
+ justify-content: space-between;
+  width:5.3%;
+  float: right;
+   padding-right: 3%;
+   margin-top: 0.9%;
+   position: fixed ;
+   margin-left: 41%;
+
+
+   #insightQInput {
+    cursor: pointer;
+   }
+}
+
+
+
+.insightMainADiv{
+    display: flex;
+    width:96%;
+}
+
+#A{
+    background-color : rgba(121, 57, 239, 1);
+    color : white;
+    padding-top: 0.3%;
+    padding-bottom: 0.3%;
+    padding-left: 0.9%;
+    text-align: center;
+    /* padding-right: 0.6%; */
+    padding-right: 0.9%;
+    height: min-content;
+    font-size: 16px; 
+    /* width:%; */
+    font-weight: 600;
+    border-radius: 6px;
+    margin-left: 2.6%;
+}
+
+#AP{
+    font-size: 14px; 
+    font-weight: 600;
+    padding-left: 1%;
+    color: rgba(140, 140, 140, 1);
+
+}
+
+
+.insightAIconDiv{
+    display: flex;
+    margin-left :   7.9%;
+    gap:1.6%;
+    padding-bottom: 1.9%;
+    padding-top: 1.9%;
+}
+
+
+.insightAIcon{
+    /* background-color: rgba(240, 240, 240, 1); */
+    padding: 0.3%;
+    height: 3%;
+    font-size: 21px;
+    border-radius: 16%;
+}
+
+.insightAIcon:hover{
+    background-color: rgba(240, 240, 240, 1);
+    cursor: pointer;
+}

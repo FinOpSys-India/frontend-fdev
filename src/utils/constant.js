@@ -5,3 +5,11 @@ export const roles={
     apPerson:'ApPerson',
     deptHead:'DepartMentHead',
 }
+
+export const invoiceStatus = {
+    acceptedByAp :"AcceptedByAP",
+    declineByApprover1:"DeclineByApprover1",
+    declineByApprove2:"DeclineByApprover2",
+    approvedByApprover1:"AcceptedByApprover1",
+    approvedByApprover2:"AcceptedByApprover2",
+}

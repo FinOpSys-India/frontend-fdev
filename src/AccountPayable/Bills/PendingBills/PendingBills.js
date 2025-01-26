@@ -14,16 +14,10 @@ import  "./PendingBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import rightButton from '../../../assets/rightButton.svg'
-import plusIcon from '../../../assets/plusIcon.svg';
-import acitivityPointButton from '../../../assets/acitivityPointButton.svg'
-import micIcon from '../../../assets/micIcon.svg'
-import sendIcon from '../../../assets/sendIcon.svg'
-import messageIcon from '../../../assets/messageIcon.svg'
-import callIcon from '../../../assets/callIcon.svg'
-import crossButton from '../../../assets/crossButton.svg'
+import { Button, Modal, ProgressBar } from "react-bootstrap";
 import { roles } from '../../../utils/constant';
 import Chat from '../../Chat/Chat';
+import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
 
 
 
@@ -40,7 +34,8 @@ function PendingBills() {
     const [currentPage, setCurrentPage] = useState(1);
     const [activePage, setActivePage] = useState(1);
     const [invoices, setInvoices] = useState([]);
-    const [selectedInvoice, setSelectedInvoice] = useState(null);
+    const [selectedInvoice, setSelectedInvoice] = useState('');
+    const [vendorId,setVendorId] = useState('');
     const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
     const [selectedItem, setSelectedItem] = useState('Pending Bills');
@@ -53,72 +48,11 @@ function PendingBills() {
     const [showAcceptDecline, setShowAcceptDecline] = useState(false);
     const [caseId,setCaseId] = useState("");
     const role=sessionStorage.getItem('role');
-
-
-const handleMessageChange = (inputValue) => {
-  setMessage(inputValue);
-  // Show Accept/Decline popup if "/" is entered
-  if (inputValue.includes("/") && (role == roles.approver1 || role==roles.approver2 )) {
-    setShowAcceptDecline(true);
-  } else {
-    setShowAcceptDecline(false);
-  }
+    
+const closeChat = () => {
+  setacitivityLogButton(false); // Close the chat
+  setCaseId(null); // Clear the active caseId
 };
-
-
-const handleAcceptClick = async () => {
-  // Call API for Accept action
-  try {
-    const response = await axios.post(`${apiEndPointUrl}/accept`, {
-      invoiceId: caseId, // Replace with the actual invoice ID field
-      role:role
-    });
-
-    if(response.data.status===500 || response.data.status===400 ){
-      toast.error('Error in accepting invoice !');
-    }
-    else{
-      toast.success(`${response.data.message}`, { autoClose: 1500 });
-      fetchInvoices();
-    }
-  } catch (error) {
-    console.log('Error in accepting invoice:', error.response.data.message);
-    toast.error(`${error.response.data.message}`)
-  }
-
-  setShowAcceptDecline(false); // Hide popup after Accept
-};
-
-
-
-const handleDeclineClick = async () => {
-  try {
-    const response = await axios.post(`${apiEndPointUrl}/decline`, {
-      invoiceId: caseId, // Replace with the actual invoice ID field
-      role:role
-    });
-    if(response.data.status===500 || response.data.status===400 ){
-      toast.error('Status is already approved/ declined !');
-    }
-    else{
-      toast.success(`${response.data.message}`,{ autoClose: 500 });
-      fetchInvoices();
-    }
-  } catch (error) {
-    console.log('Error declinedStatus invoice:', error.message);
-  }
-  setShowAcceptDecline(false); // Hide popup after Decline
-};
-
-
-const handleSendClick = () => {
-  // Handle send message functionality
-  console.log("Message sent:", message);
-};
-
-     let index="";
-
-
     //  -------------- dropdown-------------
     const handleSelect = (eventKey) => {
       setSelectedItem(eventKey);
@@ -150,22 +84,43 @@ const handleSendClick = () => {
     
   
     // --------------------------------preview-----------------------------------
-    const handleShowPreview = (invoice, index) =>{ 
+    const handleShowPreview = (invoice, index) =>{
       setShowPreview(true);
-      setSelectedInvoice(invoice); 
+      setSelectedInvoice(invoice.caseId); 
+      setVendorId(invoice.vendorId)
       setcurrentInvoiceIndex(index)
     }
+    const expandInChat = (invoice)=>{
+      setShowPreview(true);
+      setSelectedInvoice(invoice); 
+    }
 
+    const handleBackPreview = () =>{ 
+      if(currentInvoiceIndex>=0){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex-1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex-1)
+      }
+    }
+
+    const handleRightPreview = () =>{ 
+      if(currentInvoiceIndex< invoices.length){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex+1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex+1)
+      }
+    }
     
-    
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    const handleClose = () => setShowPreview(false);
+
 
  // -------------------chatLogSection--------------------------------
  
-   function chatLogSection(index){
-    setacitivityLogButton(true);
-    setCaseId(invoices[index].caseId);
+   function chatLogSection(newCaseId){
+    if (caseId !== newCaseId) {
+      setCaseId(newCaseId); // Update the active chat caseId
+      setacitivityLogButton(true); // Open the chat section
+    }
    }
 
 
@@ -262,9 +217,9 @@ const handleSendClick = () => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className='billDropdownItem'>
-                      <Dropdown.Item className='billDropdownEachItem' eventKey="Pending Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem' eventKey="Decline Bills" onClick={() => handleButtonClick('decline-Bills')}>Decline Bills</Dropdown.Item>
                       <Dropdown.Item className='billDropdownEachItem' eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
+                      {(role != roles.approver1 && role !==roles.approver2)?<Dropdown.Item className='billDropdownEachItem' eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>:null}
                     </Dropdown.Menu>
                   </Dropdown>
 
@@ -286,9 +241,9 @@ const handleSendClick = () => {
               </div>
 
               {
-                 acitivityLogButton!== true
+                 !acitivityLogButton
                            ?
-                      <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+                      <div className="mt-3 d-flex flex-column align-items-center outerTableDiv">
                         <Table className="custom-width">
                           <thead>
                             <tr>
@@ -296,7 +251,7 @@ const handleSendClick = () => {
                               <th>Vendor Name</th>
                               <th>Bill Date</th>
                               <th>Due date</th>
-                              {role != (roles.approver1 || roles.approver2) ? <th>Current Approver</th>:null}
+                              {(role != roles.approver1 && role !=roles.approver2) ? <th>Current Approver</th>:null}
                               <th>Amount</th>
                               <th>Actions</th>
                             </tr>
@@ -316,10 +271,10 @@ const handleSendClick = () => {
                                     <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.vendorName}</td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
                                     <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.dueDate).toLocaleDateString()} </td>
-                                    {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
+                                    {(role != roles.approver1 && role !=roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                     <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                     <td id="">
-                                        <img src={chat} onClick={() =>  !acitivityLogButton ? chatLogSection(index) : ""} />
+                                        <img src={chat} onClick={() => chatLogSection(invoice.caseId)} />
                                     </td>
                                   </tr>
                                 ))
@@ -330,7 +285,7 @@ const handleSendClick = () => {
                                             :
 
                       <div className="tableWithPendiingBillChat" >
-                          <div className="mt-4 d-flex flex-column align-items-center outerTableDiv" id='PendiingBillChatTable'>
+                          <div className="mt-2 d-flex flex-column align-items-center outerTableDiv" id='PendiingBillChatTable'>
                             <Table className="custom-width">
                               <thead>
                                 <tr>
@@ -361,7 +316,7 @@ const handleSendClick = () => {
                                         {role != (roles.approver1 || roles.approver2) ? <td onClick={() => handleShowPreview(invoice, index)}>{invoice.status=="AcceptedByAP" ?"Approver 1":"Approver 2"}</td>:null}
                                         <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                                         <td id="">
-                                            <img src={chat} onClick={chatLogSection} />
+                                            <img src={chat} onClick={() => chatLogSection(invoice.caseId)}  />
                                         </td>
                                       </tr>
                                     ))
@@ -370,10 +325,44 @@ const handleSendClick = () => {
                             </Table>
                           </div>
                           
-                            <Chat caseId={caseId}/>
+                            <Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true" expandInChat = {expandInChat}/>
                      </div>
                 } 
           </div>
+
+
+
+
+          
+        {/* -----------preview section---------- */}
+        <Modal show={showPreview} onHide={handleClose} centered size="xl" style={{borderRadius:"24px"}}>
+            {/* <Modal.Header closeButton>
+            </Modal.Header> */}
+            <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
+            }}>
+              
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={false} vendorId={vendorId} />
+            </Modal.Body>
+           
+            <Button
+              className="arrow-btn left-arrow"
+              variant="outline-primary"
+              onClick={handleBackPreview}
+              disabled={currentInvoiceIndex <=0}
+            >
+               <span className="large-arrow">&#8249;</span> {/* Left arrow icon */}
+            </Button>
+
+            {/* Right arrow button */}
+            <Button
+              className="arrow-btn right-arrow"
+              variant="outline-primary"
+              onClick={handleRightPreview}
+              disabled={currentInvoiceIndex >= invoices.length-1}
+            >
+              &#8250; {/* Right arrow icon */}
+            </Button>
+      </Modal>
     </div>
   )
 }

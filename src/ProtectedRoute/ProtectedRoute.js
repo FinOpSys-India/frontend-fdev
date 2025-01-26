@@ -3,11 +3,12 @@ import { Route, Navigate, useLocation } from 'react-router-dom';
 // import { useAuth } from '../AuthContext/AuthContext';
 import axios from "axios"
 import { apiEndPointUrl } from '../utils/apiService';
+import { roles } from '../utils/constant';
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
     const [isAuthenticated, setIsAuthenticated] = useState(null);
-  
+  const role =sessionStorage.getItem('role');
     
   axios.defaults.withCredentials = true;
   const token = localStorage.getItem('authToken');  // Retrieve token from storage
@@ -42,7 +43,7 @@ const ProtectedRoute = ({ children }) => {
     }
 
     if (isAuthenticated && location.pathname === '/') {
-      return <Navigate to="/invoiceQueue" replace />;
+      return <Navigate to={role == roles.approver1 || role ==roles.approver2 ?"/billAQButton":"/invoiceQueue"} replace />;
     }
   
     return isAuthenticated ? children : <Navigate to="/login" />;

@@ -1,0 +1,29 @@
+.vendorName-div{
+    margin-bottom: 1%;
+}
+.recievingDate-div, .dueDate-div{
+    display: flex;
+    flex-direction: column;
+}
+.datePicker{
+    width: 100%;
+    border: none;
+}
+.custom-datepicker-input {
+    border:1px solid #ccc; /* Default border */
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s ease; /* Smooth transition */
+  }
+  
+  .custom-datepicker-input:focus {
+    border:1px solid blue;
+    box-shadow: 0 0 5px lightblue; /* Light blue shadow */
+  }
+.manualInvoice input{
+    background-color: rgba(240, 240, 240, 1);
+}
+.select-vendor, .select-dept{
+    background-color: rgba(240, 240, 240, 1);
+}

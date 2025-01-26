@@ -14,9 +14,10 @@ import  "./DeclineBills.css";
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-
-
+import Chat from '../../Chat/Chat';
+import PreviewSection from '../../AQ/PreviewSection/PreviewSection';
+import { Button, Modal, ProgressBar } from "react-bootstrap";
+import { roles } from '../../../utils/constant';
 
 
 function DeclineBills() {
@@ -32,13 +33,16 @@ function DeclineBills() {
     const [currentPage, setCurrentPage] = useState(1);
     const [activePage, setActivePage] = useState(1);
     const [invoices, setInvoices] = useState([]);
-    const [selectedInvoice, setSelectedInvoice] = useState(null);
+    const [selectedInvoice, setSelectedInvoice] = useState('');
+    const [vendorId,setVendorId] = useState('');
     const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
     const [filteredData, setFilteredData] = useState([]);
     const [selectedItem, setSelectedItem] = useState('Decline Bills');
     const [activeButton, setActiveButton] = useState(null);
+    const [showChat, setShowChat] = useState(false);
     const navigate = useNavigate();
     const role = sessionStorage.getItem('role');
+    const [caseId,setCaseId] = useState("");
      let index="";
 
 
@@ -74,12 +78,29 @@ function DeclineBills() {
     // --------------------------------preview-----------------------------------
     const handleShowPreview = (invoice, index) =>{ 
       setShowPreview(true);
-      setSelectedInvoice(invoice); 
+      setSelectedInvoice(invoice.caseId);
+      setVendorId(invoice.vendorId) 
       setcurrentInvoiceIndex(index)
     }
 
+    const handleBackPreview = () =>{ 
+      if(currentInvoiceIndex>=0){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex-1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex-1)
+      }
+    }
 
+    const handleRightPreview = () =>{ 
+      if(currentInvoiceIndex< invoices.length){
+        setShowPreview(true);
+        setSelectedInvoice(invoices[currentInvoiceIndex+1]);
+        setcurrentInvoiceIndex(currentInvoiceIndex+1)
+      }
+    }
     
+    const handleClose = () => setShowPreview(false);
+
 
    //---------------------filter data based on selected filters------------------------------
     
@@ -188,7 +209,16 @@ function DeclineBills() {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-
+  function chatLogSection(newCaseId){
+    if (caseId !== newCaseId) {
+      setCaseId(newCaseId); // Update the active chat caseId
+      setShowChat(true); // Open the chat section
+    }
+   }
+   const closeChat = () => {
+    setShowChat(false); // Close the chat
+    setCaseId(null); // Clear the active caseId
+  };
   
   return (
       <div style={{display:"flex"}}>
@@ -203,9 +233,9 @@ function DeclineBills() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className='billDropdownItem'>
-                      <Dropdown.Item  className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>
                       <Dropdown.Item  className='billDropdownEachItem'  eventKey="Pending Bills" onClick={() => handleButtonClick('billAQButton')}>Pending Bills</Dropdown.Item>
                       <Dropdown.Item  className='billDropdownEachItem'  eventKey="Approved Bills" onClick={() => handleButtonClick('approved-Bills')}>Approved Bills</Dropdown.Item>
+                      {(role != roles.approver1 && role !==roles.approver2)?<Dropdown.Item  className='billDropdownEachItem'  eventKey="All Bills" onClick={() => handleButtonClick('all-Bills')}>All Bills</Dropdown.Item>:null}
                     </Dropdown.Menu>
                   </Dropdown>
 
@@ -225,12 +255,14 @@ function DeclineBills() {
 
                     <FilterDrawer onApplyFilters={setFilters} />
               </div>
-
-                <div className="mt-4 d-flex flex-column align-items-center outerTableDiv">
+              
+              
+              <div className= {showChat ?"declineTableWithChat":""} >
+                <div className="mt-2 d-flex flex-column align-items-center outerTableDiv" id={showChat ? "declineTableInChat": ""}>
                   <Table className="custom-width">
                     <thead>
                       <tr>
-                        <th> <input type="checkbox"  />   &nbsp;&nbsp;&nbsp;Bill Number   </th>
+                        <th> <input type="checkbox"/>   &nbsp;&nbsp;&nbsp;Bill Number   </th>
                         <th>Vendor Name</th> 
                         <th>Bill Date</th>
                         <th>Decline Date</th>
@@ -258,14 +290,51 @@ function DeclineBills() {
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.status=="DeclineByApprover1" ?"Approver 1":"Approver 2"}  </td>
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.declineReason} </td>
                               <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
-                              <td id="">  <img src={chat}/> </td>
+                              <td id=""> <img src={chat} onClick={() => chatLogSection(invoice.caseId)}/> </td>
                             </tr>
                           ))
                         }
                     </tbody>
                   </Table>
+              </div> 
+               {showChat ?<Chat caseId={caseId} fetchInvoices={fetchInvoices} closeChat={closeChat} notDisabledChat="true"/>:null}
+               
               </div>  
+
           </div>
+
+
+          
+
+        {/* -----------preview section---------- */}
+        <Modal show={showPreview} onHide={handleClose} centered size="xl" style={{borderRadius:"24px"}}>
+            {/* <Modal.Header closeButton>
+            </Modal.Header> */}
+            <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
+            }}>
+              
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={false} vendorId={vendorId}/>
+            </Modal.Body>
+           
+            <Button
+              className="arrow-btn left-arrow"
+              variant="outline-primary"
+              onClick={handleBackPreview}
+              disabled={currentInvoiceIndex <=0}
+            >
+               <span className="large-arrow">&#8249;</span> {/* Left arrow icon */}
+            </Button>
+
+            {/* Right arrow button */}
+            <Button
+              className="arrow-btn right-arrow"
+              variant="outline-primary"
+              onClick={handleRightPreview}
+              disabled={currentInvoiceIndex >= invoices.length-1}
+            >
+              &#8250; {/* Right arrow icon */}
+            </Button>
+      </Modal>
     </div>
   )
 }

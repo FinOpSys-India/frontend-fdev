@@ -3,7 +3,7 @@ import { Button, Modal, ProgressBar } from "react-bootstrap";
 import  "./AQ.css";
 import update from '../../assets/update.svg';
 import upload from '../../assets/upload.svg';
-import filter from '../../assets/filter.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import crop from '../../assets/crop.svg';
 import { apiEndPointUrl } from "../../utils/apiService";
 import { Table } from 'react-bootstrap';
@@ -24,6 +24,9 @@ import FilterDrawer from './FilterSection/FilterDrawer';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { roles } from '../../utils/constant';
+import "react-datepicker/dist/react-datepicker.css";
+import CreateManualForm from "./CreateManualForm.js"
+import DoneIcon from '@mui/icons-material/Done';
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 
@@ -36,14 +39,14 @@ function AQ() {
   const [activePage, setActivePage] = useState(1); // State for active pagination item
   const [itemsPerPage] = useState(7);   
   const [showModal, setShowModal] = useState(false);
+  const [showCreateBillModal,setShowCreateBillModal] = useState(false);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [acceptHoveredIndex, setacceptHoveredIndex] = useState(null);
   const [declineHoveredIndex, setdeclineHoveredIndex] = useState(null);
-
-
+  const [workEmail, setWorkEmail] = useState("");
   const [acceptClickIndex, setacceptClickIIndex] = useState(0);
   const [acceptStatus, setacceptStatus] = useState();
   const [declinedStatus, setdeclinedStatus] = useState('');
@@ -54,7 +57,8 @@ function AQ() {
   // invoice---
   const [invoices, setInvoices] = useState([]);
   const [totalInvoices, setTotalInvoices] = useState(0);
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [selectedInvoice, setSelectedInvoice] = useState('');
+  const [vendorId,setVendorId] = useState('');
   const [currentInvoiceIndex, setcurrentInvoiceIndex] = useState(0);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({ dateRange: { from: null, to: null },
@@ -72,7 +76,18 @@ function AQ() {
     const [selectedVendorBillNumber, setSelectedVendorBillNumber] = useState('');
     const [showCrossBillNumber, setShowCrossBillNumber] = useState(false);
     const [showDropdownBillNumber, setShowDropdownBillNumber] = useState(false);
+    
+    const [createBillDetails, setCreateBillDetails]=useState({
+      vendorName:"",
+      invoiceNo:"",
+      recievingDate:null,
+      dueDate:null,
+      dept:"",
+      glCode:"",
+      fileData:""
+    })
    const role = sessionStorage.getItem('role');
+
   let index="";
     // Fetch invoices from the backend
     const fetchInvoices = async (page) => {
@@ -87,7 +102,11 @@ function AQ() {
         toast.error("Failed to fetch invoices", { autoClose: 1500 });
       }
     };
+
+
     useEffect(() => {
+      let email = document.cookie.split("; ").find((row) => row.startsWith("workEmail="))?.split("=")[1];
+      setWorkEmail(email);
       fetchInvoices();
     }, []);
 
@@ -202,7 +221,8 @@ function AQ() {
     // --------------------------------preview-----------------------------------
     const handleShowPreview = (invoice, index) =>{ 
       setShowPreview(true);
-      setSelectedInvoice(invoice); 
+      setSelectedInvoice(invoice.caseId); 
+      setVendorId(invoice.vendorId)
       setcurrentInvoiceIndex(index)
     }
 
@@ -250,7 +270,6 @@ const handleClickReason = (index) => {
 
   const DeclineButtonWithform = async ()=> {
       if(selected!==null){
-        let declinedStatus = "Decline the invoice"
         try {
           const response = await axios.post(`${apiEndPointUrl}/decline`, {
             invoiceId: toBeDeclineCaseId, // Replace with the actual invoice ID field
@@ -280,7 +299,18 @@ const handleClickReason = (index) => {
 
 // ------------accept------------
 const handleAccept = async (index) => {
+
   setacceptStatus("Accept the invoice")
+
+  const newActivity = {
+    chat_id: invoices[index].caseId,
+    accpetedBy: workEmail,
+    status: "Accept the invoice",
+    role: role,
+    timestamp: new Date().toISOString(),
+  };
+
+  console.log("newActivity", newActivity)
   setacceptClickIIndex(invoices[index].caseId)
       try {
         const response = await axios.post(`${apiEndPointUrl}/accept`, {
@@ -300,14 +330,90 @@ const handleAccept = async (index) => {
         toast.error(`${error.response.data.message}`)
       }
 
+      // --------------------------------- 
+      try {
+        const response = await axios.post(`${apiEndPointUrl}/acitivity-log`,newActivity, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+        });
+
+        if(response.data.status===500 || response.data.status===400 ){
+          toast.error('Error in acitivity log  !');
+        }
+        else{
+          console.log(' acitivity-log', response.data);
+          toast.success(`${response.data}`, { autoClose: 1500 });
+        }
+      } catch (error) {
+        console.log('Error in acitivity-log', error.response.data.message);
+        toast.error(`${error.response.data.message}`)
+      }
+
     
 };
 
 
 
+// const handleAccept = async (index) => {
+//   setacceptStatus("Accept the invoice");
+
+//   const newActivity = {
+//     chat_id: invoices[index].caseId,
+//     accpetedBy: workEmail,
+//     status: "Accept the invoice",
+//     role: role,
+//     timestamp: new Date().toISOString(),
+//   };
+
+//   console.log("newActivity", newActivity);
+//   setacceptClickIIndex(invoices[index].caseId);
+
+//   try {
+//     // Run both API calls simultaneously
+//     const [acceptResponse, activityLogResponse] = await Promise.all([
+//       axios.post(`${apiEndPointUrl}/accept`, {
+//         invoiceId: invoices[index].caseId, // Replace with the actual invoice ID field
+//         role: role,
+//       }),
+//       axios.post(`${apiEndPointUrl}/acitivity-log`, newActivity, {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       }),
+//     ]);
+
+//     // Handle the response for the first API call
+//     if (acceptResponse.data.status === 500 || acceptResponse.data.status === 400) {
+//       toast.error("Error in accepting invoice!");
+//     } else {
+//       console.log("accepting:", acceptResponse.data);
+//       toast.success(`${acceptResponse.data.message}`, { autoClose: 1500 });
+//       fetchInvoices();
+//     }
+
+//     // Handle the response for the second API call
+//     if (activityLogResponse.data.status === 500 || activityLogResponse.data.status === 400) {
+//       toast.error("Error in activity log!");
+//     } else {
+//       console.log("Activity Log:", activityLogResponse.data);
+//       toast.success(`${activityLogResponse.data.message}`, { autoClose: 1500 });
+//     }
+//   } catch (error) {
+//     // Catch any errors from either API call
+//     console.error("Error occurred:", error.response?.data?.message || error.message);
+//     toast.error(error.response?.data?.message || "An error occurred during processing.");
+//   }
+// };
+
+
   const handleUploadClick = () => {
     setShowModal(true);
 }; 
+  const handleCreateBill=()=>{
+    setShowCreateBillModal(true);
+  }
   const handleModalClose = () => {
     setShowModal(false);
     setFile(null);
@@ -384,11 +490,6 @@ const handleAccept = async (index) => {
     setpendingTable(false)
   };
 
-  const data = [
-    { id: 1, col1: 'Data 1', col2: 'Data 2', col3: 'Data 3', col4: 'Data 4', col5: 'Data 5', col6: 'Data 6' },
-    { id: 2, col1: 'Data 1', col2: 'Data 2', col3: 'Data 3', col4: 'Data 4', col5: 'Data 5', col6: 'Data 6' },
-  ];
-
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -402,12 +503,11 @@ const handleAccept = async (index) => {
   const handlePageChange = (event, value) => {
     setPageNumber(value);
     setCurrentPage(value);
-    // Fetch or update your data for the new page here
   };
 
   // Calculate total pages
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
+  
   return (
     <div style={{display:"flex"}}>
     <Home currentPage="invoiceQueue" />
@@ -418,6 +518,7 @@ const handleAccept = async (index) => {
             <div className='AQNavbarSideButtons'> 
               <button className='AQNavbarUpdateButton'>  <img src={update} /> Update</button>
               <button className='AQNavbarUploadButton' onClick={handleUploadClick}><img src={upload}/>Upload Bill</button>
+              <button className='AQNavbarUploadButton' onClick={handleCreateBill}><img src={upload}/>Create Bill</button>
             </div>
       </div>
 
@@ -443,9 +544,6 @@ const handleAccept = async (index) => {
           </button>
         </div>
 
-         {/* <button className='AQfilter'>
-             
-         </button> */}
          <FilterDrawer onApplyFilters={setFilters} />
 
 
@@ -458,7 +556,7 @@ const handleAccept = async (index) => {
               <Table className="custom-width">
                 <thead>
                   <tr>
-                  <th  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ondata-toggle="tooltip" data-placement="bottom" >
+                  <th  onClick={handleMouseEnter} onMouseLeave={handleMouseLeave} ondata-toggle="tooltip" data-placement="bottom" >
                     <input type="checkbox"  />
                       &nbsp;&nbsp;&nbsp;Vendor Name
                       {
@@ -472,10 +570,10 @@ const handleAccept = async (index) => {
                             showCrossIcon 
                                    ? 
                               <CloseIcon
-                                style={{  fontSize: '19px',  position: 'absolute', top: '12px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearSearch}/>
+                                style={{  fontSize: '19px',  position: 'absolute', top: '-6px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearSearch}/>
                                   : 
                               <SearchIcon
-                                style={{ fontSize: '19px', position: 'absolute', top: '12px', left: '79%',color: 'black', }}/>
+                                style={{ fontSize: '19px', position: 'absolute', top: '-6px', left: '79%',color: 'black', }}/>
                             }
                           {
                              showDropdown && searchQueryByName
@@ -496,7 +594,7 @@ const handleAccept = async (index) => {
                       </div>
                     }
                     </th>
-                    <th  onMouseEnter={handleMouseEnterBill} onMouseLeave={handleMouseLeaveBill} ondata-toggle="tooltip" data-placement="bottom" >
+                    <th  onClick={handleMouseEnterBill} onMouseLeave={handleMouseLeaveBill} ondata-toggle="tooltip" data-placement="bottom" >
                       Bill Number
                      {
                                showBillNumberSearch 
@@ -509,10 +607,10 @@ const handleAccept = async (index) => {
                             showCrossBillNumber 
                                    ? 
                               <CloseIcon
-                                style={{  fontSize: '19px',  position: 'absolute', top: '12px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearBillNumber}/>
+                                style={{  fontSize: '19px',  position: 'absolute', top: '-6px',left: '79%', color: 'black', cursor: 'pointer', }}  onClick={clearBillNumber}/>
                                   : 
                               <SearchIcon
-                                style={{ fontSize: '19px', position: 'absolute', top: '12px', left: '79%',color: 'black', }}/>
+                                style={{ fontSize: '19px', position: 'absolute', top: '-6px', left: '79%',color: 'black', }}/>
                             }
                           {
                              showDropdownBillNumber && searchQueryByBillNumber
@@ -552,7 +650,7 @@ const handleAccept = async (index) => {
                             &nbsp;&nbsp;&nbsp;{invoice.vendorName}
                           </td>
                           <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
-                          <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.receivingDate).toLocaleDateString()} </td>
+                          <td onClick={() => handleShowPreview(invoice, index)}>{new Date(invoice.date).toLocaleDateString()} </td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.inboxMethod}</td>
                           <td onClick={() => handleShowPreview(invoice, index)}> {invoice.amount}</td>
                           {role === roles.apPerson?  <td id="actionOfAQ">
@@ -675,7 +773,7 @@ const handleAccept = async (index) => {
                           &nbsp;&nbsp;&nbsp;{invoice.vendorName}
                         </td>
                         <td onClick={() => handleShowPreview(invoice, index)}>  {invoice.billId}</td>
-                        <td>{new Date(invoice.receivingDate).toLocaleDateString()}</td>
+                        <td>{new Date(invoice.date).toLocaleDateString()}</td>
                         <td>{invoice.inboxMethod}</td>
                         <td>{invoice.amount}</td>
                         {role === roles.approver1? <td id="actionOfAQWithDeclineform">
@@ -807,6 +905,8 @@ const handleAccept = async (index) => {
             )}
           </Modal.Body>
         </Modal>
+        <CreateManualForm showCreateBillModal={showCreateBillModal} setShowCreateBillModal={setShowCreateBillModal} fetchInvoices={fetchInvoices}/>
+      
         <ToastContainer />
         </div>
 
@@ -818,8 +918,7 @@ const handleAccept = async (index) => {
             </Modal.Header> */}
             <Modal.Body style={{paddingTop:"0%", paddingRight:"0%",paddingLeft:"0%",paddingBottom:"0%"
             }}>
-              
-              <PreviewSection invoice={selectedInvoice} />
+              <PreviewSection invoiceId={selectedInvoice} setShowPreview = {setShowPreview} fetchInvoices = {fetchInvoices} showAcceptDeclineButtons={true} vendorId={vendorId}/>
             </Modal.Body>
            
             <Button

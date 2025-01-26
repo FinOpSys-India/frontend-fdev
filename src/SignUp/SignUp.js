@@ -133,7 +133,7 @@ function SignUp() {
 
   return (
     <div>
-      <nav className="navbar" style={{height:"12px"}}>
+      <nav className="navbar" style={{height:"19px"}}>
         <img src={logo} alt="Logo" />
       </nav>
 

@@ -15,14 +15,870 @@
 
 /* Add styles for scrollbar customization (optional) */
 #chatContainer::-webkit-scrollbar {
-    width: 6px;
+    display: none;
 }
 
 #chatContainer::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
+    /* background-color: #888;
+    border-radius: 4px; */
 }
 
 #chatContainer::-webkit-scrollbar-thumb:hover {
     background-color: #555;
+}
+
+.chatdropdownContainerApproveDecline {
+  position:fixed;
+  left: 76.6%;  
+  width: 10%;
+  background-color: #F0F0F0; 
+ color: black;
+ display: flex; /* Use Flexbox */
+  flex-direction: column; /* Arrange items vertically */
+  align-items: center; /* Horizontally center */
+  justify-content: center;
+  border-radius: 12px;
+  font-family: Inter;
+   /* z-index: 1; */
+   
+   top: 65.6%; 
+}  
+.chatdropdownContainerDecline {
+  position:fixed;
+  left: 76.8%;
+  width: 10%;
+  background-color: #F0F0F0; 
+ color: black;
+ display: flex; /* Use Flexbox */
+  flex-direction: column; /* Arrange items vertically */
+  align-items: center; /* Horizontally center */
+  justify-content: center;
+  border-radius: 12px;
+  font-family: Inter;
+   /* z-index: 1; */
+   
+   top: 60.6%;
+ 
+}  
+.chatDropdownEachItem{
+    font-size: 14px;
+    font-weight: 400;
+    border-radius:  8px !important;
+    margin: 2px 0; /* Add vertical spacing between items */
+  padding: 5px 5px; /* Add padding for click area */
+  text-align: center; /* Center text inside the button */
+  /* width: 80%; */
+    
+
+}
+.chatDropdownEachItem:hover,
+ .chatDropdownEachItem:focus {
+   background-color: white !important;
+   border-radius: 8px !important;
+ }
+
+ .chat-modal-overlay {
+  position: absolute;
+  top: 14%;
+  left: 0;
+  width: 100%;
+  /* height: 100%; */
+  /* background: rgba(0, 0, 0, 0.5); */
+  display: flex;
+  justify-content: center;
+  align-items:baseline;
+  z-index: 10;
+}
+
+/* Modal styles */
+.chat-modal {
+  background-color: rgba(240, 240, 240, 1);
+  width: 92%;
+  max-width: 500px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+  border: none;
+  border-radius: 6px;
+  background-color: white;
+  justify-content: space-around;
+  font-size: 10px;
+
+  padding-top: 1%;
+  margin: 1%;
+  color: black;
+}
+.cross-expand-button{
+  display: flex;
+  flex-direction: row-reverse;
+  /* position: absolute; */
+  /* top: 0; */
+  right: 0;
+  margin: 3%;
+  border: none;
+  /* background: transparent; */
+  font-size: 10px;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.PreviewdescriptionTableInChat{
+  bottom: 0;
+  border-radius: 12px;
+  border-collapse: separate; /* Use 'separate' to allow border-radius to work */
+  border-spacing: 0; /* Remove spacing between cells */
+  border: 1px solid #dee2e6; /* Border for table */
+  border-radius: 12px; /* Apply rounded corners to the table */
+  overflow: hidden;
+  width: 96%;
+}
+
+.PreviewdescriptionTableInChat thead th {
+  /* border-top-left-radius: 12px; */
+  background-color:rgba(121, 57, 239, 1);
+  font-size:  8px;
+  font-weight: 500;
+  
+  color: white;
+}
+
+.PreviewdescriptionTableInChat thead th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.PreviewdescriptionDataInChat{
+  
+  border-radius: 12px;
+font-size: 8px;
+font-weight: 400;
+color: rgba(140, 140, 140, 1);
+
+}
+
+
+.PreviewdescriptionTable tbody td{
+font-size: 8px;
+font-weight: 400;
+color: rgba(140, 140, 140, 1);
+
+}
+.acceptButtonOnModel{
+    padding: 5px;
+
+    white-space: nowrap;
+    gap:12%;
+    width:max-content;
+    align-items: end;
+    font-size: 12px;
+    border-radius: 10px;
+     border: 1px solid rgba(121, 57, 239, 1);
+     color:white;
+     background-color: rgba(121, 57, 239, 1);
+     margin-bottom: 5%;
+     margin-top: 2%;
+}
+
+
+
+
+
+
+/* -----------------callIcon------------------ */
+
+#callIcon{
+  /* z-index: 1; */
+  position: absolute;
+  top: 9px;
+  right: 1.6px;
+  /* height: 16px;
+  top:12p
+  width: 12px; */
+  /* padding-top:-60% */
+}
+
+
+ 
+.pendingBillCall:active {
+  background-color: transparent !important; 
+  
+}
+
+
+.chatPersonMenu{
+  padding: 0%;  
+  width:30px !important; /* Set the width of the dropdown menu to 70px */
+    overflow: hidden;  /* Hide overflowed content */
+    white-space: nowrap;  
+
+}
+.chatPerson{
+  display:flex;
+  justify-content: space-between;
+font-size: 12px;
+font-weight: 400;
+/* white-space: nowrap; */
+}
+
+
+.chatPersonButton{
+   width:100%;
+   background-color: rgba(121, 57, 239, 1);
+   color: white;
+  border-radius: 12px;
+  border: solid rgba(121, 57, 239, 1);;
+  }
+
+  .chatPersonMenu{
+    background: rgba(240, 240, 240, 1);
+
+  }
+
+  .chatPerson.active, .chatPerson.show,.chatPerson-check:checked .chatPerson:first-child:active.chatPerson.show, .chatPerson:first-child:active, :not(.chatPerson-check) + .chatPerson:active {
+    border-radius: 12px;
+    background-color:  rgba(240, 240, 240, 1) !important;
+    border-color: unset;
+  border : solid  rgba(240, 240, 240, 1) !important
+  }
+
+  .pendingBillCall:checked + .pendingBillCall, .pendingBillCall.active, .pendingBillCall.show, .pendingBillCall:first-child:active, :not(.pendingBillCall-check) + .pendingBillCall:active {
+    color: unset;
+    background-color:  rgba(240, 240, 240, 1) !important;
+    border-color: unset;
+  border : solid  rgba(240, 240, 240, 1) !important
+}
+
+
+.pendingBillCall :hover {
+  background-color:  rgba(240, 240, 240, 1) !important;
+  border : solid  rgba(240, 240, 240, 1) !important;
+  border-color:   rgba(240, 240, 240, 1) !important;
+  width:100%;
+  border-radius: 6px;
+margin-top: -27%;
+margin-right: -6.6%;
+font-size: 90%;
+}
+
+
+
+
+/* ---------------------------------------chatDay------------------------- */
+
+
+.chatDay{
+  text-align: center;
+font-size: 10px;
+font-weight: 500;
+background-color: rgba(140, 140, 140, 0.2);
+width:fit-content;
+align-items: center;
+padding:1%;
+border-radius: 6px;
+margin-left: 43%;
+margin-top: 3%;
+}
+
+
+.personChatDetail{
+display:flex;
+flex-direction: column;
+gap:0%;
+padding-right: 3%;
+}
+
+.chatNameAndPic{
+ padding-right: 1%;
+  float: right;
+}
+
+
+.messageAndTime{
+display: flex;
+flex-direction: column;
+float: right;
+margin-left: 61.7%;
+width: 43% !important;
+
+}
+
+.personName{
+float: right;
+/* width:120% ; */
+font-size: 10px;
+font-weight: 500;
+
+}
+
+
+.personMessageAndTime{
+display: flex;
+flex-direction: column;
+max-height: fit-content;
+width:100%;
+background-color:rgba(236, 232, 245, 1);
+font-size: 12px;
+font-weight: 400;
+border-radius: 12px;
+padding: 3%;
+/* word-wrap: break-word; */
+/* margin-right: 3%; */
+
+}
+.personMessage{
+float: right;
+padding-left:3%;
+font-size: 10.6px;
+font-weight: 600;
+}
+
+.messageTime{
+float: right;
+padding-left: 69%;
+width:fit-content;
+font-size: 8px;
+font-weight: 300;
+
+}
+
+
+
+
+/* -----------------------------reciver-------------- */
+
+
+.reciverPersonChatDetail{
+display:flex;
+flex-direction: column;
+gap:0%;
+padding-left: 2.1%;
+}
+
+
+.reciverMessageAndTime{
+display: flex;
+flex-direction: column;
+width:90%;
+}
+
+.reciverPersonName{
+/* float: right; */
+padding-left:2.1%;
+margin-top: 0.6rem;
+font-size: 10px;
+font-weight: 500;
+height:min-content ;
+
+}
+
+.reciverPersonMessageAndTime{
+display: flex;
+flex-direction: column;
+background-color:rgba(236, 232, 245, 1);
+font-size: 14px;
+font-weight: 400;
+border-radius: 12px;
+padding-left: 3%;
+padding-bottom: 1%;
+margin-right: 3%;
+margin-top: 1%;
+width:49%;
+border-radius: 9px;
+max-height: fit-content;
+}
+
+
+
+.reciverPersonMessage{
+  font-size: 10.6px;
+font-weight: 600;
+}
+
+
+.reciverMessageTime{
+float: right;
+padding-left: 71%;
+font-size: 8px;
+font-weight: 300;
+width:fit-content;
+}
+
+.typingChatButton {
+background-color: #f0f0f0;
+border: 1px solid #ccc;
+padding: 8px 16px;
+cursor: pointer;
+}
+
+.chatInputField:focus {
+border: none; /* Removes border on focus */
+box-shadow: none; 
+
+outline: none;
+}
+
+.acceptDeclinePopup {
+display: flex;
+gap: 10px;
+}
+
+.acceptButton,
+.declineButton {
+background-color: #007bff;
+color: white;
+padding: 5px 10px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.declineButton {
+background-color: #dc3545;
+}
+
+  
+
+/* ----------------------  data-------------------------- */
+
+.messageAndTime{
+  padding-top: 1.6%;
+   width:40%;
+   max-width: 60%;
+   border-radius: 6px;
+   padding-bottom: 0%;
+  font-size: 10.6px;
+  font-weight: 400;
+}
+/* --
+
+----------------fileData------------*/
+
+.fileData{
+  border-radius: 12px;
+margin-left: -1%;
+ margin-right: 1%;
+  border: solid 1px gray;
+font-size: 10.6px;
+font-weight: 400;
+}
+
+
+
+.fileDataReciver{
+  border-radius: 12px;
+   margin: 3%;
+  margin-left: -2.3%;
+  border: solid 1px gray;
+font-size: 10.6px;
+font-weight: 400;
+}
+
+
+
+
+
+/* --------------------------chatContent----------------------------------------------------- */
+
+.chatContent{
+  height: 67rex;
+  background-color: white;
+  border-radius: 16px;
+  margin-top: 3.9%;
+  padding-bottom: 1%;
+  margin-bottom: -3%;
+}
+
+
+
+.AllChatIcon{
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(240, 240, 240, 1);
+  /* position:relative ; */
+  /* justify-content: space-between; */
+  gap:6%;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 0.6%;
+  border-radius: 12px;
+  width:94%;
+  color: rgba(140, 140, 140, 1);
+   text-align: center;
+   align-items:center;
+   margin-left: 3.3%;
+   height:7.9%;
+   padding-top: 1%;
+   margin-top: 2.3%;
+   margin-bottom:  3%;
+   padding-left: 3%;
+}
+
+
+.chatInputField{
+  background-color: rgba(240, 240, 240, 1);
+  border: 0;
+  /* width:30%; */
+  padding-bottom: 2.1%;
+}
+
+.typingChatIconAndSend{
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  bottom: 0%; */
+  /* gap:9%; */
+  /* width:100%; */
+  /* padding-right: 3%; */
+  /* padding-top: 3%; */
+  /* padding-bottom: 31%; */
+}
+
+
+#plusChat{
+   padding-left: 9% !important;
+    width:9.9%;
+    cursor: pointer;
+}
+
+
+
+.micChatIconAndSend{
+  display: flex;
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
+  /* margin-left: 0%;
+  z-index:1;
+  height: 60%;
+  width:60%; */
+  /* float: right; */
+  /* padding-left: -90%; */
+  padding-top: 0.3%;
+  /* padding-bottom: -9%; */
+  cursor: pointer;
+}
+
+
+
+
+
+
+/* --------------------------------------navbar------------------ */
+
+
+
+.PendiingBillChat{
+  position: relative; 
+  width:25%;
+  margin-top: 0.55rem;
+  border-radius: 20px;
+  margin-right: 1%;
+  padding-top: 0%;
+}
+
+
+#PendiingBillChatTable{
+  width:75%;
+  margin-top: 0%;
+  padding-top: 0%;
+}
+
+
+
+
+.PendiingBillChatNavbar{
+ 
+   display:flex;
+     background-color:  rgba(121, 57, 239, 1);
+     padding :6px;
+     margin-top: 2.9%;
+     border-radius: 12px;
+     height:6.6%;
+     /* padding-bottom: 3%; */
+     color: white;
+     /* justify-content: space-between; */
+     text-align: center;
+     gap:63%;
+     /* padding-top: 3%; */
+}
+
+
+
+.billNumberAndpeople{
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 500;
+  padding-bottom: 3.9%;
+  padding-left: 1.9%;
+}
+
+
+#billNoBill{
+  margin-top: -16%;
+    font-size: 10.9px;
+   font-weight: 600;
+}
+
+#billParticipant{
+  font-size: 10px;
+  font-weight: 600;
+  color: white;
+  /* color:rgba(211, 211, 211, 1); */
+}
+
+.pendingBillCall{
+  background-color: rgba(240, 240, 240, 1);
+  display: flex;
+  height:81%;
+  width:12%;
+  border-radius: 5.3px;
+  text-align:center; 
+  align-items: center;
+  padding-top: 12%;
+  margin-top: 3%;
+  border : solid  rgba(240, 240, 240, 1);;
+}
+
+
+.chatIcon{
+  display:flex;
+  justify-content: space-between;
+  gap:9%;
+  margin-left: 1.6%;
+}
+
+
+.messageAndCross{
+  padding-top: 2.9%;
+   border-radius: 5.3px;
+   cursor: pointer;
+  /* background-color: #007bff; */
+}
+
+
+
+
+/* -------------------------------more options------------------ */
+
+
+.messageWrapper {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.optionsMenu {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  float: left;
+  display: none;
+  background-color: rgba(240, 240, 240, 1) !important;
+  
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.messageWrapper:hover .optionsMenu {
+  display: block;
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+}
+
+.option {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  text-align: left;
+}
+
+.option:hover {
+  background-color: #f5f5f5;
+}
+
+.messageCheckbox {
+  display: none;
+}
+
+
+
+.optionsMenu {
+  position: absolute;
+  top: 31px;
+  right: 90px; 
+  display: none;
+  background-color: rgba(240, 240, 240, 1);
+  
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  padding: 2.6px;
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.option {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 5px 10px;
+  text-align: left;
+}
+
+.option:hover {
+  background-color: white;
+  border-radius: 7px;
+}
+
+.messageWrapper:hover .optionsMenu {
+  display: block;
+}
+
+
+.selected {
+  background-color: #f0f0f0;
+  border-left: 4px solid #6200ee;
+}
+
+
+
+
+/* ------deleteButtondeleteButton---------------- */
+.chatContainer {
+  position: relative; /* Ensures modal is positioned relative to this container */
+  width: 100%;
+  height: 100%; /* Ensure full height of the container */
+  overflow: auto; /* Handle scrolling if content overflows */
+}
+
+.modalOverlayInsideChat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim the chat container background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Ensure it's above chat content */
+}
+
+.modalContentInsideChat {
+  background-color: rgba(240, 240, 240, 1);
+  padding: 16px;
+  border-radius: 8px;
+font-size: 14px;
+font-weight: 400;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* text-align: center; */
+  width: 260px;
+}
+
+.deleteButton {
+  background-color: rgba(22, 101, 52, 1);
+  color: white;
+  border: none;
+  padding: 6px 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.buttonDeleteAndCancel{
+  text-align: center;
+
+}
+.cancelButton {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 6px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: rgba(22, 101, 52, 1);
+  ;
+}
+
+
+
+
+/* ---------------------------------reply------------------- */
+
+.replyBoxDiv{
+  background-color: rgba(240, 240, 240, 1);
+  width:93%;
+  border-radius: 12px;
+  border-radius: 12px 12px 0 0;
+  margin-left: 3.6%;
+  margin-bottom: -3.6%;
+}
+.replyBox {
+  align-items: center;
+  background-color: white;
+  border-left: 4px solid  rgba(121, 57, 239, 1); /* Purple border on the left */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px; /* Padding inside the box */
+  margin: 10px 0; /* Spacing around the box */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 93%;
+  margin-left: 3%;
+}
+
+.Box {
+  display: flex;
+  color: rgba(140, 140, 140, 1);
+  margin-top: -3%;
+}
+/* Replying to text */
+.Box p {
+  span{
+    font-size: 10px;
+    font-weight: 600;
+  }
+  margin: 0;
+  flex: 1; 
+
+}
+
+/* Highlighted username */
+.replyBox strong {
+  color: #6c63ff; /* Purple color for the name */
+}
+
+/* Cancel button */
+.replyBox button {
+  background-color: transparent;
+  border: none;
+  color:  rgba(121, 57, 239, 1); /* Purple text color */
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.replyBox button:hover {
+  color: #4d4ac9; /* Darker purple on hover */
 }

@@ -1,0 +1,46 @@
+.BlankVendorDiv{
+    background: rgba(240, 240, 240, 1);
+    border-radius: 20px;
+    height: 83%
+}
+
+
+.BlankVendorButton{
+    padding-top: 3px;
+    height: 16%;
+    margin-top: 2.6%;
+    width:39%;
+    font-size: 12px;
+    border-radius: 12px;
+     border: 1px solid rgba(121, 57, 239, 1);
+     color:white;
+     background-color: rgba(121, 57, 239, 1);
+  
+}
+
+
+#blankpeople{
+   padding-top: 12%;
+    height: 41%;
+    width:70%
+}
+.BlankVendorInsideDiv{
+    background-color: white;
+    text-align: center;
+    align-items: center;
+   height: 27%;
+   width:23%;
+   border-radius: 21px;
+  z-index: 1;
+  position: absolute;
+  top:36%;
+  left: 43%;
+  box-shadow: 1px 11px 25px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 5px 44px 45px 0px rgba(0, 0, 0, 0.09);
+  box-shadow: 11px 100px 60px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 20px 177px 71px 0px rgba(0, 0, 0, 0.01);
+  box-shadow: 31px 277px 78px 0px rgba(0, 0, 0, 0);
+  box-shadow: 1px 11px 25px 0px rgba(0, 0, 0, 0.1);
+
+/* box-shadow: 5px 44px 45px 0px rgba(0.05,  0.01, 0, 0.09); */
+}

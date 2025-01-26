@@ -1,0 +1,160 @@
+.vendorTab{
+    width: 100%;
+    margin-left: 2%;
+    margin-right: 2%;
+  
+  }
+
+
+  .vendorNavbar{
+    margin-top: 27px;
+    display: flex;
+    justify-content: space-between;   
+  }
+  
+/* ---------------------------drop down with page change------------------ */
+.vendorDropDown {
+    background-color: white; 
+    border: 0 ;
+    font-size: 24px;
+    font-weight: 600;
+    color: black;
+  }
+  
+  .vendorDropDown:hover {
+    background-color: white;
+    color: black;
+  }
+  
+
+  .btn-check:checked + .btn, .btn.active,
+    .btn.show,
+   .btn:first-child:active,
+   :not(.btn-check) + .btn:active {
+    color: unset;
+    background-color: unset;
+    border-color: unset;
+ }
+
+ .vendorDropdownItem{
+   margin-top: -9%;
+ }
+
+ .vendorDropdownItem, .vendorDropdownEachItem{
+  font-size: 12px;
+  font-weight: 400;
+  border-radius:  8px !important
+ }
+
+
+ .vendorDropdownItem .vendorDropdownEachItem:hover,
+ .vendorDropdownItem .vendorDropdownEachItem:focus {
+   background-color: rgba(121, 57, 239, 0.09) !important;
+   border-radius: 8px !important;
+ }
+ 
+
+ .vendorDropdownEachItem:active {
+  background-color: rgba(121, 57, 239, 0.09) !important;
+  border-radius:  8px !important;
+  color:black
+}
+
+
+/* --------------------------------search and uipload----------------------- */
+
+
+.vendorNavbarSideButtons{
+    display: flex;
+    gap:12%;
+    /* width:60% */
+}
+   
+.vendorNavbarSideButtons img {
+    /* width: 0.9em;
+    height: auto; */
+    margin-top: 6px; 
+}
+
+#vendorNameSearch{
+  font-size: 12px;
+  font-weight: 400;
+  /* width:100%; */
+  text-align: center;
+}
+
+
+
+#vendorNameSearch{
+    font-size: 12px;
+    font-weight: 400;
+    width:100%;
+  }
+
+
+  .vendorSearchBar{
+    width:max-content;
+}
+
+  
+.vendorNavbarExportButton{
+    display: flex;
+    padding-left : 16px;
+    padding-top: 6px;
+    padding-right: 36px;
+    white-space: nowrap;
+    height: 49%;
+    gap:12%;
+    width:fit-content;
+    font-size: 12px;
+    border-radius: 12px;
+     border: 1px solid rgba(121, 57, 239, 1);
+     color:white;
+     background-color: rgba(121, 57, 239, 1);
+     margin-right:6px;
+  }
+
+
+
+
+
+  
+
+.custom-pagination {
+  width: 100%;
+  margin: 0 auto; 
+}
+
+.custom-pagination .page-item {
+display: flex;
+align-items: center;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+pointer-events: none;
+cursor: not-allowed;
+opacity: 0.5;
+}
+
+.custom-pagination .page-link {
+padding: 0.5rem 0.75rem;
+border-radius: 0.25rem;
+}
+
+.pagination-div {
+position: fixed; 
+bottom: 0; 
+width: 85.3%;
+margin-right: 10%;
+margin-bottom: 0.5%;
+display: flex;
+justify-content: center;
+border-radius:15px;
+/* background-color: rgba(240, 240, 240, 1); */
+padding: 0.3%;
+
+}
+.pagination-insideDiv{
+margin-right: -16%;
+/* background-color: rgba(240, 240, 240, 1);  */
+}
