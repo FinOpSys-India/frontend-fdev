@@ -17,6 +17,7 @@ function ManuallForm({ show, onHide }) {
     role: "",
     department: "",
     password: "",
+    status:"Pending"
   });
 
 
@@ -43,6 +44,7 @@ const handleChange = (e) => {
       console.log(res.data.Status);
         if (res.data.Status === 'Successful') { 
           toast.success("Team member added successfully!", { autoClose: 1500 });
+          onHide(); 
         } else {
             console.log(res.data.Status);
         }
@@ -62,68 +64,86 @@ const handleChange = (e) => {
   
   }
    
-  useEffect(()=>{
+const handleModalClose = () => {
+  setShowModal(false);
+  onHide(); 
+};
 
+
+  useEffect(()=>{
     console.log("show", )
- 
 },[formData])
 
-  return (
-    <div className="form-step">
-      <Form onSubmit={sendData}> 
-        <Form.Group className="" controlId="workEmail">
-          <Form.Label className="addingVendor vendorcompanyName"> Email Address<span className="red">*</span></Form.Label>
-          <Form.Control className="addingVendor vendorcompanyNameInput"  type="email" placeholder="Email Address"  required value={formData.workEmail} onChange={handleChange} />
-        </Form.Group>
-    
-        <div className="vendorNameDiv">
-          <Form.Group className="vendorDivs" controlId="firstName">
-            <Form.Label className="addingVendor vendorName"> First Name <span className="red">*</span></Form.Label>
-            <Form.Control className="addingVendor vendorNameInput" type="text" placeholder="First Name" required value={formData.firstName}  onChange={handleChange}/>
-          </Form.Group>
-    
-          <Form.Group className="vendorDivs" controlId="lastName">
-            <Form.Label className="addingVendor vendorName"> Last Name <span className="red">*</span> </Form.Label>
-            <Form.Control className="addingVendor vendorNameInput" type="text" placeholder="Last Name" required value={formData.lastName} onChange={handleChange} />
-          </Form.Group>
-        </div>
-    
-        <Form.Group className="vendorDivs" controlId="department">
-          <Form.Label className="addingVendor vendorName"> Department<span className="red">*</span> </Form.Label>
-          <Form.Control as="select" className="addingVendor vendorNameInput"  required value={formData.department}  onChange={handleChange} >
-            <option value="">Select department</option>
-            <option value="IT">IT</option>
-            <option value="Finance">Finance</option>
-            <option value="Marketing">Marketing</option>
-            <option value="HR">HR</option>
-          </Form.Control>
-        </Form.Group>
-    
-        <Form.Group className="vendorDivs" controlId="role">
-          <Form.Label className="addingVendor vendorName"> Position<span className="red">*</span></Form.Label>
-          <Form.Control  as="select" className="addingVendor vendorNameInput" required value={formData.role}  onChange={handleChange}>
-            <option value="">Select Position</option>
-            <option value="Approver1">Approver1</option>
-            <option value="ApPerson">ApPerson</option>
-            <option value="DepartMentHead">DepartMentHead</option>
-            <option value="Approver2">Approver2</option>
-          </Form.Control>
-        </Form.Group>
-    
-      <Form.Group className="" controlId="password">
-        <Form.Label className="addingVendor vendorcompanyName"> Password<span className="red">*</span> </Form.Label>
-        <Form.Control className="addingVendor vendorcompanyNameInput" type="password" placeholder="Password"  required  value={formData.password} onChange={handleChange} />
-      </Form.Group>
-      
-      <div className="vendorButtonDiv">
-        <button type="submit">Submit</button>
-      </div>
-    </Form> 
 
-   
-     <ToastContainer />
-  </div>
-  
+
+return (
+  <Modal
+    show={showModal}
+    onHide={handleModalClose}
+    size="lg"
+    backdrop={false}
+    // style={{ width:" 71%"}}
+    style={{ marginTop: '3%', width: '41%', marginLeft: '33%' , }}
+    scrollable 
+    dialogClassName="modal-90w"   
+  >
+    <Modal.Header closeButton  className="custom-close-btn" style={{background:" rgba(240, 240, 240, 1)  "}}></Modal.Header>
+    <Modal.Body style={{background:" rgba(240, 240, 240, 1)  "}}>
+      <div className="team-form-step" backdrop={false}>
+        <Form onSubmit={sendData}> 
+          <Form.Group className="" controlId="workEmail">
+            <Form.Label className="team-addingVendor team-vendorcompanyName"> Email Address<span className="team-red">*</span></Form.Label>
+            <Form.Control className="team-addingVendor team-vendorcompanyNameInput" type="email" placeholder="Email Address" required value={formData.workEmail} onChange={handleChange} />
+          </Form.Group>
+
+          <div className="team-vendorNameDiv">
+            <Form.Group className="team-vendorDivs team-vendorNameDiv1" controlId="firstName">
+              <Form.Label className="team-addingVendor team-vendorName"> First Name <span className="team-red">*</span></Form.Label>
+              <Form.Control className="team-addingVendor team-vendorNameInput" type="text" placeholder="First Name" required value={formData.firstName} onChange={handleChange} />
+            </Form.Group>
+
+            <Form.Group className="team-vendorDivs team-vendorNameDiv2" controlId="lastName">
+              <Form.Label className="team-addingVendor team-vendorName"> Last Name <span className="team-red">*</span> </Form.Label>
+              <Form.Control className="team-addingVendor team-vendorNameInput" type="text" placeholder="Last Name" required value={formData.lastName} onChange={handleChange} />
+            </Form.Group>
+          </div>
+
+          <Form.Group className="team-vendorDivs" controlId="department">
+            <Form.Label className="team-addingVendor team-vendorName"> Department<span className="team-red">*</span> </Form.Label>
+            <Form.Control as="select" className="team-addingVendor team-vendorNameInput" required value={formData.department} onChange={handleChange}>
+              <option value="">Select department</option>
+              <option value="IT">IT</option>
+              <option value="Finance">Finance</option>
+              <option value="Marketing">Marketing</option>
+              <option value="HR">HR</option>
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className="team-vendorDivs" controlId="role">
+            <Form.Label className="team-addingVendor team-vendorName"> Position<span className="team-red">*</span></Form.Label>
+            <Form.Control as="select" className="team-addingVendor team-vendorNameInput" required value={formData.role} onChange={handleChange}>
+              <option value="">Select Position</option>
+              <option value="Approver1">Approver1</option>
+              <option value="ApPerson">ApPerson</option>
+              <option value="DepartMentHead">DepartMentHead</option>
+              <option value="Approver2">Approver2</option>
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className="team-vendorDivs" controlId="password">
+            <Form.Label className="team-addingVendor team-vendorcompanyName"> Password<span className="team-red">*</span> </Form.Label>
+            <Form.Control className="team-addingVendor team-vendorcompanyNameInput" type="password" placeholder="Password" required value={formData.password} onChange={handleChange} />
+          </Form.Group>
+          
+          <div className="team-vendorButtonDiv">
+            <button type="submit">Submit</button>
+          </div>
+        </Form> 
+
+        <ToastContainer />
+      </div>
+    </Modal.Body> 
+  </Modal>
 );
 
 }

@@ -13,10 +13,11 @@ import { Button, Modal, ProgressBar } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import { roles } from "../../utils/constant";
 import ManuallForm from "./ManuallForm/ManuallForm";
+import Csv from "./Csv/Csv";
 
 const TeamAndMember = () => {
 
-const[companyMember, setCompanyMember] = useState();
+const[companyMember, setCompanyMember] = useState([]);
 const [searchTerm, setSearchTerm] = useState("");
 const [filteredCompanyMember, setFilteredCompanyMember] = useState([]);
 const [selectedItem, setSelectedItem] = useState('');
@@ -25,23 +26,11 @@ const [showCSV, setShowCSV] = useState(false);
 const [activeButton, setActiveButton] = useState(null)
 const role = sessionStorage.getItem('role');
 const respectiveRoles = {ApPerson:"Account Payable",Approver1:"Approver One", Approver2:"Approver Two", DepartMentHead:"DepartMent Head"} 
+const navigate = useNavigate()
 
-const navigate = useNavigate();
-  // const [formData, setFormData] = useState({
-  //   firstName: '',
-  //   lastName:'',
-  //   workEmail: '',
-  //   companyName:'',
-  //   companyType :'',
-  //   phoneNumber:'',
-  //   password: '',
-  //   role: "Admin",
-  // });
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({ ...formData, [name]: value });
-  // };
+const [status, setStatus] = useState("active");
+const [emails, setEmails] = useState([]);
+const [currentInput, setCurrentInput] = useState("");
 
 
  //  -------------- dropdown-------------
@@ -57,75 +46,120 @@ const navigate = useNavigate();
       setShowCSV(true)
     };
 
+    const handleCloseModal = () => {
+      setShowCSV(false);
+      setShowForm(false);  // Close the form if open
+    };
 
-    // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   axios.post(`${apiEndPointUrl}/signup`, formData)
-  //           .then(res => {
-  //             console.log(res.data.Status);
-  //               if (res.data.Status === 'Successful') { 
-  //                 alert("Team member added successfully!");
-  //               } else {
-  //                   console.log(res.data.Status);
-  //               }
-  //           })
-  //           .catch(err => {
-  //               console.error('Signup error:', err);
-  //           });
-    // Reset form data
-  //   setFormData({ firstName: '',
-  //     lastName:'',
-  //     workEmail: '',
-  //     companyName:'',
-  //     companyType :'',
-  //     phoneNumber:'',
-  //     password: '', role: "Admin" });
-  //   setShowForm(false);
-  // };
+    const handleCloseForm = () => {
+      setShowCSV(false);
+      setShowForm(false);  // Close the form if open
+    };
 
-// axios.defaults.withCredentials = true;
+
+    const handleSend = () => {
+       console.log("email", emails)
+
+      axios.post(`${apiEndPointUrl}/send-invite`, emails)
+        .then(res => {
+          console.log(res.data.message);
+          toast.success(res.data.message);
+          setEmails(""); 
+        })
+        .catch(err => {
+            console.error('send-invite error:', err);
+        });
+    }
+
+const handleSearch = () => {
+  if (searchTerm.trim() === "") {
+    setFilteredCompanyMember(companyMember); // Reset to full list if empty search
+    return;
+  }
+
+  const filtered = companyMember.filter((member) => {
+    // Ensure values are not undefined before calling `toLowerCase()`
+    const email = member.WORKEMAIL ? member.WORKEMAIL.toLowerCase() : "";
+    const firstName = member.firstName ? member.firstName.toLowerCase() : "";
+    const lastName = member.lastName ? member.lastName.toLowerCase() : "";
+    const companyName = member.companyName ? member.companyName.toLowerCase() : "";
+
+    return (
+      email.includes(searchTerm.toLowerCase()) ||
+      firstName.includes(searchTerm.toLowerCase()) ||
+      lastName.includes(searchTerm.toLowerCase()) ||
+      companyName.includes(searchTerm.toLowerCase())
+    );
+  });
+
+  setFilteredCompanyMember(filtered);
+};
+
+
+const handleDepartmentChange = (memberId, value) => {
+  console.log("setDepartment",  value, memberId)
+
+  axios.post(`${apiEndPointUrl}/update-department`, {
+    memberId, value
+  })
+  .then(res => {
+    console.log(res.data.message);
+    toast.success(res.data.message); 
+  })
+  .catch(err => {
+      console.error('update-department error:', err);
+  });
+
+};
+
+const handleRoleChange = (memberId, value) => {
+  console.log("setDepartment",  value, memberId)
+
+  axios.post(`${apiEndPointUrl}/update-role`, {
+    memberId, value
+  })
+  .then(res => {
+    console.log(res.data.message);
+    toast.success(res.data.message); 
+  })
+  .catch(err => {
+      console.error('update-role error:', err);
+  });
+};
 
   useEffect(() => {
     
-    // const fetching = async () => {
-    //   try {
-    //     const res = await axios.get(`${apiEndPointUrl}/get-company-member`);
-    //     setCompanyMember(res.data);
-    //     console.log("Fetching:", res.data); // Log the response data directly
-    //   } catch (error) {
-    //     console.error("Error fetching companies:", error);
-    //   }
-    // };
-    // console.log("role:", role); 
-    // fetching()
-  }, []);
+    const fetching = async () => {
+      try {
+        const res = await axios.get(`${apiEndPointUrl}/get-signup-details`);
+        setCompanyMember(res.data);
+        setFilteredCompanyMember(res.data);
+        console.log("Fetching:", res.data); 
+      } catch (error) {
+        console.error("Error fetching companies:", error);
+      }
+    }; 
+    fetching()
+  }, [emails]);
 
   
 
-  // function companySearchBar(e){
 
-  //   const searchValue = e.target.value;
-  //   setSearchTerm(searchValue);
-  //   console.log(searchValue);
-  
-  //   let filtered = [];
-  //   if (searchValue) {
-  //       filtered = companyMember.filter(company => 
-  //       company.firstName.toLowerCase().includes(searchValue.toLowerCase()))
-  //   }
-  
-  //   setFilteredCompanyMember(filtered);
-  //   console.log(filtered);
-  // }
-  
-  
+  const handleInputChange = (e) => {
+    const emailList = e.target.value.split(" ").filter((email) => email); 
+    setEmails(emailList); 
+  };
+  const removeEmail = (index) => {
+    setEmails(emails.filter((_, i) => i !== index));
+  };
+
   return (
     <>
       <div className="topDiv">
         <p className="teamP">Team </p>
 
         <div id="teamDropDown">
-          <div className="teamSearch"><SearchIcon style={{fontSize:"16.9px",  marginLeft:"9px", marginTop:"6.9px"}}/><input className="but-search"  id="search" onChange={""}  value={searchTerm} placeholder="     Search" /> </div>
+          <div className="teamSearch"><SearchIcon style={{fontSize:"16.9px",  marginLeft:"9px", marginTop:"6.9px"}}/><input className="but-search"  id="search"  value={searchTerm}onChange={(e) => {setSearchTerm(e.target.value); handleSearch()}} placeholder="     Search" /> </div>
           <Dropdown onSelect={handleSelect} >
             <Dropdown.Toggle  id="" className="teamDropDown">
             <p><img src={plus} style={{width:"12.9%" }}/> &nbsp; Add Member</p> 
@@ -147,10 +181,21 @@ const navigate = useNavigate();
           <p className="para">Send an invitation to your team members. Send directly via email  or copy link. </p>
           
           <div className="memberInvitation">
-              {/* <a href="" style={{ marginRight: "10px" }}>
-              </a> */}
-            <input className="memberInput"/>
-            <button className="memberSend">Send Invite</button>
+              {/* <a href="" style={{ marginRight: "10px" }}>mjnkkjs</a> */}
+            <div className="email-container">
+              <div className="email-list">   
+                 {Array.isArray(emails) && emails.map((email, index) => ( // Ensure emails is an array
+                    <div key={index} className="email-pill">
+                        {email}
+                      <span className="close-btn" onClick={() => removeEmail(index)}>✕</span>
+                    </div>
+                  ))}
+             <input className="memberInput hidden-value" type="text"  placeholder="" onChange={handleInputChange}/>
+         
+            </div>
+           </div>
+
+            <button className="memberSend" onClick={handleSend}>Send Invite</button>
           </div>
       </div>
         :
@@ -170,30 +215,60 @@ const navigate = useNavigate();
             </tr>
           </thead>
           <tbody>
-               {/* {
-                currentItems.map((invoice, index) => ( */}
-                  <tr >
-                    <td > <input type="checkbox" />{" "} &nbsp;&nbsp;&nbsp; invoice.billId</td>
-                    <td>  invoice.vendorName</td>
-                    {(role === roles.admin ) ?  <td> l,;l,;</td> :null}
-                    <td>mkkmklppp</td>
-                    <td> invoice.amount</td>
+            {
+              companyMember && filteredCompanyMember.length > 0 ?
+              filteredCompanyMember.map((member, index) => (
+                  <tr key={member.ID}>
+                    <td > <input type="checkbox" />{" "} &nbsp;&nbsp;&nbsp;{member.WORKEMAIL}</td>
+                    <td>{member.WORKEMAIL}</td>
+                    {(role === roles.admin ) ?
+                    <td>
+                      <select className="team-form-select" value={member.DEPARTMENT || ""}  onChange={(e) => handleDepartmentChange(member.ID, e.target.value)}>
+                        <option value="IT">IT</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="HR">HR</option>  
+                      </select>
+                    </td>
+                          :null
+                    }
+                    <td>
+                    <select  className="team-form-select select"  value={member.ROLE} onChange={(e) => handleRoleChange(member.ID, e.target.value)}>
+                      <option value="Approver1">Approver 1</option>
+                      <option value="APPerson">AP Person</option>
+                      <option value="DepartmentHead">Department Head</option>
+                      <option value="Approver2">Approver 2</option>
+                      <option value="Admin">Admin</option>
+                      </select>
+                    </td>
+
+                    <td > <span className={`status-dropdown-${member.STATUS}`} onChange={(e) => setStatus(e.target.value)}> {member.STATUS} </span></td>
                   </tr>
                   
-                {/* )) */}
-               {/* }  */}
+                 )):""
+                }  
           </tbody>
         </Table>
       </div>
 
       {
           showForm &&
-        <div className="modalOverlayInsideTeam">
-          <div className="modalContentInsideTeam">
+        <div  className={showForm ? "modalOverlayInsideTeam" : ""}>
+          {/* <div className="modalContentInsideTeam"> */}
             <ManuallForm  show={showForm}
             onHide={() => setShowForm(false)}/>
-          </div>
+          {/* </div> */}
         </div>
+    
+      }
+
+      {
+          showCSV === true ?
+        <div className={showCSV ? "modalOverlayInsideTeam" : ""}>
+            <Csv  show={showCSV}
+            onHide={handleCloseModal}/>
+        
+         </div>:""
     
       }
 

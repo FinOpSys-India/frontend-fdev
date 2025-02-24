@@ -169,7 +169,7 @@ function AllVendorForm() {
             }
         </div>
 
-         <div className="pagination-div">
+         <div className="pagination-div" style={{marginLeft:"12.9%"}}>
             <div className='pagination-insideDiv'>
                 <Pagination
                     count={totalPages}

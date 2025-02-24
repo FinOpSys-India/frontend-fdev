@@ -33,7 +33,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 pdfjs.GlobalWorkerOptions.workerSrc ="/pdf.worker.min.js";
 
-function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}) {
+function Chat({ caseId, closeChat, notDisabledChat, expandInChat}) {
   const [acitivityLogButton, setacitivityLogButton] = useState(true);
   const [chatcaseId, setchatcaseId] = useState("");
   const [showAcceptDecline, setShowAcceptDecline] = useState(false);
@@ -53,10 +53,14 @@ function Chat({ caseId, fetchInvoices, closeChat, notDisabledChat, expandInChat}
   const [base64String, setBase64String] = useState('');
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [replyDetails, setReplyDetails] = useState(null);
+  const [selectedDeleteChat, setSelectedDeleteChat] = useState({
+    messageIndex:"",
+    chatId:""
+  });
+const [replyDetails, setReplyDetails] = useState(null);
 const [replyClicked, setReplyClicked] = useState(false); 
-const [showCheckbox, setShowCheckbox] = useState(false);
+const [starClicked, setstarClicked] = useState(false); 
+const [showStar, setShowStar] = useState([]); 
 const [selectedIndices, setSelectedIndices] = useState([]);
 const [userId,setUserId]= useState("")
   const [isOpen, setIsOpen] = useState(false);
@@ -116,7 +120,7 @@ const [userId,setUserId]= useState("")
       } 
       if(response.status == 200) {
         toast.success('Bill successfully approved', { autoClose: 3000 });
-        fetchInvoices();  
+        fetchChats();  
         closeChat();
       }
     } catch (error) {
@@ -162,7 +166,7 @@ const [userId,setUserId]= useState("")
       } 
       if(response.status == 200) {
         toast.success(`Bill successfully declined`, { autoClose: 500 });
-        fetchInvoices(); 
+        fetchChats(); 
         closeChat();
       }
     } catch (error) {
@@ -246,6 +250,7 @@ const [userId,setUserId]= useState("")
         replyingUserMessage : replyDetails.messageSnippet,
         timestamp: new Date().toISOString(),
         replyClicked: true,
+        starClicked: false 
       };
 
       setReplyClicked(false)
@@ -255,6 +260,7 @@ const [userId,setUserId]= useState("")
         chat_id: chatcaseId,
         user: workEmail,
         messages: newMessage,
+        starClicked: false,
         timestamp: new Date().toISOString(),
       };
     }
@@ -398,84 +404,113 @@ const toggleDropdown = () => {
     fetchChatPerson()
   },[selectedPersons])
 
-  const downloadFile = (fileData,fileName ) => {
-    // const dataUri = `data:application/octet-stream;base64,${fileData}`;
+  // const downloadFile = (fileData,fileName ) => {
+
+  //   // const dataUri = `data:application/octet-stream;base64,${fileData}`;
     
-    // const link = document.createElement('a');
-    // link.href = dataUri;
-    // link.download = fileName;  // Set the file name
+  //   // const link = document.createElement('a');
+  //   // link.href = dataUri;
+  //   // link.download = fileName;  // Set the file name
 
-    // // Programmatically click the link to trigger the download
-    // link.click();
+  //   // // Programmatically click the link to trigger the download
+  //   // link.click();
 
-    const byteCharacters = atob(fileData); // Decode Base64
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
+  //   const byteCharacters = atob(fileData); // Decode Base64
+  //   const byteNumbers = new Array(byteCharacters.length);
+  //   for (let i = 0; i < byteCharacters.length; i++) {
+  //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //   }
+  //   const byteArray = new Uint8Array(byteNumbers);
 
-    // Create a Blob with the appropriate type
-    const blob = new Blob([byteArray]);
+  //   // Create a Blob with the appropriate type
+  //   const blob = new Blob([byteArray]);
 
-    // Create a download link and trigger download
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    link.click();
+  //   // Create a download link and trigger download
+  //   const link = document.createElement('a');
+  //   link.href = URL.createObjectURL(blob);
+  //   link.download = fileName;
+  //   link.click();
 
-    // Clean up the URL object
-    URL.revokeObjectURL(link.href);
+  //   // Clean up the URL object
+  //   URL.revokeObjectURL(link.href);
   
+  // };
+  
+  const downloadFile = (base64Data, fileName, mimeType = 'application/pdf') => {
+    try {
+      // Strip out data URL prefix if present
+      const base64String = base64Data.includes(',') ? base64Data.split(',')[1] : base64Data;
+  
+      // Decode base64 string to binary data
+      const binaryData = atob(base64String);
+      const byteArray = new Uint8Array(binaryData.length);
+  
+      // Convert binary data into byte array
+      for (let i = 0; i < binaryData.length; i++) {
+        byteArray[i] = binaryData.charCodeAt(i);
+      }
+  
+      // Create a Blob from the byte array
+      const blob = new Blob([byteArray], { type: mimeType });
+  
+      // Generate an Object URL for the Blob
+      const url = URL.createObjectURL(blob);
+  
+      // Create an anchor element to trigger the download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName; // Set the desired file name
+  
+      // Append the anchor element to the body, trigger a click to start download, then clean up
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  
+      // Revoke the Object URL after download starts
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      console.error("Error in downloading the file:", error);
+      alert("Failed to download the file. Please try again.");
+    }
   };
-
-
+  
 // -------------------------------------------------------------------------------------------
   // Function to copy the message to the clipboard
 const handleCopy = (message) => {
   navigator.clipboard.writeText(message);
 };
 
-function handleDelete(chat) {
-  setSelectedChat(chat); // Store the chat to delete
+function handleDelete(index, caseId) {
+  setSelectedDeleteChat({ messageIndex: index, chatId: caseId });
   setShowDeleteModal(true); // Show modal
 }
 
  const confirmDelete = async ()=>  {
-  const messageIndex =   chats.MESSAGES.findIndex(
-    (message) => message.timestamp === selectedChat.timestamp
-  );
+  // const messageIndex =   chats.MESSAGES.findIndex(
+  //   (message) => message.timestamp === selectedDeleteChat.messageIndex
+  // );
 
   
-  console.log("messageIndex",messageIndex)
-
-  if (messageIndex !== -1) {
-    const updatedMessages = [...chats.MESSAGES];
-    updatedMessages.splice(messageIndex, 1);
-
-    // setChats({
-    //   ...chats,
-    //   MESSAGES: updatedMessages,
-    // });
-
-    
-  console.log("updatedMessages",updatedMessages)
-  }
-
+  console.log("selectedDeleteChat.chatId",selectedDeleteChat.chatId)
   
+
+  console.log("selectedDeleteChat.messageIndex",selectedDeleteChat.messageIndex)
+
 
   try {
     const response = await axios.post(`${apiEndPointUrl}/delete-message`, { 
-      chat_id: caseId,
-      messageIndex: messageIndex, 
-      timestamp: selectedChat.timestamp },{
+      chatId: selectedDeleteChat.chatId,
+      messageIndex: selectedDeleteChat.messageIndex },{
       headers: {
         "Content-Type": "application/json",
       },
       withCredentials: true, 
     });
     
-    console.log("response sending message:", response);
+    if(response.status == 200) {
+      console.log("response", response.data);
+    }
+    console.log("response", response.data);
     // setFileDetails(null)
     // socket.emit('sendMessage', newChat);  
     // setChats((prevChats) => ({
@@ -485,7 +520,7 @@ function handleDelete(chat) {
   } catch (error) {
     console.error("Error sending message:", error);
   }
-  fetchChats();
+  // fetchChats();
     
 
   setShowDeleteModal(false); // Close modal
@@ -500,9 +535,28 @@ const handleReply = (chat) => {
   setReplyClicked(true); // Set replyClicked to true when reply is triggered
 };
 
-const handleSelect = (message) => {
-  setShowCheckbox(!showCheckbox);
-};
+const handleStar = async (messageIndex, caseId, isClick) => {
+  console.log("messageIndex", messageIndex)
+  console.log("caseId", caseId)
+  console.log("isClick", !isClick)
+  // setShowStar(!starClicked)
+  
+
+  try {
+    const response = await axios.post(`${apiEndPointUrl}/update-star/${caseId}`,{
+      messageIndex: messageIndex,
+      starClicked:  !isClick
+    })
+    
+    console.log(response.data)
+    fetchChats();
+  } catch (error) {
+    console.log("Error fetching chats:", error);
+  }
+  };
+
+
+
 
 
 const handleCheckbox = (index) => {
@@ -667,8 +721,7 @@ const handleClearSelectedMessage = () => {
 
                     { chat.replyClicked   === true 
                              ?
-                      <div className="messageWrapper">
-                         {showCheckbox && <input type="checkbox" checked={selectedIndices.includes(index)} onChange={() => handleCheckbox(index)}/>}
+                      <div className="messageWrapperSending">
                       <div className="messageAndTime">
                         <span className="personName">{chat.user}</span>
                         <div className="personMessageAndTime">
@@ -678,14 +731,14 @@ const handleClearSelectedMessage = () => {
                                 <p> <img src={replyChat} style={{  width:"10px", marginTop:"0"}} /> <span>{chat.replyingUser}</span> <br/>  </p>
                                 <button onClick={() => setReplyDetails(null)}></button><br/>
                               </div>
-                              <span>{chat.replyingUserMessage}...</span>
+                              <span style={{fontSize: "10px"}}>{chat.replyingUserMessage}...</span>
                             </div>
                           </div>
-                          <span className="personMessage">{chat.messages}
+                          <span className="personMessage" >{chat.messages}
                             {chat.fileData  ? 
                               <button  className="fileData" onClick={ ()=> downloadFile(chat.fileData, chat.fileName)} >
-                                      {chat?.fileName}<br/><FileDownloadIcon style={{fontSize:"21px"}}/>
-                                </button>  
+                                      {chat?.fileName}<br/><FileDownloadIcon style={{fontSize:"21px"}}/>  
+                              </button>  
                               : 
                               ""
                             }
@@ -697,24 +750,23 @@ const handleClearSelectedMessage = () => {
                               minute: "2-digit",
                               hour12: true,
                             })}
+                            {/* {showStar.includes(index) ? <img src={star}/> : ''} */}
                           </span>
                         </div>
                       </div>
 
                       <div className="optionsMenu">
-                        <input type="checkbox" className="messageCheckbox" />
+                        {/* <input type="checkbox" className="messageCheckbox" /> */}
                         <div className="optionsList">
                             <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
                             <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
-                            <button className="option" onClick={() => handleSelect(chat)}> <img src={square} style={{  width:"12.9px"}}/> &nbsp; Select</button> 
-                            <button className="option" onClick={() => handleReply(chat)}> <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
-                            <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
+                            <button className="option" onClick={() => handleStar(index, caseId, chat.starClicked )}>  <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
+                            <button className="option" onClick={() => handleDelete(index, caseId)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
                         </div>
                       </div>
                     </div>
                              :
-                      <div className="messageWrapper">
-                            {showCheckbox && <input type="checkbox" checked={selectedIndices.includes(index)} onChange={() => handleCheckbox(index)}/>}
+                      <div className="messageWrapperSending">
                         <div className="messageAndTime">
                           <span className="personName">{chat.user}</span>
                           <div className="personMessageAndTime">
@@ -734,18 +786,18 @@ const handleClearSelectedMessage = () => {
                                 minute: "2-digit",
                                 hour12: true,
                               })}
+                              {/* {showStar.includes(index) ? <img src={star}/> : ''} */}
                             </span>
                           </div>
                         </div>
 
                         <div className="optionsMenu">
-                          <input type="checkbox" className="messageCheckbox" />
+                          {/* <input type="checskbox" className="messageCheckbox" /> */}
                           <div className="optionsList">
                             <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
                             <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
-                            <button className="option" onClick={() => handleSelect(chat)}> <img src={square} style={{  width:"12.9px"}}/> &nbsp; Select</button> 
-                            <button className="option" onClick={() => handleReply(chat)}> <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
-                            <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
+                            <button className="option" onClick={() => handleStar(index, caseId, chat.starClicked )}>  <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
+                            <button className="option" onClick={() => handleDelete(index, caseId)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
                         </div>
                         </div>
                       </div>
@@ -791,7 +843,9 @@ const handleClearSelectedMessage = () => {
                               minute: "2-digit",
                               hour12: true,
                             })}
+                            {/* {showStar.includes(index) ? <img src={star}/> : ''} */}
                           </span>
+
                         </div>
                       </div>
 
@@ -800,9 +854,7 @@ const handleClearSelectedMessage = () => {
                         <div className="optionsList">
                             <button className="option" onClick={() => handleCopy(chat.messages)}> <img src={copyChat} style={{  width:"12.9px"}}/>  &nbsp; Copy</button>
                             <button className="option" onClick={() => handleReply(chat)}> <img src={reply} style={{  width:"12.9px"}}/> &nbsp; Reply</button>
-                            <button className="option" onClick={() => handleSelect(chat)}> <img src={square} style={{  width:"12.9px"}}/> &nbsp; Select</button> 
-                            <button className="option" onClick={() => handleReply(chat)}> <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
-                            <button className="option" onClick={() => handleDelete(chat)}> <img src={deleteChat} style={{  width:"12.9px"}}/> &nbsp; Delete</button> 
+                            <button className="option" onClick={() => handleStar(index, caseId, chat.starClicked )}> <img src={star} style={{  width:"12.9px"}}/> &nbsp; Star</button>
                         </div>
                       </div>
                     </div>
